@@ -36,12 +36,13 @@ class Rede():
         if isinstance(localizacao_sede, str):
             self.__localizacao_sede = localizacao_sede
             
-     # adicionar checagem de duplicaidade
     def adicionar_hotel(self, hotel: Hotel):
         if isinstance(hotel, Hotel):
-            self.__hoteis.append(hotel)
+            if not any(hotel_existente.codigo == hotel.codigo for hotel_existente in self.__hoteis):
+                self.__hoteis.append(hotel)
             
-    # adicionar checagem de duplicaidade
     def remover_hotel(self, hotel: Hotel):
         if isinstance(hotel, Hotel):
-            self.__hoteis.remove(hotel)
+            for hotel_existente in self.__hoteis:
+                if hotel_existente.codigo == hotel.codigo:
+                    self.__hoteis.remove(hotel_existente)

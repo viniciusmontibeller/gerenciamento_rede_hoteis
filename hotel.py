@@ -8,7 +8,7 @@ class Hotel():
         self.__codigo = codigo
         self.__endereco = endereco
         self.__telefone = telefone
-        # self.__quartos = Quarto
+        self.__quartos = Quarto  ## necessita criar aqui os quartos pois e composicao
         
     @property
     def nome(self):
@@ -47,12 +47,17 @@ class Hotel():
             self.__telefone = telefone
             
     # adicionar checagem de duplicaidade
-    def adicionar_quarto(self):
-        pass
+    def adicionar_quarto(self, quarto: Quarto):
+        if isinstance(quarto, Hotel):
+            if not any(quarto_existente.numero == quarto.numero for quarto_existente in self.__hoteis):
+                self.__hoteis.append(quarto)
             
     # adicionar checagem de duplicaidade
-    def remover_hotel(self):
-        pass
+    def remover_hotel(self, quarto: Quarto):
+       if isinstance(quarto, Quarto):
+            for quarto_existente in self.__quartos:
+                if quarto_existente.numero == quarto.numero:
+                    self.__quarto.remove(quarto_existente)
     
     def quartos_disponiveis(self):
         pass

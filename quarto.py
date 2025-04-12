@@ -33,6 +33,10 @@ class Quarto():
     def preco_diaria(self, preco_diaria: float):
         if isinstance(preco_diaria, float):
             self.__preco_diaria = preco_diaria
+    
+    @property
+    def ocupado(self):
+        return self.__ocupado
             
     def checkin(self):
         self.__ocupado = True
