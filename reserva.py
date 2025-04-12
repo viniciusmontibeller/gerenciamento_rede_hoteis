@@ -2,6 +2,7 @@ from cliente import Cliente
 from funcionario import Funcionario
 from quarto import Quarto
 from datetime import date
+from status_reserva import StatusReserva
 
 
 class Reserva():
@@ -9,10 +10,10 @@ class Reserva():
     def __init__(self, codigo: int, cliente: Cliente, quarto: Quarto,
                  funcionario: Funcionario):
         self.__codigo = codigo
+        self.__status = StatusReserva.AGENDADO
         self.__cliente = cliente
         self.__quarto = quarto
         self.__funcionario = funcionario
-        self.__ativa = True
         self.__data_entrada = date.today()
         self.__data_saida = None
 
@@ -58,11 +59,17 @@ class Reserva():
         return self.__quarto.preco_diaria * dias
 
     def cancelar(self):
-        self.__ativa = False
+        self.__status = StatusReserva.CANCELADO
 
     def consultar_reserva(self):
-        ehAtiva = "Ativa" if self.__ativa else "Inativa"
         return f"Reserva de numero {self.__codigo}\
                 Cliente {self.__cliente.nome}\
                 Com inicio em {self.__data_entrada}\
-                Esta {ehAtiva}"
+                Status: {self.__status.value}"
+
+
+#testeReserva = Reserva(
+    1, Cliente("w3123", "12312", "12312", "gads@gai.com"), Quarto(23, 2, 200),
+    Funcionario("nome", "123", "123321", "asddas@gmailçcpom"))
+
+#print(testeReserva.consultar_reserva())
