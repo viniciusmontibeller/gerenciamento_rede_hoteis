@@ -1,0 +1,58 @@
+from quarto import Quarto
+
+
+class Hotel():
+    
+    def __init__(self, nome: str, codigo: int, endereco: str, telefone: str):
+        self.__nome = nome
+        self.__codigo = codigo
+        self.__endereco = endereco
+        self.__telefone = telefone
+        # self.__quartos = Quarto
+        
+    @property
+    def nome(self):
+        return self.__nome
+    
+    @nome.setter
+    def nome(self, nome: str):
+        if isinstance(nome, str):
+            self.__nome = nome
+            
+    @property
+    def codigo(self):
+        return self.__codigo
+    
+    @codigo.setter
+    def codigo(self, codigo: int):
+        if isinstance(codigo, int):
+            self.__codigo = codigo
+            
+    @property
+    def endereco(self):
+        return self.__endereco
+    
+    @endereco.setter
+    def endereco(self, endereco: str):
+        if isinstance(endereco, str):
+            self.__endereco = endereco
+            
+    @property
+    def telefone(self):
+        return self.__telefone
+    
+    @telefone.setter
+    def telefone(self, telefone: str):
+        if isinstance(telefone, str):
+            self.__telefone = telefone
+            
+    # adicionar checagem de duplicaidade
+    def adicionar_quarto(self):
+        pass
+            
+    # adicionar checagem de duplicaidade
+    def remover_hotel(self):
+        pass
+    
+    def quartos_disponiveis(self):
+        pass
