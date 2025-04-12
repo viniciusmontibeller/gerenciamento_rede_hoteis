@@ -8,7 +8,7 @@ class Hotel():
         self.__codigo = codigo
         self.__endereco = endereco
         self.__telefone = telefone
-        self.__quartos = Quarto  ## necessita criar aqui os quartos pois e composicao
+        self.__quartos = []  # composição
 
     @property
     def nome(self):
