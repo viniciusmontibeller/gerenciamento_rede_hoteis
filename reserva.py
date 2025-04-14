@@ -16,7 +16,8 @@ class Reserva():
         self.__funcionario = funcionario
         self.__data_entrada = None
         self.__data_saida = None
-        
+        self.__custo = 0
+
         self.__quarto.reservado = True
 
     @property
@@ -54,17 +55,27 @@ class Reserva():
     def funcionario(self, funcionario: Funcionario):
         if isinstance(funcionario, Funcionario):
             self.__funcionario = funcionario
-            
+
+    @property
+    def custo(self):
+        if self.__status is not StatusReserva.FINALIZADO:
+            raise Exception(
+                "Não é possível ver o custo de uma reserva que ainda não foi finalizada."
+            )
+
+        return self.__custo
+
     def checkin(self):
         self.__status = StatusReserva.CHECKIN
         self.__data_entrada = date.today()
 
     def checkout(self):
         self.__data_saida = date.today()
-        dias = self.__data_saida - self.__data_entrada
         self.__quarto.reservado = False
         self.__status = StatusReserva.FINALIZADO
-        return self.__quarto.preco_diaria * dias
+
+        dias = (self.__data_saida - self.__data_entrada).days
+        self.__custo = self.__quarto.preco_diaria * dias
 
     def cancelar(self):
         self.__status = StatusReserva.CANCELADO
@@ -72,14 +83,7 @@ class Reserva():
     def consultar_reserva(self):
         return f"Reserva de numero {self.__codigo} \n\
                 Cliente {self.__cliente.nome}\n\
-                Com inicio em {self.__data_entrada}\n\
+                Com início em {self.__data_entrada}\n\
                 Status: {self.__status.value}\n\
-                Duvias falar com {self.__funcionario.nome} por {self.__funcionario.telefone}\
+                Duvidas falar com {self.__funcionario.nome} por {self.__funcionario.telefone}\
                 ou por {self.__funcionario.email}"
-
-
-#testeReserva = Reserva(
-    1, Cliente("w3123", "12312", "12312", "gads@gai.com"), Quarto(23, 2, 200),
-    Funcionario("nome", "123", "123321", "asddas@gmailçcpom")
-
-#print(testeReserva.consultar_reserva())

@@ -51,12 +51,12 @@ class Hotel():
     def adicionar_quarto(self, numero: int, capacidade: int,
                          preco_diaria: float, eh_vip: bool):
         if not any(quarto_existente.numero == numero
-                   for quarto_existente in self.__hoteis):
+                   for quarto_existente in self.__quartos):
             if eh_vip:
-                self.__hoteis.append(
+                self.__quartos.append(
                     QuartoVip(numero, capacidade, preco_diaria))
             else:
-                self.__hoteis.append(
+                self.__quartos.append(
                     QuartoNormal(numero, capacidade, preco_diaria))
 
     def remover_quarto(self, quarto: Quarto):
