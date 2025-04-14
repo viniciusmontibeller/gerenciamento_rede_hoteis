@@ -66,4 +66,8 @@ class Hotel():
                     self.__quarto.remove(quarto_existente)
 
     def quartos_disponiveis(self):
-        pass
+        quartos_disponiveis = []
+        for quarto in self.__quartos:
+            if not quarto.reservado:
+                quartos_disponiveis.append(quarto.numero)
+        return quartos_disponiveis
