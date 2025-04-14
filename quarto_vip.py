@@ -3,6 +3,8 @@ from quarto import Quarto
 
 class QuartoVip(Quarto):
 
-    def __init__(self, numero: int, capacidade: int, preco_diaria: float):
-        super().__init__(numero, capacidade, preco_diaria)
-        self.__preco_diaria = self.__preco_diaria * 1.20
+    def _init_(self, numero: int, capacidade: int, preco_diaria: float):
+        super()._init_(numero, capacidade, preco_diaria)
+        
+        taxa_de_servico: float = 1.20
+        self._preco_diaria = self._preco_diaria * taxa_de_servico
