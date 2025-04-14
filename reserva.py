@@ -76,6 +76,8 @@ class Reserva():
 
         dias = (self.__data_saida - self.__data_entrada).days
         self.__custo = self.__quarto.preco_diaria * dias
+        if self.__cliente.fidelidade:
+            self.__custo = self.__custo * 0.90
 
     def cancelar(self):
         self.__status = StatusReserva.CANCELADO
