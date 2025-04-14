@@ -41,6 +41,3 @@ class Quarto():
     def reservado(self, reservado: bool):
         if isinstance(reservado, bool):
             self.__reservado = reservado
-            
-    def calcular_taxa_servico(self):
-        return self.__preco_diaria

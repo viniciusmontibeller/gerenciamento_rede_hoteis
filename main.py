@@ -1,6 +1,6 @@
 from cliente import Cliente
 from funcionario import Funcionario
-from quarto_normal import QuartoNormal
+from quarto import Quarto
 from quarto_vip import QuartoVip
 from hotel import Hotel
 from rede import Rede
@@ -11,7 +11,7 @@ cliente1 = Cliente("Maria Silva", "123.456.789-00", "11 91234-5678",
 funcionario1 = Funcionario("João Pedro", "987.654.321-00", "11 99876-5432",
                            "joao@email.com")
 
-quarto1 = QuartoNormal(101, 2, 150.0)
+quarto1 = Quarto(101, 2, 150.0)
 quarto2 = QuartoVip(201, 4, 300.0)
 
 hotel1 = Hotel("Hotel Central", 1, "Rua das Flores, 123", "11 1234-5678")

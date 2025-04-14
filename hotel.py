@@ -1,5 +1,4 @@
 from quarto import Quarto
-from quarto_normal import QuartoNormal
 from quarto_vip import QuartoVip
 
 
@@ -57,7 +56,7 @@ class Hotel():
                     QuartoVip(numero, capacidade, preco_diaria))
             else:
                 self.__quartos.append(
-                    QuartoNormal(numero, capacidade, preco_diaria))
+                    Quarto(numero, capacidade, preco_diaria))
 
     def remover_quarto(self, quarto: Quarto):
         if isinstance(quarto, Quarto):
