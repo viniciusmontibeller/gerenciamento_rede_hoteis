@@ -1,4 +1,6 @@
 from quarto import Quarto
+from quarto_normal import QuartoNormal
+from quarto_vip import QuartoVip
 
 
 class Hotel():
@@ -47,14 +49,19 @@ class Hotel():
             self.__telefone = telefone
 
     # adicionar checagem de duplicaidade
-    def adicionar_quarto(self, quarto: Quarto):
-        if isinstance(quarto, Hotel):
-            if not any(quarto_existente.numero == quarto.numero
-                       for quarto_existente in self.__hoteis):
-                self.__hoteis.append(quarto)
+    def adicionar_quarto(self, numero: int, capacidade: int,
+                         preco_diaria: float, eh_vip: bool):
+        if not any(quarto_existente.numero == numero
+                   for quarto_existente in self.__hoteis):
+            if eh_vip:
+                self.__hoteis.append(
+                    QuartoVip(numero, capacidade, preco_diaria))
+            else:
+                self.__hoteis.append(
+                    QuartoNormal(numero, capacidade, preco_diaria))
 
     # adicionar checagem de duplicaidade
-    def remover_hotel(self, quarto: Quarto):
+    def remover_quarto(self, quarto: Quarto):
         if isinstance(quarto, Quarto):
             for quarto_existente in self.__quartos:
                 if quarto_existente.numero == quarto.numero:
