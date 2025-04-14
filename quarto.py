@@ -4,7 +4,7 @@ class Quarto():
         self.__numero = numero
         self.__capacidade = capacidade
         self.__preco_diaria = preco_diaria
-        self.__ocupado = False
+        self.__reservado = False
 
     @property
     def numero(self):
@@ -34,11 +34,10 @@ class Quarto():
             self.__preco_diaria = preco_diaria
 
     @property
-    def ocupado(self):
-        return self.__ocupado
-
-    def checkin(self):
-        self.__ocupado = True
-
-    def checkout(self):
-        self.__ocupado = False
+    def reservado(self):
+        return self.__reservado
+    
+    @reservado.setter
+    def reservado(self, reservado: bool):
+        if isinstance(reservado, bool):
+            self.__reservado = reservado

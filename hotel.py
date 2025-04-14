@@ -8,7 +8,7 @@ class Hotel():
         self.__codigo = codigo
         self.__endereco = endereco
         self.__telefone = telefone
-        self.__quartos = []  # composição
+        self.__quartos = [Quarto()]
 
     @property
     def nome(self):
