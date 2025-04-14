@@ -45,3 +45,10 @@ class Pessoa(ABC):
     def email(self, email: str):
         if isinstance(email, str):
             self.__email = email
+            
+    @abstractmethod
+    def exibir_informações(self):
+        return f"Nome: {self.__nome}\n\
+                Cpf: {self.__cpf}\n\
+                Telefone: {self.__telefone}\n\
+                E-mail: {self.__email}\n"

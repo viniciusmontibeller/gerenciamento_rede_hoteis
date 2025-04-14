@@ -15,3 +15,9 @@ class Cliente(Pessoa):
     def fidelidade(self, fidelidade: bool):
         if isinstance(fidelidade, bool):
             self.__fidelidade = fidelidade
+
+    def exibir_informações(self):
+        eh_fiel = "Possui fidelidade" if self.__fidelidade else "Não ossui fidelidade"
+        return f"Cliente\n\
+                {super().exibir_informações()}\
+                {eh_fiel}"
