@@ -83,9 +83,14 @@ class Reserva():
         self.__status = StatusReserva.CANCELADO
 
     def consultar_reserva(self):
-        return f"Reserva de numero {self.__codigo} \n\
-                Cliente {self.__cliente.nome}\n\
-                Com início em {self.__data_entrada}\n\
-                Status: {self.__status.value}\n\
-                Duvidas falar com {self.__funcionario.nome} por {self.__funcionario.telefone}\
-                ou por {self.__funcionario.email}"
+        inicio = f"Com início em {self.__data_entrada}\n" if self.__data_entrada else ""
+        saida = f"Com saída em {self.__data_saida}\n" if self.__data_saida else ""
+        return (
+            f"Reserva de numero {self.__codigo}\n"
+            f"Cliente {self.__cliente.nome}\n"
+            f"{inicio}"
+            f"{saida}"
+            f"Status: {self.__status.value}\n"
+            f"Duvidas falar com {self.__funcionario.nome} por {self.__funcionario.telefone} "
+            f"ou por {self.__funcionario.email}"
+        )

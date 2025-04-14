@@ -7,7 +7,7 @@ from rede import Rede
 from reserva import Reserva
 
 cliente1 = Cliente("Maria Silva", "123.456.789-00", "11 91234-5678",
-                   "maria@email.com")
+                   "maria@email.com", False)
 funcionario1 = Funcionario("João Pedro", "987.654.321-00", "11 99876-5432",
                            "joao@email.com")
 
