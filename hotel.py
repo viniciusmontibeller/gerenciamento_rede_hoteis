@@ -10,7 +10,7 @@ class Hotel():
         self.__codigo = codigo
         self.__endereco = endereco
         self.__telefone = telefone
-        self.__quartos = [Quarto()]
+        self.__quartos = []
 
     @property
     def nome(self):
@@ -48,7 +48,6 @@ class Hotel():
         if isinstance(telefone, str):
             self.__telefone = telefone
 
-    # adicionar checagem de duplicaidade
     def adicionar_quarto(self, numero: int, capacidade: int,
                          preco_diaria: float, eh_vip: bool):
         if not any(quarto_existente.numero == numero
@@ -60,7 +59,6 @@ class Hotel():
                 self.__hoteis.append(
                     QuartoNormal(numero, capacidade, preco_diaria))
 
-    # adicionar checagem de duplicaidade
     def remover_quarto(self, quarto: Quarto):
         if isinstance(quarto, Quarto):
             for quarto_existente in self.__quartos:
