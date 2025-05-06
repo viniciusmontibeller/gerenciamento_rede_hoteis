@@ -1,14 +1,14 @@
-from hotel import Hotel
+from typing import List
+from entidade.hotel import Hotel
 
 
 class Rede():
 
-    def __init__(self, nome: str, cnpj: str, localizacao_sede: str,
-                 hoteis: list[Hotel]):
+    def __init__(self, nome: str, codigo: str, localizacao_sede: str):
         self.__nome = nome
-        self.__cnpj = cnpj
+        self.__codigo = codigo
         self.__localizacao_sede = localizacao_sede
-        self.__hoteis = hoteis
+        self.__hoteis: List[Hotel] = []
 
     @property
     def nome(self):
@@ -20,13 +20,13 @@ class Rede():
             self.__nome = nome
 
     @property
-    def cnpj(self):
-        return self.__cnpj
+    def codigo(self):
+        return self.__codigo
 
-    @cnpj.setter
-    def cnpj(self, cnpj: str):
-        if isinstance(cnpj, str):
-            self.__cnpj = cnpj
+    @codigo.setter
+    def codigo(self, codigo: str):
+        if isinstance(codigo, str):
+            self.__codigo = codigo
 
     @property
     def localizacao_sede(self):
