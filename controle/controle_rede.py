@@ -62,3 +62,10 @@ class ControleRede():
 
         if not rede_existe:
             raise Exception(f"Rede de código [{dados_rede["codigo"]}] não foi encontrada.")
+
+    def abre_tela(self):
+        lista_opcoes = {1: self.adicionar, 2: self.alterar, 3: self.listar, 4: self.remover, 0: self.retornar}
+
+        continua = True
+        while continua:
+            lista_opcoes[self.__tela_rede.tela_opcoes()]()
