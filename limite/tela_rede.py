@@ -1,8 +1,5 @@
 class TelaRede:
 
-    def __init__(self, controlador_rede):
-        self.__controlador_rede = controlador_rede
-
     def pega_dados_rede(self):
         dados_rede = {}
         dados_rede["nome"] = str(input("Nome: "))
