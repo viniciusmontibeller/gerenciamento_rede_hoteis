@@ -1,10 +1,11 @@
+from controle_sistema import ControladorSistema
 from limite.tela_rede import TelaRede
 from entidade.rede import Rede
 
 
-class ControleRede():
+class ControladorRede():
 
-    def __init__(self, controlador_sistema):
+    def __init__(self, controlador_sistema: ControladorSistema):
         self.__redes = []
         self.__controlador_sistema = controlador_sistema
         self.__tela_rede = TelaRede(self)
@@ -69,3 +70,6 @@ class ControleRede():
         continua = True
         while continua:
             lista_opcoes[self.__tela_rede.tela_opcoes()]()
+            
+    def retornar(self):
+        self.__controlador_sistema.abre_tela()
