@@ -26,10 +26,10 @@ class TelaHotel():
         print("Nome do hotel: ", dados_hotel["nome"])
         print("Código do hotel: ", dados_hotel["codigo"])
         print("Endereço do hotel: ", dados_hotel["endereco"])
-        print("Telefone do hotel: ", dados_hotel["telefonr"])
+        print("Telefone do hotel: ", dados_hotel["telefone"])
         print("\n")
     
-    def pega_codigo_hotel(self, codigo: int):
+    def pega_codigo_hotel(self):
         return input("Código do hotel: ")
     
     def mosta_mensagem(self, mensagem):
