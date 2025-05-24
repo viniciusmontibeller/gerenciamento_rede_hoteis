@@ -37,6 +37,10 @@ class Rede():
         if isinstance(localizacao_rede, str):
             self.__localizacao_rede = localizacao_rede
 
+    @property
+    def hoteis(self):
+        return self.__hoteis
+
     def adicionar_hotel(self, hotel: Hotel):
         if isinstance(hotel, Hotel):
             if not any(hotel_existente.codigo == hotel.codigo

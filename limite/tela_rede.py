@@ -16,6 +16,14 @@ class TelaRede:
 
         return dados_rede
 
+    def pega_dados_inclusao_de_hotel(self):
+        dados_inclusao = {}
+        dados_inclusao["codigo_rede"] = str(input("Código da rede: "))
+        dados_inclusao["codigo_hotel"] = str(input("Código do hotel que será adicionado na rede: "))
+
+        return dados_inclusao
+
+
     def mostrar_redes(self, lista_dados_rede):
         for dados_rede in lista_dados_rede:
             self.mostrar_rede(dados_rede)
@@ -24,6 +32,7 @@ class TelaRede:
         print(f"Nome da rede: {dados_rede['nome']}")
         print(f"Codigo da rede: {dados_rede['codigo']}")
         print(f"Localização da rede: {dados_rede['localizacao_rede']}")
+        print(f"Hoteis da rede: {dados_rede['hoteis']}")
 
     def pega_codigo_rede(self):
         return input("Codigo da rede: ")
@@ -38,6 +47,7 @@ class TelaRede:
         print("2 - Alterar Rede")
         print("3 - Listar Rede")
         print("4 - Remover Rede")
+        print("5 - Adicionar Hotel em Rede")
         print("0 - Retornar")
 
         opcao = int(input("Escolha a opcao: "))

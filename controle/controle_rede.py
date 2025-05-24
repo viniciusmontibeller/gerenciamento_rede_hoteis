@@ -48,7 +48,8 @@ class ControladorRede():
             lambda rede: {
                 "nome": rede.nome,
                 "localizacao_rede": rede.localizacao_rede,
-                "codigo": rede.codigo
+                "codigo": rede.codigo,
+                "hoteis": rede.hoteis
             }, self.__redes)
 
         self.__tela_rede.mostrar_redes(lista_dados_rede)
@@ -61,9 +62,8 @@ class ControladorRede():
 
         for rede in self.__redes:
             if rede.codigo == dados_rede["codigo"]:
-                self.__redes[rede.codigo]["nome"] = dados_rede["nome"]
-                self.__redes[rede.codigo]["localizacao_rede"] = dados_rede[
-                    "localizacao_rede"]
+                rede.nome = dados_rede["nome"]
+                rede.localizacao_rede = dados_rede["localizacao_rede"]
 
                 self.__tela_rede.mostra_mensagem("Alterado com sucesso.")
 
@@ -75,12 +75,28 @@ class ControladorRede():
             raise Exception(
                 f"Rede de código [{dados_rede['codigo']}] não foi encontrada.")
 
+    def adicionar_hotel_em_rede(self):
+        dados_inclusao = self.__tela_rede.pega_dados_inclusao_de_hotel()
+
+        rede = self.buscar_por_codigo(dados_inclusao["codigo_rede"])
+        hotel = self.__controlador_sistema.controlador_hotel.buscar_por_codigo(dados_inclusao["codigo_hotel"])
+        
+        if not rede:
+            raise Exception("Rede não encontrada")
+        if not hotel:
+            raise Exception("Hotel não encontrado")
+
+        rede.adicionar_hotel(hotel)
+
+        self.__tela_rede.mostra_mensagem("Hotel adicionado com sucesso.")
+
     def abre_tela(self):
         lista_opcoes = {
             1: self.adicionar,
             2: self.alterar,
             3: self.listar,
             4: self.remover,
+            5: self.adicionar_hotel_em_rede,
             0: self.retornar
         }
 
