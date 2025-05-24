@@ -4,7 +4,7 @@ from entidade.hotel import Hotel
 
 
 class ControladorHotel():
-    
+
     def __init__(self, controlador_sistema: ControladorSistema):
         self.__hoteis = []
         self.__controlador_sistema = controlador_sistema

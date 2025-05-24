@@ -55,8 +55,7 @@ class Hotel():
                 self.__quartos.append(
                     QuartoVip(numero, capacidade, preco_diaria))
             else:
-                self.__quartos.append(
-                    Quarto(numero, capacidade, preco_diaria))
+                self.__quartos.append(Quarto(numero, capacidade, preco_diaria))
 
     def remover_quarto(self, quarto: Quarto):
         if isinstance(quarto, Quarto):

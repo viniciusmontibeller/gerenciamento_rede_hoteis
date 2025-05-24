@@ -92,5 +92,4 @@ class Reserva():
             f"{saida}"
             f"Status: {self.__status.value}\n"
             f"Duvidas falar com {self.__funcionario.nome} por {self.__funcionario.telefone} "
-            f"ou por {self.__funcionario.email}"
-        )
+            f"ou por {self.__funcionario.email}")

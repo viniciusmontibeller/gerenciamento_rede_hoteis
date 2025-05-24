@@ -1,5 +1,5 @@
 class TelaCliente():
-    
+
     def tela_opcoes(self):
         print("-------- Cliente --------")
         print("Selecione a opção desejada")
@@ -9,9 +9,10 @@ class TelaCliente():
         print("4 - Buscar Cliente")
         print("5 - Excluir Cliente")
         print("0 - Retornar")
-        opcao = int(input("Opção escohida"))  # Falta adicionar verificação de input de usuario
+        opcao = int(input("Opção escohida")
+                    )  # Falta adicionar verificação de input de usuario
         return opcao
-    
+
     def pega_dados_cliente(self):
         print("-------- Dados do Cliente --------")
         dados_cliente = {}
@@ -21,16 +22,16 @@ class TelaCliente():
         dados_cliente["email"] = str(input("Email: "))
 
         return dados_cliente
-    
+
     def mostra_cliente(self, dados_cliente):
         print("Nome do cliente: ", dados_cliente["nome"])
         print("Código do cliente: ", dados_cliente["codigo"])
         print("Telefone do cliente: ", dados_cliente["telefone"])
         print("Email do cliente: ", dados_cliente["email"])
         print("\n")
-    
+
     def pega_cpf_cliente(self):
         return input("Código do cliente: ")
-    
+
     def mosta_mensagem(self, mensagem):
         print(mensagem)

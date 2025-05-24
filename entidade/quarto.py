@@ -36,7 +36,7 @@ class Quarto():
     @property
     def reservado(self):
         return self.__reservado
-    
+
     @reservado.setter
     def reservado(self, reservado: bool):
         if isinstance(reservado, bool):
