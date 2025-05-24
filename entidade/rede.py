@@ -4,10 +4,10 @@ from entidade.hotel import Hotel
 
 class Rede():
 
-    def __init__(self, nome: str, codigo: str, localizacao_sede: str):
+    def __init__(self, nome: str, codigo: str, localizacao_rede: str):
         self.__nome = nome
         self.__codigo = codigo
-        self.__localizacao_sede = localizacao_sede
+        self.__localizacao_rede = localizacao_rede
         self.__hoteis: List[Hotel] = []
 
     @property
@@ -29,13 +29,13 @@ class Rede():
             self.__codigo = codigo
 
     @property
-    def localizacao_sede(self):
-        return self.__localizacao_sede
+    def localizacao_rede(self):
+        return self.__localizacao_rede
 
-    @localizacao_sede.setter
-    def localizacao_sede(self, localizacao_sede: str):
-        if isinstance(localizacao_sede, str):
-            self.__localizacao_sede = localizacao_sede
+    @localizacao_rede.setter
+    def localizacao_rede(self, localizacao_rede: str):
+        if isinstance(localizacao_rede, str):
+            self.__localizacao_rede = localizacao_rede
 
     def adicionar_hotel(self, hotel: Hotel):
         if isinstance(hotel, Hotel):

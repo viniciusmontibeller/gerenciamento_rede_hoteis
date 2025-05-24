@@ -44,15 +44,17 @@ class ControladorRede():
         return None
 
     def listar(self):
-        return map(
+        lista_dados_rede = map(
             lambda rede: {
                 "nome": rede.nome,
                 "localizacao_rede": rede.localizacao_rede,
                 "codigo": rede.codigo
             }, self.__redes)
 
+        self.__tela_rede.mostrar_redes(lista_dados_rede)
+
     def alterar(self):
-        self.__tela_rede.mostrar_redes(self.listar())
+        self.listar()
 
         dados_rede = self.__tela_rede.pega_dados_rede_para_alteracao()
         rede_existe = False

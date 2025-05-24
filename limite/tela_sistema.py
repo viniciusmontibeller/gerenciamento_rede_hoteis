@@ -8,6 +8,6 @@ class TelaSistema():
         print("3 - Fazer Reserva")
         print("0 - Finalizar sistema")
 
-        opcao = input("Opção escohida")  # Falta adicionar verificação de input de usuario
-        
+        opcao = input("Opção escohida: ")  # Falta adicionar verificação de input de usuario
+
         return opcao

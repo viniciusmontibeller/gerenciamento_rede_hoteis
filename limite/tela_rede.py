@@ -34,10 +34,10 @@ class TelaRede:
     def tela_opcoes(self):
         print("-------- REDES ----------")
         print("Escolha a opcao")
-        print("1 - Adiicionar Rede")
+        print("1 - Adicionar Rede")
         print("2 - Alterar Rede")
-        print("3 - Remover Rede")
-        print("4 - Listar Rede")
+        print("3 - Listar Rede")
+        print("4 - Remover Rede")
         print("0 - Retornar")
 
         opcao = int(input("Escolha a opcao: "))

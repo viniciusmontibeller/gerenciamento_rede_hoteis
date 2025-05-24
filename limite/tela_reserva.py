@@ -40,7 +40,7 @@ class TelaReserva:
     def tela_opcoes(self):
         print("-------- RESERVAS ----------")
         print("Escolha a opcao")
-        print("1 - Adiicionar reserva")
+        print("1 - Adicionar reserva")
         print("2 - Alterar reserva")
         print("3 - Remover reserva")
         print("4 - Listar reserva")
