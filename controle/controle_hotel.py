@@ -1,11 +1,10 @@
-from controle_sistema import ControladorSistema
 from limite.tela_hotel import TelaHotel
 from entidade.hotel import Hotel
 
 
 class ControladorHotel():
 
-    def __init__(self, controlador_sistema: ControladorSistema):
+    def __init__(self, controlador_sistema):
         self.__hoteis = []
         self.__controlador_sistema = controlador_sistema
         self.__tela_hotel = TelaHotel()

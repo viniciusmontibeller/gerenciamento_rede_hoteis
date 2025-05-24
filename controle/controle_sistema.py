@@ -7,7 +7,7 @@ from limite.tela_sistema import TelaSistema
 class ControladorSistema():
 
     def __init__(self):
-        self.__tela_sistema = TelaSistema(self)
+        self.__tela_sistema = TelaSistema()
         self.__controlador_rede = ControladorRede(self)
         self.__controlador_hotel = ControladorHotel(self)
         self.__controlador_reserva = ControladorReserva(self)

@@ -7,7 +7,7 @@ class ControladorRede():
     def __init__(self, controlador_sistema):
         self.__redes = []
         self.__controlador_sistema = controlador_sistema
-        self.__tela_rede = TelaRede(self)
+        self.__tela_rede = TelaRede()
 
     def adicionar(self):
         dados_rede = self.__tela_rede.pega_dados_rede()
