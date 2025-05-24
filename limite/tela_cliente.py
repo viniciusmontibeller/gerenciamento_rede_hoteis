@@ -29,7 +29,7 @@ class TelaCliente():
         print("Email do cliente: ", dados_cliente["email"])
         print("\n")
     
-    def pega_codigo_cliente(self):
+    def pega_cpf_cliente(self):
         return input("Código do cliente: ")
     
     def mosta_mensagem(self, mensagem):

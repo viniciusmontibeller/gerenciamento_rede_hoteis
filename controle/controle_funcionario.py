@@ -55,7 +55,7 @@ class ControladorFuncionario():
                 break
 
         if not funcionario_existe:
-            raise Exception(f"HFuncionario de cpf [{dados_funcionario["cpf"]}] não foi encontrada.")
+            raise Exception(f"Funcionario de cpf [{dados_funcionario["cpf"]}] não foi encontrada.")
 
 
     def busca_por_cpf(self, cpf):
