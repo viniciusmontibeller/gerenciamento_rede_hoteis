@@ -1,6 +1,6 @@
-from controle_rede import ControladorRede
-from controle_reserva import ControladorReserva
-from controle_hotel import ControladorHotel
+from controle.controle_rede import ControladorRede
+from controle.controle_reserva import ControladorReserva
+from controle.controle_hotel import ControladorHotel
 from limite.tela_sistema import TelaSistema
 
 

@@ -1,5 +1,5 @@
-from quarto import Quarto
-from quarto_vip import QuartoVip
+from entidade.quarto import Quarto
+from entidade.quarto_vip import QuartoVip
 
 
 class Hotel():

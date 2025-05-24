@@ -21,10 +21,9 @@ class TelaRede:
             self.mostrar_rede(dados_rede)
 
     def mostrar_rede(self, dados_rede):
-        print(f"Nome da rede: {dados_rede["nome"]}")
-        print(f"Codigo da rede: {dados_rede["codigo"]}")
-        print(f"Localização da rede: {dados_rede["localizacao_rede"]}")
-
+        print(f"Nome da rede: {dados_rede['nome']}")
+        print(f"Codigo da rede: {dados_rede['codigo']}")
+        print(f"Localização da rede: {dados_rede['localizacao_rede']}")
 
     def pega_codigo_rede(self):
         return input("Codigo da rede: ")
