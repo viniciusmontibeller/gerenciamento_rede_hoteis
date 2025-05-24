@@ -1,5 +1,6 @@
 from controle_sistema import ControladorSistema
 from limite.tela_hotel import TelaHotel
+from entidade.hotel import Hotel
 
 
 class ControladorHotel():
@@ -15,7 +16,7 @@ class ControladorHotel():
         if self.buscar_por_codigo(dados_hotel["codigo"]):
             raise Exception("Hotel ja existente")
         else:
-            self.__hoteis.append(Hotel(dados_rede["nome"], dados_rede["codigo"], dados_rede["localizacao_rede"]))
+            self.__hoteis.append(Hotel(dados_hotel["nome"], dados_hotel["codigo"], dados_hotel["endereco"], dados_hotel["telefone"]))
 
     def remover(self):
         codigo = self.__tela_hotel.pega_codigo_hotel()

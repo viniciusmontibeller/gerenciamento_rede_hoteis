@@ -29,7 +29,7 @@ class TelaFuncionario():
         print("Email do funcionario: ", dados_funcionario["email"])
         print("\n")
     
-    def pega_codigo_funcionario(self):
+    def pega_cpf_funcionario(self):
         return input("Código do funcionario: ")
     
     def mosta_mensagem(self, mensagem):
