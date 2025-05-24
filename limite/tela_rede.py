@@ -1,4 +1,6 @@
-class TelaRede:
+from abstract_tela import AbstractTela
+
+class TelaRede(AbstractTela):
 
     def pega_dados_rede(self):
         dados_rede = {}
@@ -50,5 +52,5 @@ class TelaRede:
         print("5 - Adicionar Hotel em Rede")
         print("0 - Retornar")
 
-        opcao = int(input("Escolha a opcao: "))
+        opcao = super().le_input_int("Escolha a opcao: ")
         return opcao

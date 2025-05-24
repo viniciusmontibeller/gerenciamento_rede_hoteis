@@ -1,4 +1,6 @@
-class TelaReserva:
+from abstract_tela import AbstractTela
+
+class TelaReserva(AbstractTela):
 
     def pega_dados_reserva(self):
         dados_reserva = {}
@@ -46,5 +48,5 @@ class TelaReserva:
         print("4 - Listar reserva")
         print("0 - Retornar")
 
-        opcao = int(input("Escolha a opcao: "))
+        opcao = super().le_input_int("Escolha a opcao: ")
         return opcao

@@ -1,5 +1,7 @@
-class TelaSistema():
-    
+from abstract_tela import AbstractTela
+
+class TelaSistema(AbstractTela):
+                
     def tela_opcoes(self):
         print("-------- Sistema de redes de hoteis --------")
         print("Selecione a opção desejada")
@@ -8,6 +10,5 @@ class TelaSistema():
         print("3 - Fazer Reserva")
         print("0 - Finalizar sistema")
 
-        opcao = input("Opção escohida: ")  # Falta adicionar verificação de input de usuario
-
+        opcao = super().le_input_int("Opção escohida: ")
         return opcao

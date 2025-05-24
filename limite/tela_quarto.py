@@ -1,4 +1,6 @@
-class TelaHotel():
+from abstract_tela import AbstractTela
+
+class TelaHotel(AbstractTela):
     
     def tela_opcoes(self):
         print("-------- Quartos --------")
@@ -9,7 +11,7 @@ class TelaHotel():
         print("4 - Buscar Quarto")
         print("5 - Excluir Quartos")
         print("0 - Retornar")
-        opcao = int(input("Opção escohida"))  # Falta adicionar verificação de input de usuario
+        opcao = super().le_input_int("Opção escohida")
         return opcao
     
     def pega_dados_quarto(self):

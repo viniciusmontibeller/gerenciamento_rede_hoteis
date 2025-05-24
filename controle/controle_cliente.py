@@ -1,10 +1,9 @@
 from limite.tela_cliente import TelaCliente
-from controle import ControladorReserva
 from entidade.cliente import Cliente
 
 
 class ControladorCliente():
-    def __init__(self, controlador_reserva: ControladorReserva):
+    def __init__(self, controlador_reserva):
         self.__clientes = []
         self.__controlador_reserva = controlador_reserva
         self.__tela_cliente = TelaCliente()

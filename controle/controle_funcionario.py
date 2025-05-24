@@ -1,11 +1,10 @@
 from limite.tela_funcionario import TelaFuncionario
-from controle_hotel import ControladorHotel
 from entidade.funcionario import Funcionario
 
 
 class ControladorFuncionario():
 
-    def __init__(self, controlador_hotel: ControladorHotel):
+    def __init__(self, controlador_hotel):
         self.__funcionarios = []
         self.__controlador_hotel = controlador_hotel
         self.__tela_funcionario = TelaFuncionario()

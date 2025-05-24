@@ -1,4 +1,6 @@
-class TelaCliente():
+from abstract_tela import AbstractTela
+
+class TelaCliente(AbstractTela):
 
     def tela_opcoes(self):
         print("-------- Cliente --------")
@@ -9,8 +11,7 @@ class TelaCliente():
         print("4 - Buscar Cliente")
         print("5 - Excluir Cliente")
         print("0 - Retornar")
-        opcao = int(input("Opção escohida")
-                    )  # Falta adicionar verificação de input de usuario
+        opcao = super().le_input_int("Opção escohida")
         return opcao
 
     def pega_dados_cliente(self):

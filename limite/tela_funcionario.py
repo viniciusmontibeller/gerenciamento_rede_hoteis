@@ -1,4 +1,6 @@
-class TelaFuncionario():
+from abstract_tela import AbstractTela
+
+class TelaFuncionario(AbstractTela):
     
     def tela_opcoes(self):
         print("-------- Funcionario --------")
@@ -9,7 +11,7 @@ class TelaFuncionario():
         print("4 - Buscar Funcionario")
         print("5 - Excluir Funcionario")
         print("0 - Retornar")
-        opcao = int(input("Opção escohida"))  # Falta adicionar verificação de input de usuario
+        opcao = super().le_input_int("Opção escohida: ")
         return opcao
     
     def pega_dados_funcionario(self):
