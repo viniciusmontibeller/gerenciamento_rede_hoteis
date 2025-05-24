@@ -34,7 +34,7 @@ class TelaReserva(AbstractTela):
         print(f"Funcionario responsável: {dados_reserva['funcionario']}")
 
     def pega_codigo_reserva(self):
-        return input("Codigo da reserva: ")
+        return super().le_input_so_numero("Codigo da reserva: ")
 
     def mostra_mensagem(self, mensagem):
         print(mensagem)
@@ -48,5 +48,5 @@ class TelaReserva(AbstractTela):
         print("4 - Listar reserva")
         print("0 - Retornar")
 
-        opcao = super().le_input_int("Escolha a opcao: ")
+        opcao = super().le_input_int("Escolha a opcao: ", [0,1,2,3,4])
         return opcao

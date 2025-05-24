@@ -11,16 +11,16 @@ class TelaHotel(AbstractTela):
         print("4 - Buscar Hotel")
         print("5 - Excluir Hoteis")
         print("0 - Retornar")
-        opcao = super().le_input_int("Opção escohida: ")
+        opcao = super().le_input_int("Opção escohida: ", [0,1,2,3,4,5])
         return opcao
 
     def pega_dados_hotel(self):
         print("-------- Dados do Hotel --------")
         dados_hotel = {}
-        dados_hotel["nome"] = str(input("Nome: "))
-        dados_hotel["codigo"] = str(input("Codigo: "))
-        dados_hotel["localizacao"] = str(input("Endereço: "))
-        dados_hotel["telefone"] = str(input("Telefone: "))
+        dados_hotel["nome"] = input("Nome: ")
+        dados_hotel["codigo"] = super().le_input_so_numero("Codigo: ")
+        dados_hotel["localizacao"] = input("Endereço: ")
+        dados_hotel["telefone"] = super().le_input_so_numero("Telefone: ")
 
         return dados_hotel
 
@@ -32,7 +32,7 @@ class TelaHotel(AbstractTela):
         print("\n")
 
     def pega_codigo_hotel(self):
-        return input("Código do hotel: ")
+        return super().le_input_so_numero("Código do hotel: ")
 
     def mosta_mensagem(self, mensagem):
         print(mensagem)
