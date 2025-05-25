@@ -17,6 +17,7 @@ class ControladorHotel():
             self.__hoteis.append(
                 Hotel(dados_hotel["nome"], dados_hotel["codigo"],
                       dados_hotel["endereco"], dados_hotel["telefone"]))
+            self.__tela_hotel.mosta_mensagem("Hotel adicionado com sucesso!")
 
     def remover(self):
         codigo = self.__tela_hotel.pega_codigo_hotel()

@@ -1,8 +1,9 @@
-from abstract_tela import AbstractTela
+from limite.abstract_tela import AbstractTela
 
 class TelaCliente(AbstractTela):
 
     def tela_opcoes(self):
+        print("\n")
         print("-------- Cliente --------")
         print("Selecione a opção desejada")
         print("1 - Incluir Cliente")
@@ -11,6 +12,7 @@ class TelaCliente(AbstractTela):
         print("4 - Buscar Cliente")
         print("5 - Excluir Cliente")
         print("0 - Retornar")
+        print("\n")
         opcao = super().le_input_int("Opção escohida", [0,1,2,3,4,5])
         return opcao
 

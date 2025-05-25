@@ -1,10 +1,10 @@
-from cliente import Cliente
-from funcionario import Funcionario
-from quarto import Quarto
-from quarto_vip import QuartoVip
-from hotel import Hotel
-from rede import Rede
-from reserva import Reserva
+from entidade.cliente import Cliente
+from entidade.funcionario import Funcionario
+from entidade.quarto import Quarto
+from entidade.quarto_vip import QuartoVip
+from entidade.hotel import Hotel
+from entidade.rede import Rede
+from entidade.reserva import Reserva
 
 cliente1 = Cliente("Maria Silva", "123.456.789-00", "11 91234-5678",
                    "maria@email.com", False)

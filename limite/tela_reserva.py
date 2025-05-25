@@ -1,4 +1,4 @@
-from abstract_tela import AbstractTela
+from limite.abstract_tela import AbstractTela
 
 class TelaReserva(AbstractTela):
 
@@ -40,13 +40,15 @@ class TelaReserva(AbstractTela):
         print(mensagem)
 
     def tela_opcoes(self):
+        print("\n")
         print("-------- RESERVAS ----------")
-        print("Escolha a opcao")
+        print("Selecione a opção desejada")
         print("1 - Adicionar reserva")
         print("2 - Alterar reserva")
         print("3 - Remover reserva")
         print("4 - Listar reserva")
         print("0 - Retornar")
+        print("\n")
 
         opcao = super().le_input_int("Escolha a opcao: ", [0,1,2,3,4])
         return opcao

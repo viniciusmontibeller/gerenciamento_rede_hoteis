@@ -1,11 +1,11 @@
-from abstract_tela import AbstractTela
+from limite.abstract_tela import AbstractTela
 
 class TelaRede(AbstractTela):
 
     def pega_dados_rede(self):
         dados_rede = {}
         dados_rede["nome"] = input("Nome: ")
-        dados_rede["codigo"] = super().le_input_so_numero(input("Codigo: "))
+        dados_rede["codigo"] = super().le_input_so_numero("Codigo: ")
         dados_rede["localizacao_rede"] = input("Localizacao: ")
 
         return dados_rede
@@ -43,14 +43,16 @@ class TelaRede(AbstractTela):
         print(mensagem)
 
     def tela_opcoes(self):
+        print("\n")
         print("-------- REDES ----------")
-        print("Escolha a opcao")
+        print("Selecione a opção desejada")
         print("1 - Adicionar Rede")
         print("2 - Alterar Rede")
         print("3 - Listar Rede")
         print("4 - Remover Rede")
         print("5 - Adicionar Hotel em Rede")
         print("0 - Retornar")
+        print("\n")
 
         opcao = super().le_input_int("Escolha a opcao: ", [0,1,2,3,4,5])
         return opcao

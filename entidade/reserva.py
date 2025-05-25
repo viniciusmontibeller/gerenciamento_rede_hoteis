@@ -1,8 +1,8 @@
-from cliente import Cliente
-from funcionario import Funcionario
-from quarto import Quarto
+from entidade.cliente import Cliente
+from entidade.funcionario import Funcionario
+from entidade.quarto import Quarto
 from datetime import date
-from status_reserva import StatusReserva
+from entidade.status_reserva import StatusReserva
 
 
 class Reserva():

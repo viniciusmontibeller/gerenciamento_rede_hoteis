@@ -1,8 +1,10 @@
-from abstract_tela import AbstractTela
+from limite.abstract_tela import AbstractTela
+
 
 class TelaFuncionario(AbstractTela):
-    
+
     def tela_opcoes(self):
+        print("\n")
         print("-------- Funcionario --------")
         print("Selecione a opção desejada")
         print("1 - Incluir Funcionario")
@@ -11,28 +13,30 @@ class TelaFuncionario(AbstractTela):
         print("4 - Buscar Funcionario")
         print("5 - Excluir Funcionario")
         print("0 - Retornar")
-        opcao = super().le_input_int("Opção escohida: ", [0,1,2,3,4,5])
+        print("\n")
+        opcao = super().le_input_int("Opção escohida: ", [0, 1, 2, 3, 4, 5])
         return opcao
-    
+
     def pega_dados_funcionario(self):
         print("-------- Dados do Funcionario --------")
         dados_funcionario = {}
         dados_funcionario["nome"] = input("Nome: ")
         dados_funcionario["cpf"] = super().le_input_so_numero("CPF: ")
-        dados_funcionario["telefone"] = super().le_input_so_numero("Telefone: ")
+        dados_funcionario["telefone"] = super(
+        ).le_input_so_numero("Telefone: ")
         dados_funcionario["email"] = input("Email: ")
 
         return dados_funcionario
-    
+
     def mostra_funcionario(self, dados_funcionario):
         print("Nome do funcionario: ", dados_funcionario["nome"])
         print("Código do funcionario: ", dados_funcionario["cpf"])
         print("Telefone do funcionario: ", dados_funcionario["telefone"])
         print("Email do funcionario: ", dados_funcionario["email"])
         print("\n")
-    
+
     def pega_cpf_funcionario(self):
         return super().le_input_so_numero("Código do funcionario: ")
-    
+
     def mosta_mensagem(self, mensagem):
         print(mensagem)

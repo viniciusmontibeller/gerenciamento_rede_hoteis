@@ -1,8 +1,9 @@
-from abstract_tela import AbstractTela
+from limite.abstract_tela import AbstractTela
 
 class TelaHotel(AbstractTela):
 
     def tela_opcoes(self):
+        print("\n")
         print("-------- Hoteis --------")
         print("Selecione a opção desejada")
         print("1 - Incluir Hotel")

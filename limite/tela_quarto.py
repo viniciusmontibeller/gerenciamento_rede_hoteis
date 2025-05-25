@@ -1,4 +1,4 @@
-from abstract_tela import AbstractTela
+from limite.abstract_tela import AbstractTela
 
 class TelaHotel(AbstractTela):
     
@@ -13,6 +13,7 @@ class TelaHotel(AbstractTela):
                 print("Valor incorreto! Somente valores em dinheiro")
     
     def tela_opcoes(self):
+        print("\n")
         print("-------- Quartos --------")
         print("Selecione a opção desejada")
         print("1 - Incluir Quarto")
@@ -21,6 +22,7 @@ class TelaHotel(AbstractTela):
         print("4 - Buscar Quarto")
         print("5 - Excluir Quartos")
         print("0 - Retornar")
+        print("\n")
         opcao = super().le_input_int("Opção escohida", [0,1,2,3,4,5])
         return opcao
     
