@@ -2,11 +2,11 @@ from limite.abstract_tela import AbstractTela
 
 class TelaHotel(AbstractTela):
     
-    def le_input_so_float(self, mensagem):
+    def le_input_so_float_ou_int(self, mensagem):
         while True:
             valor_lido = input(mensagem)
             try:
-                if not isinstance(valor_lido, float):
+                if not isinstance(valor_lido, float) or not isinstance(valor_lido, int):
                     raise ValueError
                 return float(valor_lido)
             except ValueError:
@@ -31,7 +31,7 @@ class TelaHotel(AbstractTela):
         dados_quarto = {}
         dados_quarto["numero"] = input("NUmero: ")
         dados_quarto["capacidade"] = super().le_input_so_numero("Capacidade: ")
-        dados_quarto["preco_diaria"] = self.le_input_so_float("Preço da diaria: ")
+        dados_quarto["preco_diaria"] = self.le_input_so_float_ou_int("Preço da diaria: ")
     
     def mostra_quarto(self, dados_quarto):
         print("Numero do quarto: ", dados_quarto["numero"])
