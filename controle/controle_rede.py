@@ -11,30 +11,36 @@ class ControladorRede():
 
     def adicionar(self):
         dados_rede = self.__tela_rede.pega_dados_rede()
-        if self.buscar_por_codigo(dados_rede["codigo"]):
-            raise Exception("Rede ja existente")
-        else:
+        try:
+            if self.buscar_por_codigo(dados_rede["codigo"]):
+                raise Exception("Rede ja existente")
             self.__redes.append(
                 Rede(dados_rede["nome"], dados_rede["codigo"],
-                     dados_rede["localizacao_rede"]))
+                        dados_rede["localizacao_rede"]))
+            self.__tela_rede.mostra_mensagem("Rede adicionada com sucesso!")
+        except Exception as e:
+            self.__tela_rede.mostra_mensagem(str(e))
 
     def remover(self):
         codigo = self.__tela_rede.pega_codigo_rede()
-        rede_existe = False
+        try:
+            rede_existe = False
 
-        for rede in self.__redes:
-            if rede.codigo == codigo:
-                self.__redes.remove(rede)
-                self.__tela_rede.mostra_mensagem("Removido com sucesso.")
+            for rede in self.__redes:
+                if rede.codigo == codigo:
+                    self.__redes.remove(rede)
+                    self.__tela_rede.mostra_mensagem("Removido com sucesso.")
 
-                rede_existe = True
+                    rede_existe = True
 
-                break
+                    break
 
-        if not rede_existe:
-            raise Exception(
-                f"Rede de código [{codigo}] não foi encontrada para ser removida."
-            )
+            if not rede_existe:
+                raise Exception(
+                    f"Rede de código [{codigo}] não foi encontrada para ser removida."
+                )
+        except Exception as e:
+            self.__tela_rede.mostra_mensagem(str(e))
 
     def buscar_por_codigo(self, codigo):
         for rede in self.__redes:
@@ -56,39 +62,43 @@ class ControladorRede():
 
     def alterar(self):
         self.listar()
-
         dados_rede = self.__tela_rede.pega_dados_rede_para_alteracao()
-        rede_existe = False
+        
+        try:
+            rede_existe = False
+            for rede in self.__redes:
+                if rede.codigo == dados_rede["codigo"]:
+                    rede.nome = dados_rede["nome"]
+                    rede.localizacao_rede = dados_rede["localizacao_rede"]
 
-        for rede in self.__redes:
-            if rede.codigo == dados_rede["codigo"]:
-                rede.nome = dados_rede["nome"]
-                rede.localizacao_rede = dados_rede["localizacao_rede"]
+                    self.__tela_rede.mostra_mensagem("Alterado com sucesso.")
 
-                self.__tela_rede.mostra_mensagem("Alterado com sucesso.")
+                    rede_existe = True
 
-                rede_existe = True
+                    break
 
-                break
+            if not rede_existe:
+                raise Exception(
+                    f"Rede de código [{dados_rede['codigo']}] não foi encontrada.")
+        except Exception as e:
+            self.__tela_rede.mostra_mensagem(str(e))
 
-        if not rede_existe:
-            raise Exception(
-                f"Rede de código [{dados_rede['codigo']}] não foi encontrada.")
 
     def adicionar_hotel_em_rede(self):
         dados_inclusao = self.__tela_rede.pega_dados_inclusao_de_hotel()
 
         rede = self.buscar_por_codigo(dados_inclusao["codigo_rede"])
         hotel = self.__controlador_sistema.controlador_hotel.buscar_por_codigo(dados_inclusao["codigo_hotel"])
-        
-        if not rede:
-            raise Exception("Rede não encontrada")
-        if not hotel:
-            raise Exception("Hotel não encontrado")
+        try:
+            if not rede:
+                raise Exception("Rede não encontrada")
+            if not hotel:
+                raise Exception("Hotel não encontrado")
 
-        rede.adicionar_hotel(hotel)
-
-        self.__tela_rede.mostra_mensagem("Hotel adicionado com sucesso.")
+            rede.adicionar_hotel(hotel)
+            self.__tela_rede.mostra_mensagem("Hotel adicionado com sucesso.")
+        except Exception as e:
+            self.__tela_rede.mostra_mensagem(str(e))
 
     def abre_tela(self):
         lista_opcoes = {

@@ -11,31 +11,35 @@ class ControladorHotel():
 
     def adicionar(self):
         dados_hotel = self.__tela_hotel.pega_dados_hotel()
-        if self.buscar_por_codigo(dados_hotel["codigo"]):
-            raise Exception("Hotel ja existente")
-        else:
+        try: 
+            if self.buscar_por_codigo(dados_hotel["codigo"]):
+                raise Exception("Hotel ja existente")
             self.__hoteis.append(
                 Hotel(dados_hotel["nome"], dados_hotel["codigo"],
-                      dados_hotel["endereco"], dados_hotel["telefone"]))
+                    dados_hotel["endereco"], dados_hotel["telefone"]))
             self.__tela_hotel.mosta_mensagem("Hotel adicionado com sucesso!")
+        except Exception as e:
+            self.__tela_hotel.mosta_mensagem(str(e))
 
     def remover(self):
         codigo = self.__tela_hotel.pega_codigo_hotel()
-        hotel_existe = False
+        try:
+            hotel_existe = False
+            for hotel in self.__hoteis:
+                if hotel.codigo == codigo:
+                    self.__hoteis.remove(hotel)
+                    self.__tela_hotel.mosta_mensagem("Removido com sucesso.")
 
-        for hotel in self.__hoteis:
-            if hotel.codigo == codigo:
-                self.__hoteis.remove(hotel)
-                self.__tela_hotel.mosta_mensagem("Removido com sucesso.")
+                    hotel_existe = True
 
-                hotel_existe = True
+                    break
 
-                break
-
-        if not hotel_existe:
-            raise Exception(
-                f"Hotel de código [{codigo}] não foi encontrada para ser removida."
-            )
+            if not hotel_existe:
+                raise Exception(
+                    f"Hotel de código [{codigo}] não foi encontrada para ser removida."
+                )
+        except Exception as e:
+            self.__tela_hotel.mosta_mensagem(str(e))
 
     def listar(self):
         return map(
@@ -49,24 +53,26 @@ class ControladorHotel():
         self.__tela_hotel.mostra_hotel(self.listar())
 
         dados_hotel = self.__tela_hotel.pega_dados_hotel()
-        hotel_existe = False
+        try:
+            hotel_existe = False
+            for hotel in self.__hoteis:
+                if hotel.codigo == dados_hotel["codigo"]:
+                    self.__hoteis[hotel.codigo]["nome"] = dados_hotel["nome"]
+                    self.__hoteis[hotel.codigo]["localizacao_hotel"] = dados_hotel[
+                        "localizacao_hotel"]
 
-        for hotel in self.__hoteis:
-            if hotel.codigo == dados_hotel["codigo"]:
-                self.__hoteis[hotel.codigo]["nome"] = dados_hotel["nome"]
-                self.__hoteis[hotel.codigo]["localizacao_hotel"] = dados_hotel[
-                    "localizacao_hotel"]
+                    self.__tela_hotel.mosta_mensagem("Alterado com sucesso.")
 
-                self.__tela_hotel.mosta_mensagem("Alterado com sucesso.")
+                    hotel_existe = True
 
-                hotel_existe = True
+                    break
 
-                break
-
-        if not hotel_existe:
-            raise Exception(
-                f"Hotel de código [{dados_hotel['codigo']}] não foi encontrada."
-            )
+            if not hotel_existe:
+                raise Exception(
+                    f"Hotel de código [{dados_hotel['codigo']}] não foi encontrada."
+                )
+        except Exception as e:
+            self.__tela_hotel.mosta_mensagem(str(e))
 
     def buscar_por_codigo(self, codigo):
         for hotel in self.__hoteis:

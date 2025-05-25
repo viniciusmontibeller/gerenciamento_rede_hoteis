@@ -23,6 +23,7 @@ class TelaCliente(AbstractTela):
         dados_cliente["cpf"] = super.le_input_so_numero("CPF: ")
         dados_cliente["telefone"] = super().le_input_so_numero("Telefone: ")
         dados_cliente["email"] = input("Email: ")
+        dados_cliente["fidelidade"] = input("Fidelidade: ")
 
         return dados_cliente
 
