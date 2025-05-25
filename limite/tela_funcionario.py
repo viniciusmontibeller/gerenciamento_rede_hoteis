@@ -10,7 +10,7 @@ class TelaFuncionario(AbstractTela):
         print("1 - Incluir Funcionario")
         print("2 - Alterar Funcionario")
         print("3 - Listar Funcionarios")
-        print("4 - Buscar Funcionario")
+        print("4 - Remover Funcionario")
         print("0 - Retornar")
         print("\n")
 

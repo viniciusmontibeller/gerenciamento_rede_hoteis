@@ -3,10 +3,9 @@ from entidade.pessoa import Pessoa
 
 class Cliente(Pessoa):
 
-    def __init__(self, nome: str, cpf: str, telefone: str, email: str,
-                 fidelidade: bool):
+    def __init__(self, nome: str, cpf: str, telefone: str, email: str):
         super().__init__(nome, cpf, telefone, email)
-        self.__fidelidade = fidelidade
+        self.__fidelidade = False
 
     @property
     def fidelidade(self):
