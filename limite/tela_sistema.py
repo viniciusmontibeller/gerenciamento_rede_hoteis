@@ -12,5 +12,5 @@ class TelaSistema(AbstractTela):
         print("0 - Finalizar sistema")
         print("\n")
 
-        opcao = super().le_input_int("Opção escohida: ", [0,1,2,3])
+        opcao = super().le_input_int("Opção escohida: ", [0, 1, 2, 3])
         return opcao

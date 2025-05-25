@@ -29,6 +29,12 @@ class TelaFuncionario(AbstractTela):
 
         return dados_funcionario
 
+    def mostrar_funcionarios(self, lista_dados_funcionario):
+        print("\n")
+        print("-------- Listagem de Funcionarios --------")
+        for dados_funcionario in lista_dados_funcionario:
+            self.mostra_funcionario(dados_funcionario)
+
     def mostra_funcionario(self, dados_funcionario):
         print("Nome do funcionario: ", dados_funcionario["nome"])
         print("Código do funcionario: ", dados_funcionario["cpf"])
@@ -37,7 +43,10 @@ class TelaFuncionario(AbstractTela):
         print("\n")
 
     def pega_cpf_funcionario(self):
-        return super().le_input_so_numero("Código do funcionario: ")
+        return super().le_input_so_numero("CPF do funcionario: ")
 
-    def mosta_mensagem(self, mensagem):
+    def pega_codigo_hotel(self):
+        return super().le_input_so_numero("Código do hotel: ")
+
+    def mostra_mensagem(self, mensagem):
         print(mensagem)

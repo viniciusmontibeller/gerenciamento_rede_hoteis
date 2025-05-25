@@ -1,3 +1,5 @@
+from controle.controle_cliente import ControladorCliente
+from controle.controle_funcionario import ControladorFuncionario
 from controle.controle_rede import ControladorRede
 from controle.controle_reserva import ControladorReserva
 from controle.controle_hotel import ControladorHotel
@@ -35,6 +37,12 @@ class ControladorSistema():
 
     def abre_tela_reserva(self):
         self.controlador_reserva.abre_tela()
+
+    def abre_tela_cliente(self):
+        self.controlador_cliente.abre_tela()
+
+    def abre_tela_funcionario(self):
+        self.controlador_funcionario.abre_tela()
 
     def encerrar_sistema(self):
         exit(0)

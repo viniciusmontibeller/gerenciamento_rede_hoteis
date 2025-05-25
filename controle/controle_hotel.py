@@ -1,3 +1,5 @@
+from controle.controle_cliente import ControladorCliente
+from controle.controle_funcionario import ControladorFuncionario
 from limite.tela_hotel import TelaHotel
 from entidade.hotel import Hotel
 
@@ -7,7 +9,19 @@ class ControladorHotel():
     def __init__(self, controlador_sistema):
         self.__hoteis = []
         self.__controlador_sistema = controlador_sistema
+        self.__controlador_cliente = ControladorCliente(self)
+        self.__controlador_funcionario = ControladorFuncionario(self)
         self.__tela_hotel = TelaHotel()
+
+    @property
+    def hoteis(self):
+        return self.__hoteis
+
+    def busca_hotel_por_codigo(self, codigo):
+        for hotel in self.__hoteis:
+            if hotel.codigo == codigo:
+                return hotel
+        raise Exception(f"Hotel de código [{codigo}] não foi encontrado.")
 
     def adicionar(self):
         dados_hotel = self.__tela_hotel.pega_dados_hotel()
@@ -42,24 +56,27 @@ class ControladorHotel():
             self.__tela_hotel.mosta_mensagem(str(e))
 
     def listar(self):
-        return map(
+        lista_dados_hotel = list(map(
             lambda hotel: {
                 "nome": hotel.nome,
-                "endereço": hotel.endereco,
-                "codigo": hotel.codigo
-            }, self.__hoteis)
+                "endereco": hotel.endereco,
+                "codigo": hotel.codigo,
+                "telefone": hotel.telefone
+            }, self.__hoteis))
+        
+        self.__tela_hotel.mostrar_hoteis(lista_dados_hotel)
 
     def alterar(self):
-        self.__tela_hotel.mostra_hotel(self.listar())
+        self.listar()
 
         dados_hotel = self.__tela_hotel.pega_dados_hotel()
         try:
             hotel_existe = False
             for hotel in self.__hoteis:
                 if hotel.codigo == dados_hotel["codigo"]:
-                    self.__hoteis[hotel.codigo]["nome"] = dados_hotel["nome"]
-                    self.__hoteis[hotel.codigo]["localizacao_hotel"] = dados_hotel[
-                        "localizacao_hotel"]
+                    hotel.nome = dados_hotel["nome"]
+                    hotel.endereco = dados_hotel["endereco"]
+                    hotel.telefone = dados_hotel["telefone"]
 
                     self.__tela_hotel.mosta_mensagem("Alterado com sucesso.")
 
@@ -81,15 +98,23 @@ class ControladorHotel():
 
         return None
 
+    def gerenciar_funcionarios(self):
+        self.__controlador_funcionario.abre_tela()
+
+    def gerenciar_clientes(self):
+        self.__controlador_cliente.abre_tela()
+
     def retornar(self):
         self.__controlador_sistema.abre_tela()
 
     def abre_tela(self):
         lista_opcoes = {
-            1: self.adicionar,
-            2: self.alterar,
-            3: self.listar,
-            4: self.remover,
+            1: self.gerenciar_funcionarios,
+            2: self.gerenciar_clientes,
+            3: self.adicionar,
+            4: self.alterar,
+            5: self.listar,
+            6: self.remover,
             0: self.retornar
         }
 

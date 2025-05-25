@@ -3,9 +3,9 @@ from entidade.cliente import Cliente
 
 
 class ControladorCliente():
-    def __init__(self, controlador_reserva):
+    def __init__(self, controlador_hotel):
         self.__clientes = []
-        self.__controlador_reserva = controlador_reserva
+        self.__controlador_hotel = controlador_hotel
         self.__tela_cliente = TelaCliente()
     
     def __fidelidade__bool_para_str(self, entrada: bool) -> str:
@@ -14,7 +14,7 @@ class ControladorCliente():
     def adicionar(self):
         dados_cliente = self.__tela_cliente.pega_dados_cliente()
         try: 
-            if self.busca_por_cpf(dados_cliente["cpf"]):
+            if self.busca_por_cpf(dados_cliente['cpf']):
                 raise Exception("Cliente ja existente")
             self.__clientes.append(Cliente(dados_cliente["nome"], dados_cliente["cpf"], dados_cliente["telefone"], dados_cliente["email"], dados_cliente["fidelidade"]))
             self.__tela_cliente.mosta_mensagem("Cliente adicionado com sucesso!")
@@ -63,7 +63,7 @@ class ControladorCliente():
                     break
 
             if not cliente_existe:
-                raise Exception(f"Cliente de cpf [{dados_cliente["cpf"]}] não foi encontrada.")
+                raise Exception(f"Cliente de cpf [{dados_cliente['cpf']}] não foi encontrada.")
         except Exception as e:
             self.__tela_cliente.mosta_mensagem(str(e))
 
@@ -75,7 +75,7 @@ class ControladorCliente():
         return None
 
     def retornar(self):
-        self.__controlador_reserva.abre_tela()
+        self.__controlador_hotel.abre_tela()
 
     def abre_tela(self):
         lista_opcoes = {1: self.adicionar, 2: self.alterar, 3: self.listar, 4: self.remover, 0: self.retornar}

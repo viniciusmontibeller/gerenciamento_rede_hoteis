@@ -10,6 +10,8 @@ class Hotel():
         self.__endereco = endereco
         self.__telefone = telefone
         self.__quartos = []
+        self.__funcionarios = []
+        self.__clientes = []
 
     @property
     def nome(self):
@@ -46,6 +48,19 @@ class Hotel():
     def telefone(self, telefone: str):
         if isinstance(telefone, str):
             self.__telefone = telefone
+
+    @property
+    def funcionarios(self):
+        return self.__funcionarios
+
+    @funcionarios.setter
+    def funcionarios(self, funcionarios: list):
+        if isinstance(funcionarios, list):
+            self.__funcionarios = funcionarios
+
+    @property
+    def clientes(self):
+        return self.__clientes
 
     def adicionar_quarto(self, numero: int, capacidade: int,
                          preco_diaria: float, eh_vip: bool):
