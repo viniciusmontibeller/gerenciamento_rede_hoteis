@@ -1,6 +1,20 @@
 from limite.abstract_tela import AbstractTela
 
 class TelaCliente(AbstractTela):
+    
+    def __fidelidade_input_bool(self, mensagem: str) -> bool:
+        while True:
+            entrada = input(mensagem)
+            entrada = entrada.strip().lower()
+            try:
+                if entrada in ['sim', 's']:
+                    return True
+                elif entrada in ['não', 'nao', 'n']:
+                    return False
+                else:
+                    raise ValueError
+            except ValueError:
+                print("Entrada inválida para fidelidade. Use sim/s ou não/n.")
 
     def tela_opcoes(self):
         print("\n")
@@ -23,7 +37,7 @@ class TelaCliente(AbstractTela):
         dados_cliente["cpf"] = super.le_input_so_numero("CPF: ")
         dados_cliente["telefone"] = super().le_input_so_numero("Telefone: ")
         dados_cliente["email"] = input("Email: ")
-        dados_cliente["fidelidade"] = input("Fidelidade: ")
+        dados_cliente["fidelidade"] = self.__fidelidade_input_bool("Fidelidade: ")
 
         return dados_cliente
 

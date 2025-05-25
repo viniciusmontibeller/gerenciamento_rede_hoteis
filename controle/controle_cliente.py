@@ -8,10 +8,11 @@ class ControladorCliente():
         self.__controlador_reserva = controlador_reserva
         self.__tela_cliente = TelaCliente()
     
+    def __fidelidade__bool_para_str(self, entrada: bool) -> str:
+        return "Sim" if entrada else "Não"
 
     def adicionar(self):
         dados_cliente =  self.__tela_cliente.pega_dados_cliente()
-        ## falta modificar entrada de fidelidade vem como sim/s/nao/n etc...
         try: 
             if self.busca_por_cpf(dados_cliente["cpf"]):
                 raise Exception("Cliente ja existente")
@@ -40,7 +41,7 @@ class ControladorCliente():
             
 
     def listar(self):
-        return map(lambda cliente : {"nome": cliente.nome, "cpf": cliente.cpf, "telefone": cliente.telefone, "email": cliente.email}, self.__clientes)
+        return map(lambda cliente : {"nome": cliente.nome, "cpf": cliente.cpf, "telefone": cliente.telefone, "email": cliente.email, "fidelidade": self.__fidelidade__bool_para_str(cliente.fidelidade)}, self.__clientes)
     
     def alterar(self):
         self.__tela_cliente.mostra_cliente(self.listar())
@@ -53,7 +54,7 @@ class ControladorCliente():
                     self.__clientes[cliente.cpf]["nome"] = dados_cliente["nome"]
                     self.__clientes[cliente.cpf]["telefone"] = dados_cliente["telefone"]
                     self.__clientes[cliente.cpf]["email"] = dados_cliente["email"]
-                    self.__clientes[cliente.cpf]["fidelidade"]= dados_cliente["fidelidade"]
+                    self.__clientes[cliente.cpf]["fidelidade"] = dados_cliente["fidelidade"]
                     
                     self.__tela_cliente.mosta_mensagem("Alterado com sucesso.")
                     
