@@ -11,11 +11,10 @@ class TelaFuncionario(AbstractTela):
         print("2 - Alterar Funcionario")
         print("3 - Listar Funcionarios")
         print("4 - Buscar Funcionario")
-        print("5 - Excluir Funcionario")
         print("0 - Retornar")
         print("\n")
 
-        opcao = super().le_input_int("Opção escohida: ", [0, 1, 2, 3, 4, 5])
+        opcao = super().le_input_int("Opção escolhida: ", [0, 1, 2, 3, 4])
         return opcao
 
     def pega_dados_funcionario(self):

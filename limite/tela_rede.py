@@ -34,7 +34,7 @@ class TelaRede(AbstractTela):
         print(f"Nome da rede: {dados_rede['nome']}")
         print(f"Codigo da rede: {dados_rede['codigo']}")
         print(f"Localização da rede: {dados_rede['localizacao_rede']}")
-        print(f"Hoteis da rede: {dados_rede['hoteis']}")
+        print(f"Hoteis da rede: {map(lambda hotel: hotel['codigo'], dados_rede['hoteis'])}")
 
     def pega_codigo_rede(self):
         return super().le_input_so_numero("Codigo da rede: ")
