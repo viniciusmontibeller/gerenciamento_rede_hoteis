@@ -34,7 +34,7 @@ class TelaCliente(AbstractTela):
         print("-------- Dados do Cliente --------")
         dados_cliente = {}
         dados_cliente["nome"] = input("Nome: ")
-        dados_cliente["cpf"] = super.le_input_so_numero("CPF: ")
+        dados_cliente["cpf"] = super().le_input_so_numero("CPF: ")
         dados_cliente["telefone"] = super().le_input_so_numero("Telefone: ")
         dados_cliente["email"] = input("Email: ")
         dados_cliente["fidelidade"] = self.__fidelidade_input_bool("Fidelidade: ")
