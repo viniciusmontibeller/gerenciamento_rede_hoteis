@@ -1,5 +1,6 @@
 from entidade.cliente import Cliente
 from entidade.funcionario import Funcionario
+from entidade.hotel import Hotel
 from entidade.quarto import Quarto
 from datetime import date
 from entidade.status_reserva import StatusReserva
@@ -7,11 +8,12 @@ from entidade.status_reserva import StatusReserva
 
 class Reserva():
 
-    def __init__(self, codigo: int, cliente: Cliente, quarto: Quarto,
+    def __init__(self, codigo: int, cliente: Cliente, hotel: Hotel, quarto: Quarto,
                  funcionario: Funcionario):
         self.__codigo = codigo
         self.__status = StatusReserva.AGENDADO
         self.__cliente = cliente
+        self.__hotel = hotel
         self.__quarto = quarto
         self.__funcionario = funcionario
         self.__data_entrada = None
@@ -46,6 +48,15 @@ class Reserva():
     def quarto(self, quarto: Quarto):
         if isinstance(quarto, Quarto):
             self.__quarto = quarto
+
+    @property
+    def hotel(self):
+        return self.__hotel
+
+    @hotel.setter
+    def hotel(self, hotel: Hotel):
+        if isinstance(hotel, Hotel):
+            self.__hotel = hotel
 
     @property
     def funcionario(self):
