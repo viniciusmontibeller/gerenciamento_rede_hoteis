@@ -4,22 +4,13 @@ class TelaReserva(AbstractTela):
 
     def pega_dados_reserva(self):
         dados_reserva = {}
-        dados_reserva["codigo"] = str(input("Codigo: "))
-        dados_reserva["nome_cliente"] = str(input("Nome do cliente: "))
-        dados_reserva["cpf_cliente"] = str(input("Cpf do cliente: "))
-        dados_reserva["telefone_cliente"] = str(input("Telefone do cliente: "))
-        dados_reserva["email_cliente"] = str(input("Email cliente: "))
-        dados_reserva["numero_quarto"] = int(input("Numero do quarto: "))
-        dados_reserva["capacidade_quarto"] = int(
-            input("Capacidade do quarto: "))
-        dados_reserva["preco_diaria_quarto"] = float(
-            input("Preco diaria do quarto: "))
-        dados_reserva["nome_funcionario"] = str(input("Nome do funcionario: "))
-        dados_reserva["cpf_funcionario"] = str(input("Cpf do funcionario: "))
-        dados_reserva["telefone_funcionario"] = str(
-            input("Telefone do funcionario: "))
-        dados_reserva["email_funcionario"] = str(
-            input("Email do funcionario: "))
+        dados_reserva["codigo"] = str(input("Codigo da reserva: "))
+        dados_reserva["cpf_cliente"] = str(input("CPF do cliente: "))
+        dados_reserva["codigo_hotel"] = str(input("Codigo do hotel: "))
+        dados_reserva["codigo_quarto"] = str(input("Codigo do quarto: "))
+        dados_reserva["codigo_funcionario"] = str(input("Codigo do funcionario: "))
+        dados_reserva["data_entrada"] = super().le_input_data("Data de entrada (DD-MM-YYYY): ")
+        dados_reserva["data_saida"] = super().le_input_data("Data de saida (DD-MM-YYYY): ")
 
         return dados_reserva
 
@@ -45,10 +36,10 @@ class TelaReserva(AbstractTela):
         print("Selecione a opção desejada")
         print("1 - Adicionar reserva")
         print("2 - Alterar reserva")
-        print("3 - Remover reserva")
-        print("4 - Listar reserva")
+        print("3 - Listar reserva")
+        print("4 - Remover reserva")
         print("0 - Retornar")
         print("\n")
 
-        opcao = super().le_input_int("Escolha a opcao: ", [0,1,2,3,4])
+        opcao = super().le_input_int("Escolha a opcao: ", [0, 1, 2, 3, 4])
         return opcao

@@ -9,15 +9,15 @@ from entidade.status_reserva import StatusReserva
 class Reserva():
 
     def __init__(self, codigo: int, cliente: Cliente, hotel: Hotel, quarto: Quarto,
-                 funcionario: Funcionario):
+                 funcionario: Funcionario, data_entrada: date, data_saida: date):
         self.__codigo = codigo
         self.__status = StatusReserva.AGENDADO
         self.__cliente = cliente
         self.__hotel = hotel
         self.__quarto = quarto
         self.__funcionario = funcionario
-        self.__data_entrada = None
-        self.__data_saida = None
+        self.__data_entrada = data_entrada
+        self.__data_saida = data_saida
         self.__custo = 0
 
         self.__quarto.reservado = True

@@ -12,7 +12,7 @@ class ControladorCliente():
         return "Sim" if entrada else "Não"
 
     def adicionar(self):
-        dados_cliente =  self.__tela_cliente.pega_dados_cliente()
+        dados_cliente = self.__tela_cliente.pega_dados_cliente()
         try: 
             if self.busca_por_cpf(dados_cliente["cpf"]):
                 raise Exception("Cliente ja existente")

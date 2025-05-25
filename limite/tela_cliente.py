@@ -27,7 +27,7 @@ class TelaCliente(AbstractTela):
         print("5 - Excluir Cliente")
         print("0 - Retornar")
         print("\n")
-        opcao = super().le_input_int("Opção escohida", [0,1,2,3,4,5])
+        opcao = super().le_input_int("Opção escohida", [0, 1, 2, 3, 4, 5])
         return opcao
 
     def pega_dados_cliente(self):

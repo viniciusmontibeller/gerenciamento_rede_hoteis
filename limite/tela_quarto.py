@@ -24,6 +24,7 @@ class TelaHotel(AbstractTela):
         print("5 - Excluir Quartos")
         print("0 - Retornar")
         print("\n")
+        
         opcao = super().le_input_int("Opção escohida", [0, 1, 2, 3, 4, 5])
         return opcao
 
