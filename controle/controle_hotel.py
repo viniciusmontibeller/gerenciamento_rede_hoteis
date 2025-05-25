@@ -31,9 +31,9 @@ class ControladorHotel():
             self.__hoteis.append(
                 Hotel(dados_hotel["nome"], dados_hotel["codigo"],
                     dados_hotel["endereco"], dados_hotel["telefone"]))
-            self.__tela_hotel.mosta_mensagem("Hotel adicionado com sucesso!")
+            self.__tela_hotel.mostra_mensagem("Hotel adicionado com sucesso!")
         except Exception as e:
-            self.__tela_hotel.mosta_mensagem(str(e))
+            self.__tela_hotel.mostra_mensagem(str(e))
 
     def remover(self):
         codigo = self.__tela_hotel.pega_codigo_hotel()
@@ -42,7 +42,7 @@ class ControladorHotel():
             for hotel in self.__hoteis:
                 if hotel.codigo == codigo:
                     self.__hoteis.remove(hotel)
-                    self.__tela_hotel.mosta_mensagem("Removido com sucesso.")
+                    self.__tela_hotel.mostra_mensagem("Removido com sucesso.")
 
                     hotel_existe = True
 
@@ -53,7 +53,7 @@ class ControladorHotel():
                     f"Hotel de código [{codigo}] não foi encontrada para ser removida."
                 )
         except Exception as e:
-            self.__tela_hotel.mosta_mensagem(str(e))
+            self.__tela_hotel.mostra_mensagem(str(e))
 
     def listar(self):
         lista_dados_hotel = list(map(
@@ -78,7 +78,7 @@ class ControladorHotel():
                     hotel.endereco = dados_hotel["endereco"]
                     hotel.telefone = dados_hotel["telefone"]
 
-                    self.__tela_hotel.mosta_mensagem("Alterado com sucesso.")
+                    self.__tela_hotel.mostra_mensagem("Alterado com sucesso.")
 
                     hotel_existe = True
 
@@ -89,7 +89,7 @@ class ControladorHotel():
                     f"Hotel de código [{dados_hotel['codigo']}] não foi encontrada."
                 )
         except Exception as e:
-            self.__tela_hotel.mosta_mensagem(str(e))
+            self.__tela_hotel.mostra_mensagem(str(e))
 
     def buscar_por_codigo(self, codigo):
         for hotel in self.__hoteis:

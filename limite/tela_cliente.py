@@ -51,5 +51,5 @@ class TelaCliente(AbstractTela):
     def pega_cpf_cliente(self):
         return super().le_input_so_numero("CPF do cliente: ")
 
-    def mosta_mensagem(self, mensagem):
+    def mostra_mensagem(self, mensagem):
         print(mensagem)

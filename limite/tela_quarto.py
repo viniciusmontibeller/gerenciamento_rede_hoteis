@@ -45,5 +45,5 @@ class TelaHotel(AbstractTela):
     def pega_codigo_quarto(self):
         return super().le_input_so_numero("Código do quarto: ")
 
-    def mosta_mensagem(self, mensagem):
+    def mostra_mensagem(self, mensagem):
         print(mensagem)

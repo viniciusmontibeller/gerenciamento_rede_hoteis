@@ -17,9 +17,9 @@ class ControladorCliente():
             if self.busca_por_cpf(dados_cliente['cpf']):
                 raise Exception("Cliente ja existente")
             self.__clientes.append(Cliente(dados_cliente["nome"], dados_cliente["cpf"], dados_cliente["telefone"], dados_cliente["email"], dados_cliente["fidelidade"]))
-            self.__tela_cliente.mosta_mensagem("Cliente adicionado com sucesso!")
+            self.__tela_cliente.mostra_mensagem("Cliente adicionado com sucesso!")
         except Exception as e:
-            self.__tela_cliente.mosta_mensagem(str(e))
+            self.__tela_cliente.mostra_mensagem(str(e))
 
     def remover(self):
         cpf = self.__tela_cliente.pega_cpf_cliente()
@@ -28,7 +28,7 @@ class ControladorCliente():
             for cliente in self.__clientes:
                 if cliente.cpf == cpf:
                     self.__clientes.remove(cliente)
-                    self.__tela_cliente.mosta_mensagem("Removido com sucesso.")
+                    self.__tela_cliente.mostra_mensagem("Removido com sucesso.")
                     
                     cliente_existe = True
                     
@@ -37,7 +37,7 @@ class ControladorCliente():
             if not cliente_existe:
                 raise Exception(f"Cliente com cpf [{cpf}] não foi encontrada para ser removida.")
         except Exception as e:
-            self.__tela_cliente.mosta_mensagem(str(e))
+            self.__tela_cliente.mostra_mensagem(str(e))
             
 
     def listar(self):
@@ -56,7 +56,7 @@ class ControladorCliente():
                     self.__clientes[cliente.cpf]["email"] = dados_cliente["email"]
                     self.__clientes[cliente.cpf]["fidelidade"] = dados_cliente["fidelidade"]
                     
-                    self.__tela_cliente.mosta_mensagem("Alterado com sucesso.")
+                    self.__tela_cliente.mostra_mensagem("Alterado com sucesso.")
                     
                     cliente_existe = True
                     
@@ -65,7 +65,7 @@ class ControladorCliente():
             if not cliente_existe:
                 raise Exception(f"Cliente de cpf [{dados_cliente['cpf']}] não foi encontrada.")
         except Exception as e:
-            self.__tela_cliente.mosta_mensagem(str(e))
+            self.__tela_cliente.mostra_mensagem(str(e))
 
     def busca_por_cpf(self, cpf):
         for cliente in self.__clientes:
