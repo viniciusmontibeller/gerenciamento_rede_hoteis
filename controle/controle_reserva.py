@@ -9,6 +9,10 @@ class ControladorReserva():
         self.__controlador_sistema = controlador_sistema
         self.__tela_reserva = TelaReserva()
         
+    @property
+    def reservas(self):
+        return self.__reservas
+        
     def __verificar_quarto_disponivel_em_hotel(self, hotel, quarto, data_entrada, data_saida):
         for reserva in self.__reservas:
             if reserva.hotel.codigo == hotel.codigo and reserva.quarto.numero == quarto.numero:

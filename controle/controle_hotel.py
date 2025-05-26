@@ -26,6 +26,10 @@ class ControladorHotel():
     @property
     def controlador_quarto(self):
         return self.__controlador_quarto
+    
+    @property
+    def controlador_sistema(self):
+        return self.__controlador_sistema
 
     @property
     def hoteis(self):

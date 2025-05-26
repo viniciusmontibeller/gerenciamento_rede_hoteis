@@ -31,6 +31,10 @@ class ControladorCliente():
             cliente_existe = False
             for cliente in self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel).clientes:
                 if cliente.cpf == cpf:
+                    for reserva in self.__controlador_hotel.controlador_sistema.controlador_reserva.listar_reservas_por_hotel(codigo_hotel):
+                        if reserva.cliente.cpf == cpf:
+                            raise Exception("Não é possível remover um cliente que ja possui reserva.")
+                        
                     self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel).clientes.remove(cliente)
                     self.__tela_cliente.mostra_mensagem("Removido com sucesso.")
                     cliente_existe = True

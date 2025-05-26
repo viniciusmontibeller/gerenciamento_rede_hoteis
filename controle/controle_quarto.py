@@ -39,6 +39,9 @@ class ControladorQuarto():
             quarto_existe = False
             for quarto in self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel).quartos:
                 if quarto.numero == numero:
+                    for reserva in self.__controlador_hotel.controlador_sistema.controlador_reserva.listar_reservas_por_hotel(codigo_hotel):
+                        if reserva.quarto.numero == numero:
+                            raise Exception("Não é possível remover um quarto que ja possui reserva.")
                     self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel).quartos.remove(quarto)
                     self.__tela_quarto.mostra_mensagem("Removido com sucesso.")
                     quarto_existe = True

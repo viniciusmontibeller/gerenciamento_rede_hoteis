@@ -32,6 +32,9 @@ class ControladorFuncionario():
             funcionario_existe = False
             for funcionario in self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel).funcionarios:
                 if funcionario.cpf == cpf:
+                    for reserva in self.__controlador_hotel.controlador_sistema.controlador_reserva.listar_reservas_por_hotel(codigo_hotel):
+                        if reserva.funcionario.cpf == cpf:
+                            raise Exception("Não é possível remover um funcionário que ja possui reserva.")
                     self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel).funcionarios.remove(funcionario)
                     self.__tela_funcionario.mostra_mensagem("Removido com sucesso.")
                     funcionario_existe = True
