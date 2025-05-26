@@ -34,6 +34,7 @@ class TelaHotel(AbstractTela):
     def mostrar_hoteis(self, lista_dados_hotel):
         print("\n")
         print("-------- Listagem de Hoteis --------")
+        print("\n")
         for dados_hotel in lista_dados_hotel:
             self.mostra_hotel(dados_hotel)
 

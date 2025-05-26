@@ -31,6 +31,7 @@ class TelaCliente(AbstractTela):
     def mostrar_clientes(self, lista_dados_cliente):
         print("\n")
         print("-------- Listagem de Clientes --------")
+        print("\n")
         for dados_cliente in lista_dados_cliente:
             self.mostra_cliente(dados_cliente)
 

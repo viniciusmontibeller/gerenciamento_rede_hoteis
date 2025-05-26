@@ -48,6 +48,7 @@ class TelaQuarto(AbstractTela):
     def mostrar_quartos(self, lista_dados_quarto):
         print("\n")
         print("-------- Listagem de Quartos --------")
+        print("\n")
         for dados_quarto in lista_dados_quarto:
             self.mostra_quarto(dados_quarto)
 

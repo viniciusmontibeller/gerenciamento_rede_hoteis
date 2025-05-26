@@ -18,6 +18,7 @@ class TelaReserva(AbstractTela):
     def mostrar_reservas(self, lista_dados_reserva):
         print("\n")
         print("-------- Listagem de Reservas --------")
+        print("\n")
         
         for dados_reserva in lista_dados_reserva:
             self.mostrar_reserva(dados_reserva)

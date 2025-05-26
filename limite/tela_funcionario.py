@@ -32,6 +32,7 @@ class TelaFuncionario(AbstractTela):
     def mostrar_funcionarios(self, lista_dados_funcionario):
         print("\n")
         print("-------- Listagem de Funcionarios --------")
+        print("\n")
         for dados_funcionario in lista_dados_funcionario:
             self.mostra_funcionario(dados_funcionario)
 
