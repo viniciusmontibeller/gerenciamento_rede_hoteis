@@ -59,8 +59,10 @@ class ControladorReserva():
 
     def remover(self):
         self.listar()
-        codigo = self.__tela_reserva.pega_codigo_reserva()
         try:
+            if not len(self.__reservas) >= 1:
+                raise Exception("Não existe nenhuma resrva para ser removida")
+            codigo = self.__tela_reserva.pega_codigo_reserva()
             reserva_existe = False
 
             for reserva in self.__reservas:
@@ -106,6 +108,8 @@ class ControladorReserva():
         self.listar()
 
         try:
+            if not len(self.__reservas) >= 1:
+                raise Exception("Não existe nenhuma rede para ser removida")
             codigo = self.__tela_reserva.pega_codigo_reserva()
             reserva = self.buscar_por_codigo(codigo)
             if reserva is None:

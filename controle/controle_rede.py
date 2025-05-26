@@ -23,8 +23,10 @@ class ControladorRede():
 
     def remover(self):
         self.listar()
-        codigo = self.__tela_rede.pega_codigo_rede()
         try:
+            if not len(self.__redes) >= 1:
+                raise Exception("Não existe nenhuma rede para ser alterada")
+            codigo = self.__tela_rede.pega_codigo_rede()
             rede_existe = False
 
             for rede in self.__redes:
@@ -63,9 +65,11 @@ class ControladorRede():
 
     def alterar(self):
         self.listar()
-        dados_rede = self.__tela_rede.pega_dados_rede_para_alteracao()
         
         try:
+            if not len(self.__redes) >= 1:
+                raise Exception("Não existe nenhuma rede para ser removida")
+            dados_rede = self.__tela_rede.pega_dados_rede_para_alteracao()
             rede_existe = False
             for rede in self.__redes:
                 if rede.codigo == dados_rede["codigo"]:

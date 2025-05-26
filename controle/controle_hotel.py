@@ -26,7 +26,7 @@ class ControladorHotel():
     @property
     def controlador_quarto(self):
         return self.__controlador_quarto
-    
+
     @property
     def controlador_sistema(self):
         return self.__controlador_sistema
@@ -43,20 +43,22 @@ class ControladorHotel():
 
     def adicionar(self):
         dados_hotel = self.__tela_hotel.pega_dados_hotel()
-        try: 
+        try:
             if self.buscar_por_codigo(dados_hotel["codigo"]):
                 raise Exception("Hotel ja existente")
             self.__hoteis.append(
                 Hotel(dados_hotel["nome"], dados_hotel["codigo"],
-                    dados_hotel["endereco"], dados_hotel["telefone"]))
+                      dados_hotel["endereco"], dados_hotel["telefone"]))
             self.__tela_hotel.mostra_mensagem("Hotel adicionado com sucesso!")
         except Exception as e:
             self.__tela_hotel.mostra_mensagem(str(e))
 
     def remover(self):
         self.listar()
-        codigo = self.__tela_hotel.pega_codigo_hotel()
         try:
+            if not len(self.__hoteis) >= 1:
+                raise Exception("Não existe nenhum hotel para ser removido")
+            codigo = self.__tela_hotel.pega_codigo_hotel()
             hotel_existe = False
             for hotel in self.__hoteis:
                 if hotel.codigo == codigo:
@@ -82,14 +84,16 @@ class ControladorHotel():
                 "codigo": hotel.codigo,
                 "telefone": hotel.telefone
             }, self.__hoteis))
-        
+
         self.__tela_hotel.mostrar_hoteis(lista_dados_hotel)
 
     def alterar(self):
         self.listar()
 
-        dados_hotel = self.__tela_hotel.pega_dados_hotel()
         try:
+            if not len(self.__hoteis) >= 1:
+                raise Exception("Não existe nenhum hotel para ser alterado")
+            dados_hotel = self.__tela_hotel.pega_dados_hotel()
             hotel_existe = False
             for hotel in self.__hoteis:
                 if hotel.codigo == dados_hotel["codigo"]:
@@ -121,7 +125,8 @@ class ControladorHotel():
         try:
             lista_dados_hoteis = []
             for hotel in self.__hoteis:
-                lista_reservas = self.__controlador_sistema.controlador_reserva.listar_reservas_por_hotel(hotel.codigo)
+                lista_reservas = self.__controlador_sistema.controlador_reserva.listar_reservas_por_hotel(
+                    hotel.codigo)
 
                 lista_dados_hoteis.append({
                     "nome": hotel.nome,
