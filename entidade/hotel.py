@@ -62,15 +62,9 @@ class Hotel():
     def clientes(self):
         return self.__clientes
 
-    def adicionar_quarto(self, numero: int, capacidade: int,
-                         preco_diaria: float, eh_vip: bool):
-        if not any(quarto_existente.numero == numero
-                   for quarto_existente in self.__quartos):
-            if eh_vip:
-                self.__quartos.append(
-                    QuartoVip(numero, capacidade, preco_diaria))
-            else:
-                self.__quartos.append(Quarto(numero, capacidade, preco_diaria))
+    @property
+    def quartos(self):
+        return self.__quartos
 
     def remover_quarto(self, quarto: Quarto):
         if isinstance(quarto, Quarto):

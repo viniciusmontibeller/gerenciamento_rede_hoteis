@@ -54,5 +54,5 @@ class TelaRede(AbstractTela):
         print("0 - Retornar")
         print("\n")
 
-        opcao = super().le_input_int("Escolha a opcao: ", [0,1,2,3,4,5])
+        opcao = super().le_input_int_com_range_de_validacao("Escolha a opcao: ", [0,1,2,3,4,5])
         return opcao

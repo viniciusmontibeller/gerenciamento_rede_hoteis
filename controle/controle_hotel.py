@@ -1,5 +1,6 @@
 from controle.controle_cliente import ControladorCliente
 from controle.controle_funcionario import ControladorFuncionario
+from controle.controle_quarto import ControladorQuarto
 from limite.tela_hotel import TelaHotel
 from entidade.hotel import Hotel
 
@@ -11,6 +12,7 @@ class ControladorHotel():
         self.__controlador_sistema = controlador_sistema
         self.__controlador_cliente = ControladorCliente(self)
         self.__controlador_funcionario = ControladorFuncionario(self)
+        self.__controlador_quarto = ControladorQuarto(self)
         self.__tela_hotel = TelaHotel()
 
     @property
@@ -104,6 +106,9 @@ class ControladorHotel():
     def gerenciar_clientes(self):
         self.__controlador_cliente.abre_tela()
 
+    def gerenciar_quartos(self):
+        self.__controlador_quarto.abre_tela()
+
     def retornar(self):
         self.__controlador_sistema.abre_tela()
 
@@ -111,10 +116,11 @@ class ControladorHotel():
         lista_opcoes = {
             1: self.gerenciar_funcionarios,
             2: self.gerenciar_clientes,
-            3: self.adicionar,
-            4: self.alterar,
-            5: self.listar,
-            6: self.remover,
+            3: self.gerenciar_quartos,
+            4: self.adicionar,
+            5: self.alterar,
+            6: self.listar,
+            7: self.remover,
             0: self.retornar
         }
 
