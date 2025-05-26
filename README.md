@@ -49,4 +49,4 @@ Relatório detalhado de cada hotel contendo:
 
 
 ### UML
-
+![UML](TrabalhoGerenciamentoHoteis.drawio.png)
