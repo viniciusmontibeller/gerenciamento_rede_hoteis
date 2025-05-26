@@ -54,6 +54,7 @@ class ControladorHotel():
             self.__tela_hotel.mostra_mensagem(str(e))
 
     def remover(self):
+        self.listar()
         codigo = self.__tela_hotel.pega_codigo_hotel()
         try:
             hotel_existe = False

@@ -22,6 +22,7 @@ class ControladorRede():
             self.__tela_rede.mostra_mensagem(str(e))
 
     def remover(self):
+        self.listar()
         codigo = self.__tela_rede.pega_codigo_rede()
         try:
             rede_existe = False

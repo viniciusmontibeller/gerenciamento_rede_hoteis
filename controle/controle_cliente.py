@@ -26,6 +26,8 @@ class ControladorCliente():
 
     def remover(self):
         codigo_hotel = self.__tela_cliente.pega_codigo_hotel()
+        self.listar(codigo_hotel)
+        
         cpf = self.__tela_cliente.pega_cpf_cliente()
         try:
             cliente_existe = False

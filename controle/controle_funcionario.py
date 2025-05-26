@@ -27,6 +27,8 @@ class ControladorFuncionario():
 
     def remover(self):
         codigo_hotel = self.__tela_funcionario.pega_codigo_hotel()
+        self.listar(codigo_hotel)
+        
         cpf = self.__tela_funcionario.pega_cpf_funcionario()
         try:
             funcionario_existe = False

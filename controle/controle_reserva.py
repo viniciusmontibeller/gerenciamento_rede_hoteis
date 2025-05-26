@@ -58,6 +58,7 @@ class ControladorReserva():
             self.__tela_reserva.mostra_mensagem(str(e))
 
     def remover(self):
+        self.listar()
         codigo = self.__tela_reserva.pega_codigo_reserva()
         try:
             reserva_existe = False

@@ -34,6 +34,8 @@ class ControladorQuarto():
 
     def remover(self):
         codigo_hotel = self.__tela_quarto.pega_codigo_hotel()
+        self.listar(codigo_hotel)
+        
         numero = self.__tela_quarto.pega_numero_quarto()
         try:
             quarto_existe = False
