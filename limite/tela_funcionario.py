@@ -36,7 +36,7 @@ class TelaFuncionario(AbstractTela):
 
     def mostra_funcionario(self, dados_funcionario):
         print("Nome do funcionario: ", dados_funcionario["nome"])
-        print("Código do funcionario: ", dados_funcionario["cpf"])
+        print("CPF do funcionario: ", dados_funcionario["cpf"])
         print("Telefone do funcionario: ", dados_funcionario["telefone"])
         print("Email do funcionario: ", dados_funcionario["email"])
         print("\n")

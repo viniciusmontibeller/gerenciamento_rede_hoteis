@@ -27,6 +27,8 @@ class ControladorReserva():
             quarto = self.__controlador_sistema.controlador_hotel.controlador_quarto.busca_por_numero(hotel, dados_reserva["codigo_quarto"])
             if quarto is None:
                 raise Exception("Quarto não encontrado")
+            if quarto.reservado:
+                raise Exception("Quarto ja reservado")
             
             cliente = self.__controlador_sistema.controlador_hotel.controlador_cliente.busca_por_cpf(hotel, dados_reserva["cpf_cliente"])
             if cliente is None:

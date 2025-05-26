@@ -4,7 +4,6 @@ class Quarto():
         self.__numero = numero
         self.__capacidade = capacidade
         self.__preco_diaria = preco_diaria
-        self.__reservado = False
 
     @property
     def numero(self):
@@ -32,12 +31,3 @@ class Quarto():
     def preco_diaria(self, preco_diaria: float):
         if isinstance(preco_diaria, float):
             self.__preco_diaria = preco_diaria
-
-    @property
-    def reservado(self):
-        return self.__reservado
-
-    @reservado.setter
-    def reservado(self, reservado: bool):
-        if isinstance(reservado, bool):
-            self.__reservado = reservado

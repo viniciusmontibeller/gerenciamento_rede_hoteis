@@ -65,16 +65,3 @@ class Hotel():
     @property
     def quartos(self):
         return self.__quartos
-
-    def remover_quarto(self, quarto: Quarto):
-        if isinstance(quarto, Quarto):
-            for quarto_existente in self.__quartos:
-                if quarto_existente.numero == quarto.numero:
-                    self.__quarto.remove(quarto_existente)
-
-    def quartos_disponiveis(self):
-        quartos_disponiveis = []
-        for quarto in self.__quartos:
-            if not quarto.reservado:
-                quartos_disponiveis.append(quarto.numero)
-        return quartos_disponiveis

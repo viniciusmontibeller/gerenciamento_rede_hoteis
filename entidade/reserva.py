@@ -20,8 +20,6 @@ class Reserva():
         self.__data_saida = data_saida
         self.__custo = 0
 
-        self.__quarto.reservado = True
-
     @property
     def codigo(self):
         return self.__codigo
@@ -102,32 +100,3 @@ class Reserva():
     def status(self, status: StatusReserva):
         if isinstance(status, StatusReserva):
           self.__status = status
-
-    def checkin(self):
-        self.__status = StatusReserva.CHECKIN
-        self.__data_entrada = date.today()
-
-    def checkout(self):
-        self.__data_saida = date.today()
-        self.__quarto.reservado = False
-        self.__status = StatusReserva.FINALIZADO
-
-        dias = (self.__data_saida - self.__data_entrada).days
-        self.__custo = self.__quarto.preco_diaria * dias
-        if self.__cliente.fidelidade:
-            self.__custo = self.__custo * 0.90
-
-    def cancelar(self):
-        self.__status = StatusReserva.CANCELADO
-
-    def consultar_reserva(self):
-        inicio = f"Com início em {self.__data_entrada}\n" if self.__data_entrada else ""
-        saida = f"Com saída em {self.__data_saida}\n" if self.__data_saida else ""
-        return (
-            f"Reserva de numero {self.__codigo}\n"
-            f"Cliente {self.__cliente.nome}\n"
-            f"{inicio}"
-            f"{saida}"
-            f"Status: {self.__status.value}\n"
-            f"Duvidas falar com {self.__funcionario.nome} por {self.__funcionario.telefone} "
-            f"ou por {self.__funcionario.email}")

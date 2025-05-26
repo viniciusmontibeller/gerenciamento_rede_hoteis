@@ -36,7 +36,7 @@ class TelaCliente(AbstractTela):
 
     def mostra_cliente(self, dados_cliente):
         print("Nome do cliente: ", dados_cliente["nome"])
-        print("Código do cliente: ", dados_cliente["cpf"])
+        print("CPF do cliente: ", dados_cliente["cpf"])
         print("Telefone do cliente: ", dados_cliente["telefone"])
         print("Email do cliente: ", dados_cliente["email"])
         print("\n")

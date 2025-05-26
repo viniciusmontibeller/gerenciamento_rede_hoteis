@@ -9,7 +9,7 @@ Desenvolver um sistema orientado a objetos em Python para gerenciamento de reser
 * Filiais hoteleiras
 
 ### ESCOPO DO DESENVOLVIMENTO:
-A rede de hotéis gerencia diversas filiais (hotéis), cada uma contendo vários quartos que podem ser classificados como **“Normal”** ou **“VIP”**. Os hóspedes podem realizar reservas de quartos por meio de funcionários, e cada *reserva* deve registrar: **Cliente**, **Quarto** e **Funcionário** responsável.
+A rede de hotéis gerencia diversas filiais (hotéis), cada uma contendo vários quartos que podem ser classificados como **“Normal”** ou **“VIP”**. Através do sistema é possivel agendar reservas de quartos por meio de funcionários, e cada *reserva* deve registrar: **Cliente**, **Quarto** e **Funcionário** responsável.
 
 O sistema deve permitir o **cadastro, listagem, alteração e exclusão** de hotéis, quartos, clientes, funcionários e reservas. Além disso, deve garantir a integridade das operações e disponibilizar relatórios úteis para a administração.
 
@@ -22,7 +22,6 @@ O sistema deve permitir o **cadastro, listagem, alteração e exclusão** de hot
 - Cada rede de hotéis pode ter várias filiais (hotéis), mas cada hotel pertence a apenas uma rede.
 - O custo da reserva é calculado após o **checkout**, sendo:  
   (valor da diária * dias utilizados).
-- Caso o cliente possua fidelidade, ele ganhará um **desconto de 10%**.
 
 ### RESTRIÇÕES DE ESCOPO:
 Para simplificar este trabalho, o sistema contemplará apenas funcionalidades básicas de um sistema de reservas hoteleiras, **sem considerar aspectos financeiros, tributários, jurídicos ou integração com sistemas externos**.
@@ -31,9 +30,9 @@ O sistema deve considerar:
 
 #### Cadastros:
 Inclusão, exclusão, alteração e listagem de:
-- **Clientes**, com atributos: ID, nome.
-- **Funcionários**, com atributos: ID, nome.
-- **Hotéis**, com atributos: nome.
+- **Clientes**, com atributos: CPF, nome, telefone e-mail.
+- **Funcionários**, com atributos: CPF, nome, telefone e-mail.
+- **Hotéis**, com atributos: nome, código, endereço, telefone, quartos, funcionarios e clientes.
 - **Quartos**, com associação ao hotel e indicação do tipo (Normal ou VIP).
 - **Rede de hotéis**, com seus respectivos hotéis.
 
@@ -41,9 +40,11 @@ Inclusão, exclusão, alteração e listagem de:
 - **Reservas**, com inclusão, exclusão, alteração e listagem.  
   Cada reserva contém: cliente, quarto e funcionário.
 
-#### Relatórios:
-- Relatório de hotéis por região/endereço.
-- Relatório das reservas realizadas por hotel e por tipo de quarto.
-- Relatório de ocupação de quartos por hotel, listando a quantidade de reservas por quarto.
-- Relatório de clientes com mais reservas realizadas.
-- Relatório de funcionários com mais reservas cadastradas.
+#### Relatório:
+Relatório detalhado de cada hotel contendo:
+- Quantidade de clientes
+- Quantidade de funcionarios
+- Quantidade de quartos
+- Quantidade de reservas
+- Faturamento atrvés das reservas
+
