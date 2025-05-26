@@ -8,6 +8,13 @@ class ControladorReserva():
         self.__reservas = []
         self.__controlador_sistema = controlador_sistema
         self.__tela_reserva = TelaReserva()
+        
+    def __verificar_quarto_disponivel(self, quarto, data_entrada, data_saida):
+        for reserva in self.__reservas:
+            if reserva.quarto.numero == quarto.numero:
+                if (data_entrada <= reserva.data_saida) and (data_saida >= reserva.data_entrada):
+                    return False
+        return True
     
     def calcular_custo(self, reserva: Reserva):
         return reserva.quarto.preco_diaria * (reserva.data_saida - reserva.data_entrada).days
@@ -27,8 +34,8 @@ class ControladorReserva():
             quarto = self.__controlador_sistema.controlador_hotel.controlador_quarto.busca_por_numero(hotel, dados_reserva["codigo_quarto"])
             if quarto is None:
                 raise Exception("Quarto não encontrado")
-            if quarto.reservado:
-                raise Exception("Quarto ja reservado")
+            if not self.__verificar_quarto_disponivel(quarto, dados_reserva["data_entrada"], dados_reserva["data_saida"]):
+                raise Exception("Esse quarto ja possui reserva nesse periodo")
             
             cliente = self.__controlador_sistema.controlador_hotel.controlador_cliente.busca_por_cpf(hotel, dados_reserva["cpf_cliente"])
             if cliente is None:
@@ -108,6 +115,8 @@ class ControladorReserva():
             quarto = self.__controlador_sistema.controlador_hotel.controlador_quarto.busca_por_numero(hotel, dados_reserva["codigo_quarto"])
             if quarto is None:
                 raise Exception("Quarto não encontrado")
+            if not self.__verificar_quarto_disponivel(quarto, dados_reserva["data_entrada"], dados_reserva["data_saida"]):
+                raise Exception("Esse quarto ja possui reserva nesse periodo")
             
             cliente = self.__controlador_sistema.controlador_hotel.controlador_cliente.busca_por_cpf(hotel, dados_reserva["cpf_cliente"])
             if cliente is None:
