@@ -112,6 +112,27 @@ class ControladorHotel():
 
         return None
 
+    def relatorio_geral(self):
+        try:
+            lista_dados_hoteis = []
+            for hotel in self.__hoteis:
+                lista_reservas = self.__controlador_sistema.controlador_reserva.listar_reservas_por_hotel(hotel.codigo)
+
+                lista_dados_hoteis.append({
+                    "nome": hotel.nome,
+                    "codigo": hotel.codigo,
+                    "numero_funcionarios": len(hotel.funcionarios),
+                    "numero_clientes": len(hotel.clientes),
+                    "numero_quartos": len(hotel.quartos),
+                    "numero_reservas": len(lista_reservas),
+                    "faturamento_total_em_reservas": sum(reserva.custo for reserva in lista_reservas)
+                })
+
+            self.__tela_hotel.mostra_relatorio(lista_dados_hoteis)
+        except Exception as e:
+            raise e
+            self.__tela_hotel.mostra_mensagem(str(e))
+
     def gerenciar_funcionarios(self):
         self.__controlador_funcionario.abre_tela()
 
@@ -133,6 +154,7 @@ class ControladorHotel():
             5: self.alterar,
             6: self.listar,
             7: self.remover,
+            8: self.relatorio_geral,
             0: self.retornar
         }
 

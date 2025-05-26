@@ -127,6 +127,15 @@ class ControladorReserva():
         except Exception as e:
             self.__tela_reserva.mostra_mensagem(str(e))
 
+    def listar_reservas_por_hotel(self, codigo_hotel):
+        hotel = self.__controlador_sistema.controlador_hotel.buscar_por_codigo(codigo_hotel)
+        if hotel is None:
+            raise Exception("Hotel não encontrado") 
+        
+        lista_reservas = [reserva for reserva in self.__reservas if reserva.hotel == hotel]
+
+        return lista_reservas
+
     def abre_tela(self):
         lista_opcoes = {
             1: self.adicionar,
