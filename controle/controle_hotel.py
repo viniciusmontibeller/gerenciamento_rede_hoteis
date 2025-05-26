@@ -16,6 +16,18 @@ class ControladorHotel():
         self.__tela_hotel = TelaHotel()
 
     @property
+    def controlador_cliente(self):
+        return self.__controlador_cliente
+
+    @property
+    def controlador_funcionario(self):
+        return self.__controlador_funcionario
+
+    @property
+    def controlador_quarto(self):
+        return self.__controlador_quarto
+
+    @property
     def hoteis(self):
         return self.__hoteis
 

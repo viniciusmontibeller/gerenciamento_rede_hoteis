@@ -5,14 +5,14 @@ class TelaRede(AbstractTela):
     def pega_dados_rede(self):
         dados_rede = {}
         dados_rede["nome"] = input("Nome: ")
-        dados_rede["codigo"] = super().le_input_so_numero("Codigo: ")
+        dados_rede["codigo"] = super().le_input_so_int("Codigo: ")
         dados_rede["localizacao_rede"] = input("Localizacao: ")
 
         return dados_rede
 
     def pega_dados_rede_para_alteracao(self):
         dados_rede = {}
-        dados_rede["codigo"] = super().le_input_so_numero("Codigo da rede que será alterada: ")
+        dados_rede["codigo"] = super().le_input_so_int("Codigo da rede que será alterada: ")
         dados_rede["nome"] = input("Novo nome: ")
         dados_rede["localizacao_rede"] = input("Nova localização: ")
 
@@ -20,8 +20,8 @@ class TelaRede(AbstractTela):
 
     def pega_dados_inclusao_de_hotel(self):
         dados_inclusao = {}
-        dados_inclusao["codigo_rede"] = super().le_input_so_numero("Código da rede: ")
-        dados_inclusao["codigo_hotel"] = super().le_input_so_numero("Código do hotel que será adicionado na rede: ")
+        dados_inclusao["codigo_rede"] = super().le_input_so_int("Código da rede: ")
+        dados_inclusao["codigo_hotel"] = super().le_input_so_int("Código do hotel que será adicionado na rede: ")
 
         return dados_inclusao
 
@@ -34,10 +34,10 @@ class TelaRede(AbstractTela):
         print(f"Nome da rede: {dados_rede['nome']}")
         print(f"Codigo da rede: {dados_rede['codigo']}")
         print(f"Localização da rede: {dados_rede['localizacao_rede']}")
-        print(f"Hoteis da rede: {map(lambda hotel: hotel['codigo'], dados_rede['hoteis'])}")
+        print(f"Hoteis da rede: {', '.join([str(hotel.codigo) for hotel in dados_rede['hoteis']])}")
 
     def pega_codigo_rede(self):
-        return super().le_input_so_numero("Codigo da rede: ")
+        return super().le_input_so_int("Codigo da rede: ")
 
     def mostra_mensagem(self, mensagem):
         print(mensagem)

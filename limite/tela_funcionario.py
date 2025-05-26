@@ -45,7 +45,7 @@ class TelaFuncionario(AbstractTela):
         return super().le_input_so_numero("CPF do funcionario: ")
 
     def pega_codigo_hotel(self):
-        return super().le_input_so_numero("Código do hotel: ")
+        return super().le_input_so_int("Código do hotel: ")
 
     def mostra_mensagem(self, mensagem):
         print(mensagem)

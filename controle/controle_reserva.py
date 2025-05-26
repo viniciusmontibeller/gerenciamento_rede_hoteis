@@ -9,92 +9,123 @@ class ControladorReserva():
         self.__controlador_sistema = controlador_sistema
         self.__tela_reserva = TelaReserva()
     
-    def adicionar(self):
-        dados_reserva = self.__tela_reserva.pega_dados_reserva()
-        try:
-            cliente = self.__controlador_sistema.controlador_cliente.buscar_por_cpf(dados_reserva["cpf_cliente"])
-            hotel = self.__controlador_sistema.controlador_hotel.buscar_por_codigo(dados_reserva["codigo_hotel"])
-            quarto = self.__controlador_sistema.controlador_quarto.buscar_por_codigo(dados_reserva["codigo_quarto"])
-            funcionario = self.__controlador_sistema.controlador_funcionario.buscar_por_codigo(dados_reserva["codigo_funcionario"])
-            
-            if self.buscar_por_codigo(dados_reserva["codigo"]):
-                raise Exception("Uma reserva com este código já existe.")
-            if not cliente:
-                raise Exception("Cliente não encontrado")
-            if not hotel:
-                raise Exception("Hotel não encontrado")
-            if not quarto:
-                raise Exception("Quarto não encontrado")
-            if not funcionario:
-                raise Exception("Funcionario não encontrado")
+    def calcular_custo(self, reserva: Reserva):
+        return reserva.quarto.preco_diaria * (reserva.data_saida - reserva.data_entrada).days
 
-            self.__reservas.append(
-                Reserva(dados_reserva["codigo"], cliente, hotel, quarto, funcionario, dados_reserva["data_entrada"], dados_reserva["data_saida"]))
-            self.__tela_reserva.mostra_mensagem("Reserva adicionada com sucesso!")
+    def adicionar(self):
+        codigo_reserva = self.__tela_reserva.pega_codigo_reserva()
+        dados_reserva = self.__tela_reserva.pega_dados_reserva()
+
+        try:
+            if self.buscar_por_codigo(codigo_reserva):
+                raise Exception("Reserva já existente")
+
+            hotel = self.__controlador_sistema.controlador_hotel.buscar_por_codigo(dados_reserva["codigo_hotel"])
+            if hotel is None:
+                raise Exception("Hotel não encontrado")
+            
+            quarto = self.__controlador_sistema.controlador_hotel.controlador_quarto.busca_por_numero(hotel, dados_reserva["codigo_quarto"])
+            if quarto is None:
+                raise Exception("Quarto não encontrado")
+            
+            cliente = self.__controlador_sistema.controlador_hotel.controlador_cliente.busca_por_cpf(hotel, dados_reserva["cpf_cliente"])
+            if cliente is None:
+                raise Exception("Cliente não encontrado")
+
+            funcionario = self.__controlador_sistema.controlador_hotel.controlador_funcionario.busca_por_cpf(hotel, dados_reserva["cpf_funcionario"])
+            if funcionario is None:
+                raise Exception("Funcionário não encontrado")
+            
+            reserva = Reserva(codigo_reserva, hotel, quarto, cliente, funcionario, dados_reserva["data_entrada"], dados_reserva["data_saida"])
+            reserva.custo = self.calcular_custo(reserva)
+
+            self.__reservas.append(reserva)
+            self.__tela_reserva.mostra_mensagem("Reserva adicionada com sucesso")
         except Exception as e:
             self.__tela_reserva.mostra_mensagem(str(e))
 
     def remover(self):
-        codigo = self.__tela_rede.pega_codigo_rede()
+        codigo = self.__tela_reserva.pega_codigo_reserva()
         try:
-            rede_existe = False
+            reserva_existe = False
 
-            for rede in self.__redes:
-                if rede.codigo == codigo:
-                    self.__redes.remove(rede)
-                    self.__tela_rede.mostra_mensagem("Removido com sucesso.")
+            for reserva in self.__reservas:
+                if reserva.codigo == codigo:
+                    self.__reservas.remove(reserva)
+                    self.__tela_reserva.mostra_mensagem("Removido com sucesso.")
 
-                    rede_existe = True
+                    reserva_existe = True
 
                     break
 
-            if not rede_existe:
+            if not reserva_existe:
                 raise Exception(
-                    f"Rede de código [{codigo}] não foi encontrada para ser removida."
+                    f"Reserva de código [{codigo}] não foi encontrada para ser removida."
                 )
         except Exception as e:
-            self.__tela_rede.mostra_mensagem(str(e))
+            self.__tela_reserva.mostra_mensagem(str(e))
 
     def buscar_por_codigo(self, codigo):
-        for rede in self.__redes:
-            if rede.codigo == codigo:
-                return rede
+        for reserva in self.__reservas:
+            if reserva.codigo == codigo:
+                return reserva
 
         return None
 
     def listar(self):
-        lista_dados_rede = map(
-            lambda rede: {
-                "nome": rede.nome,
-                "localizacao_rede": rede.localizacao_rede,
-                "codigo": rede.codigo,
-                "hoteis": rede.hoteis
-            }, self.__redes)
+        lista_dados_reserva = map(
+            lambda reserva: {
+                "codigo": reserva.codigo,
+                "cliente": reserva.cliente.nome,
+                "hotel": reserva.hotel.nome,
+                "quarto": reserva.quarto.numero,
+                "funcionario": reserva.funcionario.nome,
+                "data_entrada": reserva.data_entrada,
+                "data_saida": reserva.data_saida,
+                "status": reserva.status,
+                "custo": reserva.custo
+            }, self.__reservas)
 
-        self.__tela_rede.mostrar_redes(lista_dados_rede)
+        self.__tela_reserva.mostrar_reservas(lista_dados_reserva)
 
     def alterar(self):
         self.listar()
-        dados_rede = self.__tela_rede.pega_dados_rede_para_alteracao()
-        
+
         try:
-            rede_existe = False
-            for rede in self.__redes:
-                if rede.codigo == dados_rede["codigo"]:
-                    rede.nome = dados_rede["nome"]
-                    rede.localizacao_rede = dados_rede["localizacao_rede"]
+            codigo = self.__tela_reserva.pega_codigo_reserva()
+            reserva = self.buscar_por_codigo(codigo)
+            if reserva is None:
+                raise Exception("Reserva não encontrada")
 
-                    self.__tela_rede.mostra_mensagem("Alterado com sucesso.")
+            dados_reserva = self.__tela_reserva.pega_dados_reserva()
+            
+            hotel = self.__controlador_sistema.controlador_hotel.buscar_por_codigo(dados_reserva["codigo_hotel"])
+            if hotel is None:
+                raise Exception("Hotel não encontrado")
+            
+            quarto = self.__controlador_sistema.controlador_hotel.controlador_quarto.busca_por_numero(hotel, dados_reserva["codigo_quarto"])
+            if quarto is None:
+                raise Exception("Quarto não encontrado")
+            
+            cliente = self.__controlador_sistema.controlador_hotel.controlador_cliente.busca_por_cpf(hotel, dados_reserva["cpf_cliente"])
+            if cliente is None:
+                raise Exception("Cliente não encontrado")
 
-                    rede_existe = True
+            funcionario = self.__controlador_sistema.controlador_hotel.controlador_funcionario.busca_por_cpf(hotel, dados_reserva["cpf_funcionario"])
+            if funcionario is None:
+                raise Exception("Funcionário não encontrado")
+            
+            reserva.hotel = hotel
+            reserva.quarto = quarto
+            reserva.cliente = cliente
+            reserva.funcionario = funcionario
+            reserva.data_entrada = dados_reserva["data_entrada"]
+            reserva.data_saida = dados_reserva["data_saida"]
+            reserva.custo = self.calcular_custo(reserva)
 
-                    break
-
-            if not rede_existe:
-                raise Exception(
-                    f"Rede de código [{dados_rede['codigo']}] não foi encontrada.")
+            self.__tela_reserva.mostra_mensagem("Alterado com sucesso.")
         except Exception as e:
-            self.__tela_rede.mostra_mensagem(str(e))
+            self.__tela_reserva.mostra_mensagem(str(e))
 
     def abre_tela(self):
         lista_opcoes = {

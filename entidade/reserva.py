@@ -8,7 +8,7 @@ from entidade.status_reserva import StatusReserva
 
 class Reserva():
 
-    def __init__(self, codigo: int, cliente: Cliente, hotel: Hotel, quarto: Quarto,
+    def __init__(self, codigo: int, hotel: Hotel, quarto: Quarto, cliente: Cliente,
                  funcionario: Funcionario, data_entrada: date, data_saida: date):
         self.__codigo = codigo
         self.__status = StatusReserva.AGENDADO
@@ -69,12 +69,39 @@ class Reserva():
 
     @property
     def custo(self):
-        if self.__status is not StatusReserva.FINALIZADO:
-            raise Exception(
-                "Não é possível ver o custo de uma reserva que ainda não foi finalizada."
-            )
-
         return self.__custo
+
+    @custo.setter
+    def custo(self, custo: float):
+        if isinstance(custo, float):
+            self.__custo = custo
+
+    @property
+    def data_entrada(self):
+        return self.__data_entrada
+
+    @data_entrada.setter
+    def data_entrada(self, data_entrada: date):
+        if isinstance(data_entrada, date):
+            self.__data_entrada = data_entrada
+
+    @property
+    def data_saida(self):
+        return self.__data_saida
+
+    @data_saida.setter
+    def data_saida(self, data_saida: date):
+        if isinstance(data_saida, date):
+            self.__data_saida = data_saida
+
+    @property
+    def status(self):
+        return self.__status
+
+    @status.setter
+    def status(self, status: StatusReserva):
+        if isinstance(status, StatusReserva):
+          self.__status = status
 
     def checkin(self):
         self.__status = StatusReserva.CHECKIN
