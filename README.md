@@ -16,12 +16,11 @@ O sistema deve permitir o **cadastro, listagem, alteração e exclusão** de hot
 ### REGRAS DO SISTEMA:
 - Um quarto pertence a um único hotel, mas cada hotel pode ter um ou mais quartos.
 - Um cliente pode realizar várias reservas, mas cada reserva pertence a apenas um cliente.
-- O cliente é responsável por solicitar sua própria reserva e, caso o quarto esteja disponível, uma reserva será criada para ele. Na reserva, o sistema atribui automaticamente um funcionário para ser o responsável pela reserva.
+- É atribuido um unico funcionário para ser o responsável pela reserva.
 - Quartos podem ser do tipo **“Normal”** ou **“VIP”**, sendo o quarto VIP **20% mais caro**.
 - Cada reserva deve conter obrigatoriamente: **cliente, quarto e funcionário responsável**.
 - Cada rede de hotéis pode ter várias filiais (hotéis), mas cada hotel pertence a apenas uma rede.
-- O custo da reserva é calculado após o **checkout**, sendo:  
-  (valor da diária * dias utilizados).
+- O custo da reserva é calculado por: (valor da diária * dias utilizados).
 
 ### RESTRIÇÕES DE ESCOPO:
 Para simplificar este trabalho, o sistema contemplará apenas funcionalidades básicas de um sistema de reservas hoteleiras, **sem considerar aspectos financeiros, tributários, jurídicos ou integração com sistemas externos**.
@@ -47,4 +46,7 @@ Relatório detalhado de cada hotel contendo:
 - Quantidade de quartos
 - Quantidade de reservas
 - Faturamento atrvés das reservas
+
+
+### UML
 

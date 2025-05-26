@@ -15,11 +15,13 @@ class TelaHotel(AbstractTela):
         print("7 - Excluir Hoteis")
         print("8 - Relatório Geral de Hoteis")
         print("0 - Retornar")
+        print("\n")
 
         opcao = super().le_input_int_com_range_de_validacao("Opção escohida: ", [0, 1, 2, 3, 4, 5, 6, 7, 8])
         return opcao
 
     def pega_dados_hotel(self):
+        print("\n")
         print("-------- Dados do Hotel --------")
         dados_hotel = {}
         dados_hotel["nome"] = input("Nome: ")
@@ -36,6 +38,7 @@ class TelaHotel(AbstractTela):
             self.mostra_hotel(dados_hotel)
 
     def mostra_hotel(self, dados_hotel):
+        print("\n")
         print("Nome do hotel: ", dados_hotel["nome"])
         print("Código do hotel: ", dados_hotel["codigo"])
         print("Endereço do hotel: ", dados_hotel["endereco"])

@@ -3,6 +3,7 @@ from limite.abstract_tela import AbstractTela
 class TelaReserva(AbstractTela):
 
     def pega_dados_reserva(self):
+        print("\n")
         print("-------- Dados da Reserva --------")
         dados_reserva = {}
         dados_reserva["codigo_hotel"] = super().le_input_so_int("Codigo do hotel: ")
@@ -22,6 +23,7 @@ class TelaReserva(AbstractTela):
             self.mostrar_reserva(dados_reserva)
 
     def mostrar_reserva(self, dados_reserva):
+        print("\n")
         print(f"Codigo da reserva: {dados_reserva['codigo']}")
         print(f"Cliente da reserva: {dados_reserva['cliente']}")
         print(f"Hotel da reserva: {dados_reserva['hotel']}")
@@ -31,6 +33,7 @@ class TelaReserva(AbstractTela):
         print(f"Data de saída: {dados_reserva['data_saida']}")
         print(f"Status da reserva: {dados_reserva['status']}")
         print(f"Custo da reserva: R${dados_reserva['custo']}")
+        print("\n")
 
     def pega_codigo_reserva(self):
         return super().le_input_so_int("Codigo da reserva: ")

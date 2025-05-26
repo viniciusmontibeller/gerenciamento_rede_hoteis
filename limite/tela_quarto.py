@@ -33,6 +33,7 @@ class TelaQuarto(AbstractTela):
         return opcao
 
     def pega_dados_quarto(self):
+        print("\n")
         print("-------- Dados do quarto --------")
         dados_quarto = {}
         dados_quarto["numero"] = super().le_input_so_int("Número: ")
@@ -51,6 +52,7 @@ class TelaQuarto(AbstractTela):
             self.mostra_quarto(dados_quarto)
 
     def mostra_quarto(self, dados_quarto):
+        print("\n")
         print("Numero do quarto: ", dados_quarto["numero"])
         print("Capacidade do quarto: ", dados_quarto["capacidade"])
         print("Preço da diaria do quarto: ", dados_quarto["preco_diaria"])

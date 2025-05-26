@@ -18,6 +18,7 @@ class TelaFuncionario(AbstractTela):
         return opcao
 
     def pega_dados_funcionario(self):
+        print("\n")
         print("-------- Dados do Funcionario --------")
         dados_funcionario = {}
         dados_funcionario["nome"] = input("Nome: ")
@@ -35,6 +36,7 @@ class TelaFuncionario(AbstractTela):
             self.mostra_funcionario(dados_funcionario)
 
     def mostra_funcionario(self, dados_funcionario):
+        print("\n")
         print("Nome do funcionario: ", dados_funcionario["nome"])
         print("CPF do funcionario: ", dados_funcionario["cpf"])
         print("Telefone do funcionario: ", dados_funcionario["telefone"])
