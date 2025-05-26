@@ -3,6 +3,21 @@ from limite.abstract_tela import AbstractTela
 
 class TelaQuarto(AbstractTela):
 
+    def __le_input_eh_quarto_vip_bool(self, mensagem: str) -> bool:
+        while True:
+            entrada = input(mensagem)
+            entrada = entrada.strip().lower()
+            try:
+                if entrada in ['sim', 's']:
+                    return True
+                elif entrada in ['não', 'nao', 'n']:
+                    return False
+                else:
+                    raise ValueError
+            except ValueError:
+                print("Entrada inválida para fidelidade. Use sim/s ou não/n.")
+
+
     def tela_opcoes(self):
         print("\n")
         print("-------- Quartos --------")
@@ -23,8 +38,11 @@ class TelaQuarto(AbstractTela):
         dados_quarto["numero"] = super().le_input_so_int("Número: ")
         dados_quarto["capacidade"] = super().le_input_so_int("Capacidade: ")
         dados_quarto["preco_diaria"] = super().le_input_so_float("Preço da diaria: ")
-
+        
         return dados_quarto
+
+    def pega_eh_quarto_vip(self):
+        return self.__le_input_eh_quarto_vip_bool("É quarto vip? (s/n): ")
 
     def mostrar_quartos(self, lista_dados_quarto):
         print("\n")

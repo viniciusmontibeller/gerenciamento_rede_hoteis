@@ -1,3 +1,4 @@
+from entidade.quarto_vip import QuartoVip
 from limite.tela_quarto import TelaQuarto
 from entidade.quarto import Quarto
 
@@ -12,14 +13,21 @@ class ControladorQuarto():
         try: 
             codigo_hotel = self.__tela_quarto.pega_codigo_hotel()
             dados_quarto = self.__tela_quarto.pega_dados_quarto()
+            eh_quarto_vip = self.__tela_quarto.pega_eh_quarto_vip()
+
             hotel = self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel)
-        
-            if self.busca_por_numero(hotel, dados_quarto["numero"]):
-                raise Exception("Quarto já existente")
-            hotel.quartos.append(
-                Quarto(dados_quarto["numero"],
+            quarto = None
+            if eh_quarto_vip:
+                quarto = QuartoVip(dados_quarto["numero"],
                         dados_quarto["capacidade"],
-                        dados_quarto["preco_diaria"]))
+                        dados_quarto["preco_diaria"])
+            else:
+                quarto = Quarto(dados_quarto["numero"],
+                        dados_quarto["capacidade"],
+                        dados_quarto["preco_diaria"])
+
+            hotel.quartos.append(quarto)
+            
             self.__tela_quarto.mostra_mensagem("Quarto adicionado com sucesso!")
         except Exception as e:
             self.__tela_quarto.mostra_mensagem(str(e))

@@ -130,7 +130,6 @@ class ControladorHotel():
 
             self.__tela_hotel.mostra_relatorio(lista_dados_hoteis)
         except Exception as e:
-            raise e
             self.__tela_hotel.mostra_mensagem(str(e))
 
     def gerenciar_funcionarios(self):
