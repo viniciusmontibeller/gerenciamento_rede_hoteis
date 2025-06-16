@@ -22,9 +22,9 @@ class TelaFuncionario(AbstractTela):
         print("-------- Dados do Funcionario --------")
         dados_funcionario = {}
         dados_funcionario["nome"] = input("Nome: ")
-        dados_funcionario["cpf"] = super().le_input_so_numero("CPF: ")
+        dados_funcionario["cpf"] = super().le_cpf("CPF: ")
         dados_funcionario["telefone"] = super(
-        ).le_input_so_numero("Telefone: ")
+        ).le_telefone("Telefone: ")
         dados_funcionario["email"] = input("Email: ")
 
         return dados_funcionario
@@ -45,7 +45,7 @@ class TelaFuncionario(AbstractTela):
         print("\n")
 
     def pega_cpf_funcionario(self):
-        return super().le_input_so_numero("CPF do funcionario: ")
+        return super().le_cpf("CPF do funcionario: ")
 
     def pega_codigo_hotel(self):
         return super().le_input_so_int("Código do hotel: ")

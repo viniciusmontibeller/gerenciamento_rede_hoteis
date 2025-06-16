@@ -59,6 +59,35 @@ class AbstractTela(ABC):
             except ValueError:
                 print("Valor incorreto! Formato esperado: DD-MM-YYYY")
 
+    def le_cpf(self, mensagem):
+        while True:
+            valor_lido = input(mensagem)
+            try:
+                valor_int = int(valor_lido)
+                if not isinstance(valor_int, int):
+                    raise ValueError
+                print(len(valor_lido))
+                print(valor_lido)
+                if len(valor_lido) != 11:
+                    raise ValueError
+                return valor_lido
+            except ValueError:
+                print("Valor incorreto! Formato esperado apenas números e exatamente 11 digitos.")
+
+    def le_telefone(self, mensagem):
+        while True:
+            valor_lido = input(mensagem)
+            try:
+                valor_int = int(valor_lido)
+                if not isinstance(valor_int, int):
+                    raise ValueError
+                if len(valor_lido) != 11:
+                    raise ValueError
+                return valor_lido
+            except ValueError:
+                print("Valor incorreto! Formato esperado apenas números, exatamente 11 digitos e sem espaços.")
+                print("Exemplo: 47988303706")
+
     @abstractmethod
     def tela_opcoes(self):
         pass

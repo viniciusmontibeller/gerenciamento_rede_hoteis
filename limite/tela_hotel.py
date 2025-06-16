@@ -27,7 +27,7 @@ class TelaHotel(AbstractTela):
         dados_hotel["nome"] = input("Nome: ")
         dados_hotel["codigo"] = super().le_input_so_int("Codigo: ")
         dados_hotel["endereco"] = input("Endereço: ")
-        dados_hotel["telefone"] = super().le_input_so_numero("Telefone: ")
+        dados_hotel["telefone"] = super().le_telefone("Telefone: ")
 
         return dados_hotel
 

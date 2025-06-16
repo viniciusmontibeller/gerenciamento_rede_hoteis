@@ -21,9 +21,9 @@ class TelaCliente(AbstractTela):
         print("-------- Dados do Cliente --------")
         dados_cliente = {}
         dados_cliente["nome"] = input("Nome: ")
-        dados_cliente["cpf"] = super().le_input_so_numero("CPF: ")
+        dados_cliente["cpf"] = super().le_cpf("CPF: ")
         dados_cliente["telefone"] = super(
-        ).le_input_so_numero("Telefone: ")
+        ).le_telefone("Telefone: ")
         dados_cliente["email"] = input("Email: ")
 
         return dados_cliente
@@ -43,7 +43,7 @@ class TelaCliente(AbstractTela):
         print("\n")
 
     def pega_cpf_cliente(self):
-        return super().le_input_so_numero("CPF do cliente: ")
+        return super().le_cpf("CPF do cliente: ")
 
     def pega_codigo_hotel(self):
         return super().le_input_so_int("Código do hotel: ")
