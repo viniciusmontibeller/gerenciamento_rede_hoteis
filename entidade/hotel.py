@@ -65,3 +65,15 @@ class Hotel():
     @property
     def quartos(self):
         return self.__quartos
+
+    def adicionar_quarto(self, quarto):
+        if isinstance(quarto, Quarto):
+            self.quartos.append(quarto)
+
+    def adicionar_funcionario(self, funcionario):
+        if isinstance(funcionario, Funcionario):
+            self.funcionarios.append(funcionario)
+
+    def adicionar_cliente(self, cliente):
+        if isinstance(cliente, Cliente):
+            self.clientes.append(cliente)
