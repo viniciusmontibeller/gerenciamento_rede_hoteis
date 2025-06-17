@@ -35,7 +35,7 @@ class ControladorReserva():
             if hotel is None:
                 raise Exception("Hotel não encontrado")
             
-            quarto = self.__controlador_sistema.controlador_hotel.controlador_quarto.busca_por_numero(hotel, dados_reserva["codigo_quarto"])
+            quarto = hotel.busca_quarto_por_numero(dados_reserva["codigo_quarto"])
             if quarto is None:
                 raise Exception("Quarto não encontrado")
             if not self.__verificar_quarto_disponivel_em_hotel(hotel, quarto, dados_reserva["data_entrada"], dados_reserva["data_saida"]):
@@ -121,7 +121,7 @@ class ControladorReserva():
             if hotel is None:
                 raise Exception("Hotel não encontrado")
             
-            quarto = self.__controlador_sistema.controlador_hotel.controlador_quarto.busca_por_numero(hotel, dados_reserva["codigo_quarto"])
+            quarto = hotel.busca_quarto_por_numero(dados_reserva["codigo_quarto"])
             if quarto is None:
                 raise Exception("Quarto não encontrado")
             if not self.__verificar_quarto_disponivel_em_hotel(hotel, quarto, dados_reserva["data_entrada"], dados_reserva["data_saida"]):

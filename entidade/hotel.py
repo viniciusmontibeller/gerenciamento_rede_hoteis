@@ -1,3 +1,5 @@
+from entidade.cliente import Cliente
+from entidade.funcionario import Funcionario
 from entidade.quarto import Quarto
 from entidade.quarto_vip import QuartoVip
 
@@ -62,13 +64,24 @@ class Hotel():
     def clientes(self):
         return self.__clientes
 
-    @property
-    def quartos(self):
-        return self.__quartos
+    def adicionar_quarto(self, dados_quarto, eh_quarto_vip):
+        if eh_quarto_vip:
+            quarto = QuartoVip(dados_quarto["numero"],
+                    dados_quarto["capacidade"],
+                    dados_quarto["preco_diaria"])
+        else:
+            quarto = Quarto(dados_quarto["numero"],
+                    dados_quarto["capacidade"],
+                    dados_quarto["preco_diaria"])
+        self.__quartos.append(quarto)
 
-    def adicionar_quarto(self, quarto):
-        if isinstance(quarto, Quarto):
-            self.quartos.append(quarto)
+    def remover_quarto(self, numero):
+        for quarto in self.__quartos:
+            if quarto.numero == numero:
+                self.__quartos.remove(quarto)
+                return quarto
+        
+        return None
 
     def adicionar_funcionario(self, funcionario):
         if isinstance(funcionario, Funcionario):
@@ -77,3 +90,21 @@ class Hotel():
     def adicionar_cliente(self, cliente):
         if isinstance(cliente, Cliente):
             self.clientes.append(cliente)
+
+    def numero_de_quartos(self):
+      return len(self.__quartos)
+
+    def busca_quarto_por_numero(self, numero):
+      for quarto in self.__quartos:
+          if quarto.numero == numero:
+              return quarto
+
+      return None
+
+
+    def listar_dados_quartos(self):
+      return map(lambda quarto: {
+              "numero": quarto.numero,
+              "capacidade": quarto.capacidade,
+              "preco_diaria": quarto.preco_diaria
+          }, self.__quartos)

@@ -133,7 +133,7 @@ class ControladorHotel():
                     "codigo": hotel.codigo,
                     "numero_funcionarios": len(hotel.funcionarios),
                     "numero_clientes": len(hotel.clientes),
-                    "numero_quartos": len(hotel.quartos),
+                    "numero_quartos": hotel.numero_de_quartos(),
                     "numero_reservas": len(lista_reservas),
                     "faturamento_total_em_reservas": sum(reserva.custo for reserva in lista_reservas)
                 })
