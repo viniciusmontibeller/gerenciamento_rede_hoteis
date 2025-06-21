@@ -8,9 +8,9 @@ class TelaReserva(AbstractTela):
         print("-------- Dados da Reserva --------")
         dados_reserva = {}
         dados_reserva["codigo_hotel"] = super().le_input_so_int("Codigo do hotel: ")
-        dados_reserva["codigo_quarto"] = super().le_input_so_int("Número do quarto: ")
-        dados_reserva["cpf_cliente"] = super().le_input_so_numero("CPF do cliente: ")
-        dados_reserva["cpf_funcionario"] = super().le_input_so_numero("CPF do funcionario: ")
+        dados_reserva["numero_quarto"] = super().le_input_so_int("Número do quarto: ")
+        dados_reserva["cpf_cliente"] = super().le_cpf("CPF do cliente: ")
+        dados_reserva["cpf_funcionario"] = super().le_cpf("CPF do funcionario: ")
         dados_reserva["data_entrada"] = super().le_input_data("Data de entrada (DD-MM-YYYY): ")
         while True:
             valor_lido = super().le_input_data("Data de saida (DD-MM-YYYY): ")
