@@ -1,4 +1,5 @@
 from limite.abstract_tela import AbstractTela
+from excecoes.data_saida_invalida_exception import DataSaidaInvalidaException
 
 class TelaReserva(AbstractTela):
 
@@ -11,7 +12,15 @@ class TelaReserva(AbstractTela):
         dados_reserva["cpf_cliente"] = super().le_input_so_numero("CPF do cliente: ")
         dados_reserva["cpf_funcionario"] = super().le_input_so_numero("CPF do funcionario: ")
         dados_reserva["data_entrada"] = super().le_input_data("Data de entrada (DD-MM-YYYY): ")
-        dados_reserva["data_saida"] = super().le_input_data("Data de saida (DD-MM-YYYY): ")
+        while True:
+            valor_lido = super().le_input_data("Data de saida (DD-MM-YYYY): ")
+            try:
+                if dados_reserva["data_entrada"] > valor_lido:
+                    raise DataSaidaInvalidaException(dados_reserva["data_entrada"])
+                dados_reserva["data_saida"] = valor_lido
+                break
+            except DataSaidaInvalidaException as e:
+                print(e)
 
         return dados_reserva
 
