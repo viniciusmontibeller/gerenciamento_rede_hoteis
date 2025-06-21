@@ -41,7 +41,7 @@ class TelaReserva(AbstractTela):
         print(f"Funcionario responsável: {dados_reserva['funcionario']}")
         print(f"Data de entrada: {dados_reserva['data_entrada']}")
         print(f"Data de saída: {dados_reserva['data_saida']}")
-        print(f"Status da reserva: {dados_reserva['status']}")
+        print(f"Status da reserva: {dados_reserva['status'].value}")
         print(f"Custo da reserva: R${dados_reserva['custo']}")
         print("\n")
 

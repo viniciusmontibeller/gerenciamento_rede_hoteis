@@ -66,8 +66,6 @@ class AbstractTela(ABC):
                 valor_int = int(valor_lido)
                 if not isinstance(valor_int, int):
                     raise ValueError
-                print(len(valor_lido))
-                print(valor_lido)
                 if len(valor_lido) != 11:
                     raise ValueError
                 return valor_lido

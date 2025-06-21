@@ -109,7 +109,7 @@ class ControladorReserva():
 
         try:
             if not len(self.__reservas) >= 1:
-                raise Exception("Não existe nenhuma rede para ser removida")
+                raise Exception("Não existe nenhuma reserva para ser alterada")
             codigo = self.__tela_reserva.pega_codigo_reserva()
             reserva = self.buscar_por_codigo(codigo)
             if reserva is None:
