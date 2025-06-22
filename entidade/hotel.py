@@ -52,21 +52,16 @@ class Hotel():
             self.__telefone = telefone
 
     @property
+    def quartos(self):
+        return self.__quartos
+
+    @property
     def funcionarios(self):
         return self.__funcionarios
-
-    @funcionarios.setter
-    def funcionarios(self, funcionarios: list):
-        if isinstance(funcionarios, list):
-            self.__funcionarios = funcionarios
 
     @property
     def clientes(self):
         return self.__clientes
-
-    @property
-    def quartos(self):
-        return self.__quartos
 
     def adicionar_quarto(self, dados_quarto, eh_quarto_vip):
         if eh_quarto_vip:
@@ -90,10 +85,26 @@ class Hotel():
     def adicionar_funcionario(self, funcionario):
         if isinstance(funcionario, Funcionario):
             self.funcionarios.append(funcionario)
+            
+    def remover_funcionario(self, cpf):
+        for funcionario in self.__funcionarios:
+            if funcionario.cpf == cpf:
+                self.__funcionarios.remove(funcionario)
+                return funcionario
+        
+        return None
 
     def adicionar_cliente(self, cliente):
         if isinstance(cliente, Cliente):
             self.clientes.append(cliente)
+            
+    def remover_cliente(self, cpf):
+        for cliente in self.__clientes:
+            if cliente.cpf == cpf:
+                self.__clientes.remove(cliente)
+                return cliente
+        
+        return None
 
     def numero_de_quartos(self):
       return len(self.__quartos)
@@ -104,7 +115,6 @@ class Hotel():
               return quarto
 
       return None
-
 
     def listar_dados_quartos(self):
       return map(lambda quarto: {

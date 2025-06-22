@@ -18,11 +18,11 @@ class ControladorFuncionario():
 
             if self.busca_por_cpf(hotel, dados_funcionario["cpf"]):
                 raise Exception("Funcionario ja existente")
-            hotel.funcionarios.append(
-                Funcionario(dados_funcionario["nome"],
+            novo_funcionario = Funcionario(dados_funcionario["nome"],
                             dados_funcionario["cpf"],
                             dados_funcionario["telefone"],
-                            dados_funcionario["email"]))
+                            dados_funcionario["email"])
+            hotel.adicionar_funcionario(novo_funcionario)
             self.__tela_funcionario.mostra_mensagem(
                 "Funcionario adicionado com sucesso!")
         except Exception as e:
@@ -37,15 +37,15 @@ class ControladorFuncionario():
 
         try:
             funcionario_existe = False
+            hotel = self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel)
 
-            for funcionario in self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel).funcionarios:
+            for funcionario in hotel.funcionarios:
                 if funcionario.cpf == cpf:
                     for reserva in self.__controlador_hotel.controlador_sistema.controlador_reserva.listar_reservas_por_hotel(codigo_hotel):
                         if reserva.funcionario.cpf == cpf:
                             raise Exception(
                                 "Não é possível remover um funcionário que ja possui reserva.")
-                    self.__controlador_hotel.busca_hotel_por_codigo(
-                        codigo_hotel).funcionarios.remove(funcionario)
+                    hotel.remover_funcionario(cpf)
                     self.__tela_funcionario.mostra_mensagem(
                         "Removido com sucesso.")
                     funcionario_existe = True
@@ -62,8 +62,12 @@ class ControladorFuncionario():
         try:
             if not codigo_hotel:
                 codigo_hotel = self.__tela_funcionario.pega_codigo_hotel()
-            if not len(self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel).funcionarios) >= 1:
+                
+            hotel = self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel)
+                
+            if not len(hotel.funcionarios) >= 1:
                 raise ListaVaziaException('funcionarios')
+
 
             lista_dados_funcionario = map(
                 lambda funcionario: {
@@ -71,7 +75,7 @@ class ControladorFuncionario():
                     "cpf": funcionario.cpf,
                     "telefone": funcionario.telefone,
                     "email": funcionario.email
-                }, self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel).funcionarios)
+                }, hotel.funcionarios)
 
             self.__tela_funcionario.mostrar_funcionarios(
                 lista_dados_funcionario)

@@ -16,11 +16,11 @@ class ControladorCliente():
         
             if self.busca_por_cpf(hotel, dados_cliente["cpf"]):
                 raise Exception("Cliente ja existente")
-            hotel.clientes.append(
-                Cliente(dados_cliente["nome"],
+            novo_cliente = Cliente(dados_cliente["nome"],
                             dados_cliente["cpf"],
                             dados_cliente["telefone"],
-                            dados_cliente["email"]))
+                            dados_cliente["email"])
+            hotel.adicionar_cliente(novo_cliente)
             self.__tela_cliente.mostra_mensagem("Cliente adicionado com sucesso!")
         except Exception as e:
             self.__tela_cliente.mostra_mensagem(str(e))
@@ -34,13 +34,15 @@ class ControladorCliente():
         
         try:
             cliente_existe = False
-            for cliente in self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel).clientes:
+            hotel = self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel)
+            
+            for cliente in hotel.clientes:
                 if cliente.cpf == cpf:
                     for reserva in self.__controlador_hotel.controlador_sistema.controlador_reserva.listar_reservas_por_hotel(codigo_hotel):
                         if reserva.cliente.cpf == cpf:
                             raise Exception("Não é possível remover um cliente que ja possui reserva.")
                         
-                    self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel).clientes.remove(cliente)
+                    hotel.remover_cliente(cpf)
                     self.__tela_cliente.mostra_mensagem("Removido com sucesso.")
                     cliente_existe = True
                     break
