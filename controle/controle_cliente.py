@@ -1,6 +1,9 @@
 from limite.tela_cliente import TelaCliente
 from entidade.cliente import Cliente
 from excecoes.lista_vazia_exception import ListaVaziaException
+from excecoes.jah_existente_exception import JahExistenteException
+from excecoes.nao_encontrado_exception import NaoEncontradoException
+from excecoes.jah_possui_reserva_exception import JahPossuiReservaException
 
 
 class ControladorCliente():
@@ -15,13 +18,15 @@ class ControladorCliente():
             hotel = self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel)
         
             if self.busca_por_cpf(hotel, dados_cliente["cpf"]):
-                raise Exception("Cliente ja existente")
+                raise JahExistenteException("Cliente", "CPF", dados_cliente["cpf"])
             novo_cliente = Cliente(dados_cliente["nome"],
                             dados_cliente["cpf"],
                             dados_cliente["telefone"],
                             dados_cliente["email"])
             hotel.adicionar_cliente(novo_cliente)
             self.__tela_cliente.mostra_mensagem("Cliente adicionado com sucesso!")
+        except JahExistenteException as e:
+            self.__tela_cliente.mostra_mensagem(str(e))
         except Exception as e:
             self.__tela_cliente.mostra_mensagem(str(e))
 
@@ -40,7 +45,7 @@ class ControladorCliente():
                 if cliente.cpf == cpf:
                     for reserva in self.__controlador_hotel.controlador_sistema.controlador_reserva.listar_reservas_por_hotel(codigo_hotel):
                         if reserva.cliente.cpf == cpf:
-                            raise Exception("Não é possível remover um cliente que ja possui reserva.")
+                            raise JahPossuiReservaException("cliente")
                         
                     hotel.remover_cliente(cpf)
                     self.__tela_cliente.mostra_mensagem("Removido com sucesso.")
@@ -48,9 +53,11 @@ class ControladorCliente():
                     break
 
             if not cliente_existe:
-                raise Exception(
-                    f"Cliente com cpf [{cpf}] não foi encontrada para ser removida."
-                )
+                raise NaoEncontradoException("Cliente", "CPF", cpf)
+        except JahPossuiReservaException as e:
+            self.__tela_cliente.mostra_mensagem(str(e))
+        except NaoEncontradoException as e:
+            self.__tela_cliente.mostra_mensagem(str(e))
         except Exception as e:
             self.__tela_cliente.mostra_mensagem(str(e))
 
@@ -96,9 +103,9 @@ class ControladorCliente():
                     break
 
             if not cliente_existe:
-                raise Exception(
-                    f"Cliente de cpf [{dados_cliente['cpf']}] não foi encontrada."
-                )
+                raise NaoEncontradoException("cliente", "CPF", dados_cliente["cpf"])
+        except NaoEncontradoException as e:
+            self.__tela_cliente.mostra_mensagem(str(e))
         except Exception as e:
             self.__tela_cliente.mostra_mensagem(str(e))
 

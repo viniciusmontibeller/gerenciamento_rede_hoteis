@@ -4,6 +4,8 @@ from controle.controle_quarto import ControladorQuarto
 from limite.tela_hotel import TelaHotel
 from entidade.hotel import Hotel
 from excecoes.lista_vazia_exception import ListaVaziaException
+from excecoes.jah_existente_exception import JahExistenteException
+from excecoes.nao_encontrado_exception import NaoEncontradoException
 
 
 class ControladorHotel():
@@ -46,11 +48,13 @@ class ControladorHotel():
         dados_hotel = self.__tela_hotel.pega_dados_hotel()
         try:
             if self.buscar_por_codigo(dados_hotel["codigo"]):
-                raise Exception("Hotel ja existente")
+                raise JahExistenteException("Hotel")
             self.__hoteis.append(
                 Hotel(dados_hotel["nome"], dados_hotel["codigo"],
                       dados_hotel["endereco"], dados_hotel["telefone"]))
             self.__tela_hotel.mostra_mensagem("Hotel adicionado com sucesso!")
+        except JahExistenteException as e:
+            self.__tela_hotel.mostra_mensagem(str(e))
         except Exception as e:
             self.__tela_hotel.mostra_mensagem(str(e))
 
@@ -72,9 +76,9 @@ class ControladorHotel():
                     break
 
             if not hotel_existe:
-                raise Exception(
-                    f"Hotel de código [{codigo}] não foi encontrada para ser removida."
-                )
+                raise NaoEncontradoException("Hotel", "codigo", codigo)
+        except NaoEncontradoException as e:
+            self.__tela_hotel.mostra_mensagem(str(e))
         except Exception as e:
             self.__tela_hotel.mostra_mensagem(str(e))
 
@@ -117,9 +121,9 @@ class ControladorHotel():
                     break
 
             if not hotel_existe:
-                raise Exception(
-                    f"Hotel de código [{dados_hotel['codigo']}] não foi encontrada."
-                )
+                raise NaoEncontradoException("Hotel", "codigo", dados_hotel["codigo"])
+        except NaoEncontradoException as e:
+            self.__tela_hotel.mostra_mensagem(str(e))
         except Exception as e:
             self.__tela_hotel.mostra_mensagem(str(e))
 

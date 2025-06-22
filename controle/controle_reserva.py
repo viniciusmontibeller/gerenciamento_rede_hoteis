@@ -1,8 +1,9 @@
 from entidade.reserva import Reserva
 from limite.tela_reserva import TelaReserva
-from excecoes.nao_encontrado import NaoEncontradoException
-from excecoes.quarto_possui_reserva_no_periodo import QuartoPossuiReservaNoPeriodo
+from excecoes.nao_encontrado_exception import NaoEncontradoException
+from excecoes.quarto_possui_reserva_no_periodo_exception import QuartoPossuiReservaNoPeriodo
 from excecoes.lista_vazia_exception import ListaVaziaException
+from excecoes.jah_existente_exception import JahExistenteException
 
 
 class ControladorReserva():
@@ -32,7 +33,7 @@ class ControladorReserva():
 
         try:
             if self.buscar_por_codigo(codigo_reserva):
-                raise Exception("Reserva já existente")
+                raise JahExistenteException("Reserva", "codigo", codigo_reserva)
 
             hotel = self.__controlador_sistema.controlador_hotel.buscar_por_codigo(dados_reserva["codigo_hotel"])
             if hotel is None:
@@ -61,6 +62,8 @@ class ControladorReserva():
             self.__tela_reserva.mostra_mensagem(str(e))
         except QuartoPossuiReservaNoPeriodo as e:
             self.__tela_reserva.mostra_mensagem(str(e))
+        except JahExistenteException as e:
+            self.__tela_reserva.mostra_mensagem(str(e))
         except Exception as e:
             self.__tela_reserva.mostra_mensagem(str(e))
 
@@ -83,9 +86,9 @@ class ControladorReserva():
                     break
 
             if not reserva_existe:
-                raise Exception(
-                    f"Reserva de código [{codigo}] não foi encontrada para ser removida."
-                )
+                raise NaoEncontradoException("reserva", "codigo", codigo)
+        except NaoEncontradoException as e:
+            self.__tela_reserva.mostra_mensagem(str(e))
         except Exception as e:
             self.__tela_reserva.mostra_mensagem(str(e))
 

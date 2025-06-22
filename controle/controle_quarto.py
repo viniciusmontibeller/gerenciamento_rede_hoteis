@@ -2,6 +2,8 @@ from entidade.quarto_vip import QuartoVip
 from limite.tela_quarto import TelaQuarto
 from entidade.quarto import Quarto
 from excecoes.lista_vazia_exception import ListaVaziaException
+from excecoes.jah_possui_reserva_exception import JahPossuiReservaException
+from excecoes.nao_encontrado_exception import NaoEncontradoException
 
 
 class ControladorQuarto():
@@ -38,16 +40,15 @@ class ControladorQuarto():
 
             for reserva in self.__controlador_hotel.controlador_sistema.controlador_reserva.listar_reservas_por_hotel(codigo_hotel):
                 if reserva.quarto.numero == numero:
-                    raise Exception(
-                        "Não é possível remover um quarto que ja possui reserva.")
+                    raise JahPossuiReservaException("quarto")
 
             quarto_removido = hotel.remover_quarto(numero)
             if quarto_removido:
                 self.__tela_quarto.mostra_mensagem("Removido com sucesso.")
             else:
-                raise Exception(
-                    f"Quarto com número [{numero}] não foi encontrado para ser removido."
-                )
+                raise NaoEncontradoException("quarto", "numero", numero)
+        except JahPossuiReservaException as e:
+            self.__tela_quarto.mostra_mensagem(str(e))
         except Exception as e:
             self.__tela_quarto.mostra_mensagem(str(e))
 
@@ -81,12 +82,12 @@ class ControladorQuarto():
                 codigo_hotel)
             quarto_removido = hotel.remover_quarto(dados_quarto["numero"])
             if not quarto_removido:
-                raise Exception(
-                    f"Quarto de número [{dados_quarto['numero']}] não foi encontrado."
-                )
+                raise NaoEncontradoException("quarto", "numero", dados_quarto["numero"])
 
             eh_quarto_vip = isinstance(quarto_removido, QuartoVip)
             hotel.adicionar_quarto(dados_quarto, eh_quarto_vip)
+        except NaoEncontradoException as e:
+            self.__tela_quarto.mostra_mensagem(str(e))
         except Exception as e:
             self.__tela_quarto.mostra_mensagem(str(e))
 
