@@ -1,5 +1,6 @@
 from limite.tela_rede import TelaRede
 from entidade.rede import Rede
+from excecoes.lista_vazia_exception import ListaVaziaException
 
 
 class ControladorRede():
@@ -22,11 +23,12 @@ class ControladorRede():
             self.__tela_rede.mostra_mensagem(str(e))
 
     def remover(self):
-        self.listar()
+        if not self.listar():
+            return
+        
+        codigo = self.__tela_rede.pega_codigo_rede()
+        
         try:
-            if not len(self.__redes) >= 1:
-                raise Exception("Não existe nenhuma rede para ser alterada")
-            codigo = self.__tela_rede.pega_codigo_rede()
             rede_existe = False
 
             for rede in self.__redes:
@@ -53,23 +55,30 @@ class ControladorRede():
         return None
 
     def listar(self):
-        lista_dados_rede = map(
-            lambda rede: {
-                "nome": rede.nome,
-                "localizacao_rede": rede.localizacao_rede,
-                "codigo": rede.codigo,
-                "hoteis": rede.hoteis
-            }, self.__redes)
-
-        self.__tela_rede.mostrar_redes(lista_dados_rede)
-
-    def alterar(self):
-        self.listar()
-        
         try:
             if not len(self.__redes) >= 1:
-                raise Exception("Não existe nenhuma rede para ser removida")
-            dados_rede = self.__tela_rede.pega_dados_rede_para_alteracao()
+                    raise ListaVaziaException('redes')
+            lista_dados_rede = map(
+                lambda rede: {
+                    "nome": rede.nome,
+                    "localizacao_rede": rede.localizacao_rede,
+                    "codigo": rede.codigo,
+                    "hoteis": rede.hoteis
+                }, self.__redes)
+
+            self.__tela_rede.mostrar_redes(lista_dados_rede)
+            return True
+        except ListaVaziaException as e:
+            self.__tela_rede.mostra_mensagem(str(e))
+            return False
+
+    def alterar(self):
+        if not self.listar():
+            return
+        
+        dados_rede = self.__tela_rede.pega_dados_rede_para_alteracao()
+        
+        try:
             rede_existe = False
             for rede in self.__redes:
                 if rede.codigo == dados_rede["codigo"]:
@@ -84,7 +93,7 @@ class ControladorRede():
 
             if not rede_existe:
                 raise Exception(
-                    f"Rede de código [{dados_rede['codigo']}] não foi encontrada.")
+                    f"Rede de código [{dados_rede['codigo']}] não foi encontrada para ser alterada.")
         except Exception as e:
             self.__tela_rede.mostra_mensagem(str(e))
 

@@ -2,6 +2,7 @@ from entidade.reserva import Reserva
 from limite.tela_reserva import TelaReserva
 from excecoes.nao_encontrado import NaoEncontradoException
 from excecoes.quarto_possui_reserva_no_periodo import QuartoPossuiReservaNoPeriodo
+from excecoes.lista_vazia_exception import ListaVaziaException
 
 
 class ControladorReserva():
@@ -64,11 +65,12 @@ class ControladorReserva():
             self.__tela_reserva.mostra_mensagem(str(e))
 
     def remover(self):
-        self.listar()
+        if not self.listar():
+            return
+        
+        codigo = self.__tela_reserva.pega_codigo_reserva()
+        
         try:
-            if not len(self.__reservas) >= 1:
-                raise Exception("Não existe nenhuma reserva para ser removida")
-            codigo = self.__tela_reserva.pega_codigo_reserva()
             reserva_existe = False
 
             for reserva in self.__reservas:
@@ -95,28 +97,35 @@ class ControladorReserva():
         return None
 
     def listar(self):
-        lista_dados_reserva = map(
-            lambda reserva: {
-                "codigo": reserva.codigo,
-                "cliente": reserva.cliente.nome,
-                "hotel": reserva.hotel.nome,
-                "quarto": reserva.quarto.numero,
-                "funcionario": reserva.funcionario.nome,
-                "data_entrada": reserva.data_entrada,
-                "data_saida": reserva.data_saida,
-                "status": reserva.status,
-                "custo": reserva.custo
-            }, self.__reservas)
-
-        self.__tela_reserva.mostrar_reservas(lista_dados_reserva)
-
-    def alterar(self):
-        self.listar()
-
         try:
             if not len(self.__reservas) >= 1:
-                raise Exception("Não existe nenhuma reserva para ser alterada")
-            codigo = self.__tela_reserva.pega_codigo_reserva()
+                raise ListaVaziaException("reservas")
+            lista_dados_reserva = map(
+                lambda reserva: {
+                    "codigo": reserva.codigo,
+                    "cliente": reserva.cliente.nome,
+                    "hotel": reserva.hotel.nome,
+                    "quarto": reserva.quarto.numero,
+                    "funcionario": reserva.funcionario.nome,
+                    "data_entrada": reserva.data_entrada,
+                    "data_saida": reserva.data_saida,
+                    "status": reserva.status,
+                    "custo": reserva.custo
+                }, self.__reservas)
+
+            self.__tela_reserva.mostrar_reservas(lista_dados_reserva)
+            return True
+        except ListaVaziaException as e:
+            self.__tela_reserva.mostra_mensagem(str(e))
+            return False
+
+    def alterar(self):
+        if not self.listar():
+            return
+
+        codigo = self.__tela_reserva.pega_codigo_reserva()
+        
+        try:
             reserva = self.buscar_por_codigo(codigo)
             if reserva is None:
                 raise NaoEncontradoException("reserva", "codigo", codigo)

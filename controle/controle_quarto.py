@@ -1,6 +1,7 @@
 from entidade.quarto_vip import QuartoVip
 from limite.tela_quarto import TelaQuarto
 from entidade.quarto import Quarto
+from excecoes.lista_vazia_exception import ListaVaziaException
 
 
 class ControladorQuarto():
@@ -10,30 +11,35 @@ class ControladorQuarto():
         self.__tela_quarto = TelaQuarto()
 
     def adicionar(self):
-        try: 
+        try:
             codigo_hotel = self.__tela_quarto.pega_codigo_hotel()
             dados_quarto = self.__tela_quarto.pega_dados_quarto()
             eh_quarto_vip = self.__tela_quarto.pega_eh_quarto_vip()
 
-            hotel = self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel)
-          
+            hotel = self.__controlador_hotel.busca_hotel_por_codigo(
+                codigo_hotel)
+
             hotel.adicionar_quarto(dados_quarto, eh_quarto_vip)
-            
-            self.__tela_quarto.mostra_mensagem("Quarto adicionado com sucesso!")
+
+            self.__tela_quarto.mostra_mensagem(
+                "Quarto adicionado com sucesso!")
         except Exception as e:
             self.__tela_quarto.mostra_mensagem(str(e))
 
     def remover(self):
+        codigo_hotel = self.__tela_quarto.pega_codigo_hotel()
+        if not self.listar(codigo_hotel):
+            return
+
         try:
-            codigo_hotel = self.__tela_quarto.pega_codigo_hotel()
-            self.listar(codigo_hotel)
-            
             numero = self.__tela_quarto.pega_numero_quarto()
-            hotel = self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel)
-            
+            hotel = self.__controlador_hotel.busca_hotel_por_codigo(
+                codigo_hotel)
+
             for reserva in self.__controlador_hotel.controlador_sistema.controlador_reserva.listar_reservas_por_hotel(codigo_hotel):
                 if reserva.quarto.numero == numero:
-                    raise Exception("Não é possível remover um quarto que ja possui reserva.")
+                    raise Exception(
+                        "Não é possível remover um quarto que ja possui reserva.")
 
             quarto_removido = hotel.remover_quarto(numero)
             if quarto_removido:
@@ -45,25 +51,34 @@ class ControladorQuarto():
         except Exception as e:
             self.__tela_quarto.mostra_mensagem(str(e))
 
-    def listar(self, codigo_hotel = None):
+    def listar(self, codigo_hotel=None):
         try:
             if not codigo_hotel:
                 codigo_hotel = self.__tela_quarto.pega_codigo_hotel()
-            
-            lista_dados_quarto = self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel).listar_dados_quartos()
-            
+            if not len(self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel).quartos) >= 1:
+                raise ListaVaziaException('quartos')
+
+            lista_dados_quarto = self.__controlador_hotel.busca_hotel_por_codigo(
+                codigo_hotel).listar_dados_quartos()
+
             self.__tela_quarto.mostrar_quartos(lista_dados_quarto)
+            return True
         except Exception as e:
             self.__tela_quarto.mostra_mensagem(str(e))
+        except ListaVaziaException as e:
+            self.__tela_funcionario.mostra_mensagem(str(e))
+            return False
 
     def alterar(self):
         codigo_hotel = self.__tela_quarto.pega_codigo_hotel()
-        self.listar(codigo_hotel)
+        if not self.listar(codigo_hotel):
+            return
 
         dados_quarto = self.__tela_quarto.pega_dados_quarto()
 
         try:
-            hotel = self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel)
+            hotel = self.__controlador_hotel.busca_hotel_por_codigo(
+                codigo_hotel)
             quarto_removido = hotel.remover_quarto(dados_quarto["numero"])
             if not quarto_removido:
                 raise Exception(

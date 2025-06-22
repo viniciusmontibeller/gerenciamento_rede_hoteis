@@ -1,5 +1,6 @@
 from limite.tela_funcionario import TelaFuncionario
 from entidade.funcionario import Funcionario
+from excecoes.lista_vazia_exception import ListaVaziaException
 
 
 class ControladorFuncionario():
@@ -9,11 +10,12 @@ class ControladorFuncionario():
         self.__tela_funcionario = TelaFuncionario()
 
     def adicionar(self):
-        try: 
+        try:
             codigo_hotel = self.__tela_funcionario.pega_codigo_hotel()
             dados_funcionario = self.__tela_funcionario.pega_dados_funcionario()
-            hotel = self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel)
-        
+            hotel = self.__controlador_hotel.busca_hotel_por_codigo(
+                codigo_hotel)
+
             if self.busca_por_cpf(hotel, dados_funcionario["cpf"]):
                 raise Exception("Funcionario ja existente")
             hotel.funcionarios.append(
@@ -21,24 +23,31 @@ class ControladorFuncionario():
                             dados_funcionario["cpf"],
                             dados_funcionario["telefone"],
                             dados_funcionario["email"]))
-            self.__tela_funcionario.mostra_mensagem("Funcionario adicionado com sucesso!")
+            self.__tela_funcionario.mostra_mensagem(
+                "Funcionario adicionado com sucesso!")
         except Exception as e:
             self.__tela_funcionario.mostra_mensagem(str(e))
 
     def remover(self):
         codigo_hotel = self.__tela_funcionario.pega_codigo_hotel()
-        self.listar(codigo_hotel)
-        
+        if not self.listar(codigo_hotel):
+            return
+
         cpf = self.__tela_funcionario.pega_cpf_funcionario()
+
         try:
             funcionario_existe = False
+
             for funcionario in self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel).funcionarios:
                 if funcionario.cpf == cpf:
                     for reserva in self.__controlador_hotel.controlador_sistema.controlador_reserva.listar_reservas_por_hotel(codigo_hotel):
                         if reserva.funcionario.cpf == cpf:
-                            raise Exception("Não é possível remover um funcionário que ja possui reserva.")
-                    self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel).funcionarios.remove(funcionario)
-                    self.__tela_funcionario.mostra_mensagem("Removido com sucesso.")
+                            raise Exception(
+                                "Não é possível remover um funcionário que ja possui reserva.")
+                    self.__controlador_hotel.busca_hotel_por_codigo(
+                        codigo_hotel).funcionarios.remove(funcionario)
+                    self.__tela_funcionario.mostra_mensagem(
+                        "Removido com sucesso.")
                     funcionario_existe = True
                     break
 
@@ -49,11 +58,13 @@ class ControladorFuncionario():
         except Exception as e:
             self.__tela_funcionario.mostra_mensagem(str(e))
 
-    def listar(self, codigo_hotel = None):
+    def listar(self, codigo_hotel=None):
         try:
             if not codigo_hotel:
                 codigo_hotel = self.__tela_funcionario.pega_codigo_hotel()
-            
+            if not len(self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel).funcionarios) >= 1:
+                raise ListaVaziaException('funcionarios')
+
             lista_dados_funcionario = map(
                 lambda funcionario: {
                     "nome": funcionario.nome,
@@ -61,25 +72,33 @@ class ControladorFuncionario():
                     "telefone": funcionario.telefone,
                     "email": funcionario.email
                 }, self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel).funcionarios)
-            
-            self.__tela_funcionario.mostrar_funcionarios(lista_dados_funcionario)
+
+            self.__tela_funcionario.mostrar_funcionarios(
+                lista_dados_funcionario)
+            return True
         except Exception as e:
             self.__tela_funcionario.mostra_mensagem(str(e))
+        except ListaVaziaException as e:
+            self.__tela_funcionario.mostra_mensagem(str(e))
+            return False
 
     def alterar(self):
         codigo_hotel = self.__tela_funcionario.pega_codigo_hotel()
-        self.listar(codigo_hotel)
+        if not self.listar(codigo_hotel):
+            return
 
         dados_funcionario = self.__tela_funcionario.pega_dados_funcionario()
 
         try:
             funcionario_existe = False
+
             for funcionario in self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel).funcionarios:
                 if funcionario.cpf == dados_funcionario["cpf"]:
                     funcionario.nome = dados_funcionario["nome"]
                     funcionario.telefone = dados_funcionario["telefone"]
                     funcionario.email = dados_funcionario["email"]
-                    self.__tela_funcionario.mostra_mensagem("Alterado com sucesso.")
+                    self.__tela_funcionario.mostra_mensagem(
+                        "Alterado com sucesso.")
                     funcionario_existe = True
                     break
 

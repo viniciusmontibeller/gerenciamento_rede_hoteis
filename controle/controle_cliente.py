@@ -1,5 +1,6 @@
 from limite.tela_cliente import TelaCliente
 from entidade.cliente import Cliente
+from excecoes.lista_vazia_exception import ListaVaziaException
 
 
 class ControladorCliente():
@@ -8,7 +9,7 @@ class ControladorCliente():
         self.__tela_cliente = TelaCliente()
 
     def adicionar(self):
-        try: 
+        try:
             codigo_hotel = self.__tela_cliente.pega_codigo_hotel()
             dados_cliente = self.__tela_cliente.pega_dados_cliente()
             hotel = self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel)
@@ -26,9 +27,11 @@ class ControladorCliente():
 
     def remover(self):
         codigo_hotel = self.__tela_cliente.pega_codigo_hotel()
-        self.listar(codigo_hotel)
+        if not self.listar(codigo_hotel):
+                return
         
         cpf = self.__tela_cliente.pega_cpf_cliente()
+        
         try:
             cliente_existe = False
             for cliente in self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel).clientes:
@@ -53,6 +56,8 @@ class ControladorCliente():
         try:
             if not codigo_hotel:
                 codigo_hotel = self.__tela_cliente.pega_codigo_hotel()
+            if not len(self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel).clientes) >= 1:
+                raise ListaVaziaException('clientes')
             
             lista_dados_cliente = map(
                 lambda cliente: {
@@ -63,12 +68,17 @@ class ControladorCliente():
                 }, self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel).clientes)
             
             self.__tela_cliente.mostrar_clientes(lista_dados_cliente)
+            return True
         except Exception as e:
             self.__tela_cliente.mostra_mensagem(str(e))
+        except ListaVaziaException as e:
+            self.__tela_funcionario.mostra_mensagem(str(e))
+            return False
 
     def alterar(self):
         codigo_hotel = self.__tela_cliente.pega_codigo_hotel()
-        self.listar(codigo_hotel)
+        if not self.listar(codigo_hotel):
+            return
 
         dados_cliente = self.__tela_cliente.pega_dados_cliente()
 

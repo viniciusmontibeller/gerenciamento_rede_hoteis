@@ -3,6 +3,7 @@ from controle.controle_funcionario import ControladorFuncionario
 from controle.controle_quarto import ControladorQuarto
 from limite.tela_hotel import TelaHotel
 from entidade.hotel import Hotel
+from excecoes.lista_vazia_exception import ListaVaziaException
 
 
 class ControladorHotel():
@@ -54,11 +55,12 @@ class ControladorHotel():
             self.__tela_hotel.mostra_mensagem(str(e))
 
     def remover(self):
-        self.listar()
+        if not self.listar():
+            return
+
+        codigo = self.__tela_hotel.pega_codigo_hotel()
+        
         try:
-            if not len(self.__hoteis) >= 1:
-                raise Exception("Não existe nenhum hotel para ser removido")
-            codigo = self.__tela_hotel.pega_codigo_hotel()
             hotel_existe = False
             for hotel in self.__hoteis:
                 if hotel.codigo == codigo:
@@ -77,23 +79,30 @@ class ControladorHotel():
             self.__tela_hotel.mostra_mensagem(str(e))
 
     def listar(self):
-        lista_dados_hotel = list(map(
-            lambda hotel: {
-                "nome": hotel.nome,
-                "endereco": hotel.endereco,
-                "codigo": hotel.codigo,
-                "telefone": hotel.telefone
-            }, self.__hoteis))
-
-        self.__tela_hotel.mostrar_hoteis(lista_dados_hotel)
-
-    def alterar(self):
-        self.listar()
-
         try:
             if not len(self.__hoteis) >= 1:
-                raise Exception("Não existe nenhum hotel para ser alterado")
-            dados_hotel = self.__tela_hotel.pega_dados_hotel()
+                raise ListaVaziaException('hoteis')
+            lista_dados_hotel = list(map(
+                lambda hotel: {
+                    "nome": hotel.nome,
+                    "endereco": hotel.endereco,
+                    "codigo": hotel.codigo,
+                    "telefone": hotel.telefone
+                }, self.__hoteis))
+
+            self.__tela_hotel.mostrar_hoteis(lista_dados_hotel)
+            return True
+        except ListaVaziaException as e:
+            self.__tela_hotel.mostra_mensagem(str(e))
+            return False
+
+    def alterar(self):
+        if not self.listar():
+            return
+
+        dados_hotel = self.__tela_hotel.pega_dados_hotel()
+        
+        try:
             hotel_existe = False
             for hotel in self.__hoteis:
                 if hotel.codigo == dados_hotel["codigo"]:
