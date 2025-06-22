@@ -32,6 +32,7 @@ class TelaRede(AbstractTela):
 
     def mostrar_rede(self, dados_rede):
         print("\n")
+        print("-------- REDES ----------")
         print(f"Nome da rede: {dados_rede['nome']}")
         print(f"Codigo da rede: {dados_rede['codigo']}")
         print(f"Localização da rede: {dados_rede['localizacao_rede']}")

@@ -64,6 +64,10 @@ class Hotel():
     def clientes(self):
         return self.__clientes
 
+    @property
+    def quartos(self):
+        return self.__quartos
+
     def adicionar_quarto(self, dados_quarto, eh_quarto_vip):
         if eh_quarto_vip:
             quarto = QuartoVip(dados_quarto["numero"],
