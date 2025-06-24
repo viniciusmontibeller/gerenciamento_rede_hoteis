@@ -18,7 +18,7 @@ class ControladorQuarto():
             dados_quarto = self.__tela_quarto.pega_dados_quarto()
             eh_quarto_vip = self.__tela_quarto.pega_eh_quarto_vip()
 
-            hotel = self.__controlador_hotel.busca_hotel_por_codigo(
+            hotel = self.__controlador_hotel.buscar_por_codigo(
                 codigo_hotel)
 
             hotel.adicionar_quarto(dados_quarto, eh_quarto_vip)
@@ -35,7 +35,7 @@ class ControladorQuarto():
 
         try:
             numero = self.__tela_quarto.pega_numero_quarto()
-            hotel = self.__controlador_hotel.busca_hotel_por_codigo(
+            hotel = self.__controlador_hotel.buscar_por_codigo(
                 codigo_hotel)
 
             for reserva in self.__controlador_hotel.controlador_sistema.controlador_reserva.listar_reservas_por_hotel(codigo_hotel):
@@ -56,10 +56,10 @@ class ControladorQuarto():
         try:
             if not codigo_hotel:
                 codigo_hotel = self.__tela_quarto.pega_codigo_hotel()
-            if not len(self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel).quartos) >= 1:
+            if not len(self.__controlador_hotel.buscar_por_codigo(codigo_hotel).quartos) >= 1:
                 raise ListaVaziaException('quartos')
 
-            lista_dados_quarto = self.__controlador_hotel.busca_hotel_por_codigo(
+            lista_dados_quarto = self.__controlador_hotel.buscar_por_codigo(
                 codigo_hotel).listar_dados_quartos()
 
             self.__tela_quarto.mostrar_quartos(lista_dados_quarto)
@@ -78,7 +78,7 @@ class ControladorQuarto():
         dados_quarto = self.__tela_quarto.pega_dados_quarto()
 
         try:
-            hotel = self.__controlador_hotel.busca_hotel_por_codigo(
+            hotel = self.__controlador_hotel.buscar_por_codigo(
                 codigo_hotel)
             quarto_removido = hotel.remover_quarto(dados_quarto["numero"])
             if not quarto_removido:

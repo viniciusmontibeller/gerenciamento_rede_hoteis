@@ -16,7 +16,7 @@ class ControladorFuncionario():
         try:
             codigo_hotel = self.__tela_funcionario.pega_codigo_hotel()
             dados_funcionario = self.__tela_funcionario.pega_dados_funcionario()
-            hotel = self.__controlador_hotel.busca_hotel_por_codigo(
+            hotel = self.__controlador_hotel.buscar_por_codigo(
                 codigo_hotel)
 
             if self.busca_por_cpf(hotel, dados_funcionario["cpf"]):
@@ -42,7 +42,7 @@ class ControladorFuncionario():
 
         try:
             funcionario_existe = False
-            hotel = self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel)
+            hotel = self.__controlador_hotel.buscar_por_codigo(codigo_hotel)
 
             for funcionario in hotel.funcionarios:
                 if funcionario.cpf == cpf:
@@ -69,7 +69,7 @@ class ControladorFuncionario():
             if not codigo_hotel:
                 codigo_hotel = self.__tela_funcionario.pega_codigo_hotel()
                 
-            hotel = self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel)
+            hotel = self.__controlador_hotel.buscar_por_codigo(codigo_hotel)
                 
             if not len(hotel.funcionarios) >= 1:
                 raise ListaVaziaException('funcionarios')
@@ -102,7 +102,7 @@ class ControladorFuncionario():
         try:
             funcionario_existe = False
 
-            for funcionario in self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel).funcionarios:
+            for funcionario in self.__controlador_hotel.buscar_por_codigo(codigo_hotel).funcionarios:
                 if funcionario.cpf == dados_funcionario["cpf"]:
                     funcionario.nome = dados_funcionario["nome"]
                     funcionario.telefone = dados_funcionario["telefone"]

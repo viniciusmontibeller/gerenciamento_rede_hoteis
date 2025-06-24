@@ -15,7 +15,7 @@ class ControladorCliente():
         try:
             codigo_hotel = self.__tela_cliente.pega_codigo_hotel()
             dados_cliente = self.__tela_cliente.pega_dados_cliente()
-            hotel = self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel)
+            hotel = self.__controlador_hotel.buscar_por_codigo(codigo_hotel)
         
             if self.busca_por_cpf(hotel, dados_cliente["cpf"]):
                 raise JahExistenteException("Cliente", "CPF", dados_cliente["cpf"])
@@ -39,7 +39,7 @@ class ControladorCliente():
         
         try:
             cliente_existe = False
-            hotel = self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel)
+            hotel = self.__controlador_hotel.buscar_por_codigo(codigo_hotel)
             
             for cliente in hotel.clientes:
                 if cliente.cpf == cpf:
@@ -65,7 +65,7 @@ class ControladorCliente():
         try:
             if not codigo_hotel:
                 codigo_hotel = self.__tela_cliente.pega_codigo_hotel()
-            if not len(self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel).clientes) >= 1:
+            if not len(self.__controlador_hotel.buscar_por_codigo(codigo_hotel).clientes) >= 1:
                 raise ListaVaziaException('clientes')
             
             lista_dados_cliente = map(
@@ -74,7 +74,7 @@ class ControladorCliente():
                     "cpf": cliente.cpf,
                     "telefone": cliente.telefone,
                     "email": cliente.email
-                }, self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel).clientes)
+                }, self.__controlador_hotel.buscar_por_codigo(codigo_hotel).clientes)
             
             self.__tela_cliente.mostrar_clientes(lista_dados_cliente)
             return True
@@ -93,7 +93,7 @@ class ControladorCliente():
 
         try:
             cliente_existe = False
-            for cliente in self.__controlador_hotel.busca_hotel_por_codigo(codigo_hotel).clientes:
+            for cliente in self.__controlador_hotel.buscar_por_codigo(codigo_hotel).clientes:
                 if cliente.cpf == dados_cliente["cpf"]:
                     cliente.nome = dados_cliente["nome"]
                     cliente.telefone = dados_cliente["telefone"]
