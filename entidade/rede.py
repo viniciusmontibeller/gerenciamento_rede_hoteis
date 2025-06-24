@@ -4,7 +4,7 @@ from entidade.hotel import Hotel
 
 class Rede():
 
-    def __init__(self, nome: str, codigo: str, localizacao_rede: str):
+    def __init__(self, nome: str, codigo: int, localizacao_rede: str):
         self.__nome = nome
         self.__codigo = codigo
         self.__localizacao_rede = localizacao_rede
@@ -24,8 +24,8 @@ class Rede():
         return self.__codigo
 
     @codigo.setter
-    def codigo(self, codigo: str):
-        if isinstance(codigo, str):
+    def codigo(self, codigo: int):
+        if isinstance(codigo, int):
             self.__codigo = codigo
 
     @property

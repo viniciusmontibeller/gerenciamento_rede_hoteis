@@ -97,10 +97,11 @@ class ControladorRede():
         dados_inclusao = self.__tela_rede.pega_dados_inclusao_de_hotel()
 
         try:
-            if (not len(self.__rede_dao.get_all()) or 
-                    not len(self.__controlador_sistema.controlador_hotel.hotel_dao.get_all()) >= 1):
-                raise Exception("Não pode ser adicionao hotel quando não existe hoteis ou redes")
-            
+            if not len(self.__rede_dao.get_all()) >= 1:
+                raise Exception("Não pode ser adicionado hotel quando pois não há redes cadastradas")
+            if not len(self.__controlador_sistema.controlador_hotel.hotel_dao.get_all()) >= 1:
+                raise Exception("Não existem hotéis para ser adicionado em redes")
+
             rede = self.buscar_por_codigo(dados_inclusao["codigo_rede"])
             hotel = self.__controlador_sistema.controlador_hotel.buscar_por_codigo(dados_inclusao["codigo_hotel"])
             
