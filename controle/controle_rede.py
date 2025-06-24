@@ -9,7 +9,6 @@ from persistence.rede_dao import RedeDao
 class ControladorRede():
 
     def __init__(self, controlador_sistema):
-        # self.__redes = []
         self.__controlador_sistema = controlador_sistema
         self.__tela_rede = TelaRede()
         self.__rede_dao = RedeDao()

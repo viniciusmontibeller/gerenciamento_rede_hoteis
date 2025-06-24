@@ -4,21 +4,26 @@ from excecoes.nao_encontrado_exception import NaoEncontradoException
 from excecoes.quarto_possui_reserva_no_periodo_exception import QuartoPossuiReservaNoPeriodo
 from excecoes.lista_vazia_exception import ListaVaziaException
 from excecoes.jah_existente_exception import JahExistenteException
+from persistence.reserva_dao import ReservaDAO
 
 
 class ControladorReserva():
 
     def __init__(self, controlador_sistema):
-        self.__reservas = []
         self.__controlador_sistema = controlador_sistema
         self.__tela_reserva = TelaReserva()
-        
+        self.__reserva_dao = ReservaDAO()
+    
     @property
-    def reservas(self):
-        return self.__reservas
+    def controlador_sistema(self):
+        return self.__controlador_sistema
+    
+    @property
+    def reserva_dao(self):
+        return self.__reserva_dao
         
     def __verificar_quarto_disponivel_em_hotel(self, hotel, quarto, data_entrada, data_saida):
-        for reserva in self.__reservas:
+        for reserva in self.__reserva_dao.get_all():
             if reserva.hotel.codigo == hotel.codigo and reserva.quarto.numero == quarto.numero:
                 if (data_entrada <= reserva.data_saida) and (data_saida >= reserva.data_entrada):
                     return False
@@ -56,7 +61,7 @@ class ControladorReserva():
             reserva = Reserva(codigo_reserva, hotel, quarto, cliente, funcionario, dados_reserva["data_entrada"], dados_reserva["data_saida"])
             reserva.custo = self.calcular_custo(reserva)
 
-            self.__reservas.append(reserva)
+            self.__reserva_dao.add(reserva)
             self.__tela_reserva.mostra_mensagem("Reserva adicionada com sucesso")
         except NaoEncontradoException as e:
             self.__tela_reserva.mostra_mensagem(str(e))
@@ -74,34 +79,20 @@ class ControladorReserva():
         codigo = self.__tela_reserva.pega_codigo_reserva()
         
         try:
-            reserva_existe = False
-
-            for reserva in self.__reservas:
-                if reserva.codigo == codigo:
-                    self.__reservas.remove(reserva)
-                    self.__tela_reserva.mostra_mensagem("Removido com sucesso.")
-
-                    reserva_existe = True
-
-                    break
-
-            if not reserva_existe:
-                raise NaoEncontradoException("reserva", "codigo", codigo)
+            self.__reserva_dao.remove(codigo)
+            self.__tela_reserva.mostra_mensagem("Removido com sucesso.")
         except NaoEncontradoException as e:
             self.__tela_reserva.mostra_mensagem(str(e))
         except Exception as e:
             self.__tela_reserva.mostra_mensagem(str(e))
 
     def buscar_por_codigo(self, codigo):
-        for reserva in self.__reservas:
-            if reserva.codigo == codigo:
-                return reserva
-
-        return None
+        return self.__reserva_dao.get(codigo)
 
     def listar(self):
         try:
-            if not len(self.__reservas) >= 1:
+            lista_reservas = self.__reserva_dao.get_all()
+            if not len(lista_reservas) >= 1:
                 raise ListaVaziaException("reservas")
             lista_dados_reserva = map(
                 lambda reserva: {
@@ -114,7 +105,7 @@ class ControladorReserva():
                     "data_saida": reserva.data_saida,
                     "status": reserva.status,
                     "custo": reserva.custo
-                }, self.__reservas)
+                }, lista_reservas)
 
             self.__tela_reserva.mostrar_reservas(lista_dados_reserva)
             return True
@@ -160,6 +151,8 @@ class ControladorReserva():
             reserva.data_entrada = dados_reserva["data_entrada"]
             reserva.data_saida = dados_reserva["data_saida"]
             reserva.custo = self.calcular_custo(reserva)
+            
+            self.__reserva_dao.update(reserva)
 
             self.__tela_reserva.mostra_mensagem("Alterado com sucesso.")
         except NaoEncontradoException as e:
@@ -174,7 +167,7 @@ class ControladorReserva():
         if hotel is None:
             raise Exception("Hotel não encontrado") 
         
-        lista_reservas = [reserva for reserva in self.__reservas if reserva.hotel == hotel]
+        lista_reservas = [reserva for reserva in self.__reserva_dao.get_all() if reserva.hotel == hotel]
 
         return lista_reservas
 
