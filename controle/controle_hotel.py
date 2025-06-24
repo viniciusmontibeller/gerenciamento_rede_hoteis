@@ -12,7 +12,6 @@ from persistence.hotel_dao import HotelDAO
 class ControladorHotel():
 
     def __init__(self, controlador_sistema):
-        self.__hoteis = []
         self.__controlador_sistema = controlador_sistema
         self.__controlador_cliente = ControladorCliente(self)
         self.__controlador_funcionario = ControladorFuncionario(self)
@@ -37,14 +36,8 @@ class ControladorHotel():
         return self.__controlador_sistema
 
     @property
-    def hoteis(self):
-        return self.__hoteis
-
-    def busca_hotel_por_codigo(self, codigo):
-        for hotel in self.__hoteis:
-            if hotel.codigo == codigo:
-                return hotel
-        raise Exception(f"Hotel de código [{codigo}] não foi encontrado.")
+    def hotel_dao(self):
+        return self.__hotel_dao
 
     def adicionar(self):
         dados_hotel = self.__tela_hotel.pega_dados_hotel()
@@ -115,16 +108,12 @@ class ControladorHotel():
             self.__tela_hotel.mostra_mensagem(str(e))
 
     def buscar_por_codigo(self, codigo):
-        for hotel in self.__hoteis:
-            if hotel.codigo == codigo:
-                return hotel
-
-        return None
+        return self.__hotel_dao.get(codigo)
 
     def relatorio_geral(self):
         try:
             lista_dados_hoteis = []
-            for hotel in self.__hoteis:
+            for hotel in self.__hotel_dao.get_all():
                 lista_reservas = self.__controlador_sistema.controlador_reserva.listar_reservas_por_hotel(
                     hotel.codigo)
 
