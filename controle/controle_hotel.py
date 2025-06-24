@@ -6,6 +6,7 @@ from entidade.hotel import Hotel
 from excecoes.lista_vazia_exception import ListaVaziaException
 from excecoes.jah_existente_exception import JahExistenteException
 from excecoes.nao_encontrado_exception import NaoEncontradoException
+from persistence.hotel_dao import HotelDAO
 
 
 class ControladorHotel():
@@ -17,6 +18,7 @@ class ControladorHotel():
         self.__controlador_funcionario = ControladorFuncionario(self)
         self.__controlador_quarto = ControladorQuarto(self)
         self.__tela_hotel = TelaHotel()
+        self.__hotel_dao = HotelDAO()
 
     @property
     def controlador_cliente(self):
@@ -65,18 +67,8 @@ class ControladorHotel():
         codigo = self.__tela_hotel.pega_codigo_hotel()
         
         try:
-            hotel_existe = False
-            for hotel in self.__hoteis:
-                if hotel.codigo == codigo:
-                    self.__hoteis.remove(hotel)
-                    self.__tela_hotel.mostra_mensagem("Removido com sucesso.")
-
-                    hotel_existe = True
-
-                    break
-
-            if not hotel_existe:
-                raise NaoEncontradoException("Hotel", "codigo", codigo)
+            self.__hotel_dao.remove(codigo)
+            self.__tela_hotel.mostra_mensagem("Removido com sucesso.")
         except NaoEncontradoException as e:
             self.__tela_hotel.mostra_mensagem(str(e))
         except Exception as e:
@@ -107,21 +99,15 @@ class ControladorHotel():
         dados_hotel = self.__tela_hotel.pega_dados_hotel()
         
         try:
-            hotel_existe = False
-            for hotel in self.__hoteis:
-                if hotel.codigo == dados_hotel["codigo"]:
-                    hotel.nome = dados_hotel["nome"]
-                    hotel.endereco = dados_hotel["endereco"]
-                    hotel.telefone = dados_hotel["telefone"]
+            hotel = self.__hotel_dao.get(dados_hotel["codigo"])
 
-                    self.__tela_hotel.mostra_mensagem("Alterado com sucesso.")
+            hotel.nome = dados_hotel["nome"]
+            hotel.endereco = dados_hotel["endereco"]
+            hotel.telefone = dados_hotel["telefone"]
 
-                    hotel_existe = True
+            self.__hotel_dao.update(hotel)
 
-                    break
-
-            if not hotel_existe:
-                raise NaoEncontradoException("Hotel", "codigo", dados_hotel["codigo"])
+            self.__tela_hotel.mostra_mensagem("Alterado com sucesso.")
         except NaoEncontradoException as e:
             self.__tela_hotel.mostra_mensagem(str(e))
         except Exception as e:
