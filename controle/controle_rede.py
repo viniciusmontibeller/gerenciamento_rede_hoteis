@@ -3,21 +3,31 @@ from entidade.rede import Rede
 from excecoes.lista_vazia_exception import ListaVaziaException
 from excecoes.jah_existente_exception import JahExistenteException
 from excecoes.nao_encontrado_exception import NaoEncontradoException
+from persistence.rede_dao import RedeDao
 
 
 class ControladorRede():
 
     def __init__(self, controlador_sistema):
-        self.__redes = []
+        # self.__redes = []
         self.__controlador_sistema = controlador_sistema
         self.__tela_rede = TelaRede()
+        self.__rede_dao = RedeDao()
+        
+    @property
+    def controlador_sistema(self):
+        return self.__controlador_sistema
+
+    @property
+    def rede_dao(self):
+        return self.__rede_dao
 
     def adicionar(self):
         dados_rede = self.__tela_rede.pega_dados_rede()
         try:
             if self.buscar_por_codigo(dados_rede["codigo"]):
                 raise JahExistenteException("Rede", "codigo", dados_rede["codigo"])
-            self.__redes.append(
+            self.__rede_dao.add(
                 Rede(dados_rede["nome"], dados_rede["codigo"],
                         dados_rede["localizacao_rede"]))
             self.__tela_rede.mostra_mensagem("Rede adicionada com sucesso!")
@@ -33,34 +43,20 @@ class ControladorRede():
         codigo = self.__tela_rede.pega_codigo_rede()
         
         try:
-            rede_existe = False
-
-            for rede in self.__redes:
-                if rede.codigo == codigo:
-                    self.__redes.remove(rede)
-                    self.__tela_rede.mostra_mensagem("Removido com sucesso.")
-
-                    rede_existe = True
-
-                    break
-
-            if not rede_existe:
-                raise NaoEncontradoException("rede", "codigo", codigo)
+            self.__rede_dao.remove(codigo)
+            self.__tela_rede.mostra_mensagem("Removido com sucesso.")
         except NaoEncontradoException as e:
             self.__tela_rede.mostra_mensagem(str(e))
         except Exception as e:
             self.__tela_rede.mostra_mensagem(str(e))
 
     def buscar_por_codigo(self, codigo):
-        for rede in self.__redes:
-            if rede.codigo == codigo:
-                return rede
-
-        return None
+        return self.__rede_dao.get(codigo)
 
     def listar(self):
         try:
-            if not len(self.__redes) >= 1:
+            lista_redes = self.__rede_dao.get_all()
+            if not len(lista_redes) >= 1:
                     raise ListaVaziaException('redes')
             lista_dados_rede = map(
                 lambda rede: {
@@ -68,7 +64,7 @@ class ControladorRede():
                     "localizacao_rede": rede.localizacao_rede,
                     "codigo": rede.codigo,
                     "hoteis": rede.hoteis
-                }, self.__redes)
+                }, lista_redes)
 
             self.__tela_rede.mostrar_redes(lista_dados_rede)
             return True
@@ -83,20 +79,15 @@ class ControladorRede():
         dados_rede = self.__tela_rede.pega_dados_rede_para_alteracao()
         
         try:
-            rede_existe = False
-            for rede in self.__redes:
-                if rede.codigo == dados_rede["codigo"]:
-                    rede.nome = dados_rede["nome"]
-                    rede.localizacao_rede = dados_rede["localizacao_rede"]
-
-                    self.__tela_rede.mostra_mensagem("Alterado com sucesso.")
-
-                    rede_existe = True
-
-                    break
-
-            if not rede_existe:
-                raise NaoEncontradoException("rede", "codigo", dados_rede["codigo"])
+            rede = self.__rede_dao.get(dados_rede['codigo'])
+            
+            rede.nome = dados_rede["nome"]
+            rede.nome = dados_rede["codigo"]
+            rede.nome = dados_rede["localizacao_rede"]
+            
+            self.__rede_dao.update(rede)
+            
+            self.__tela_rede.mostra_mensagem("Alterado com sucesso.")
         except NaoEncontradoException as e:
             self.__tela_rede.mostra_mensagem(str(e))
         except Exception as e:
@@ -106,9 +97,14 @@ class ControladorRede():
     def adicionar_hotel_em_rede(self):
         dados_inclusao = self.__tela_rede.pega_dados_inclusao_de_hotel()
 
-        rede = self.buscar_por_codigo(dados_inclusao["codigo_rede"])
-        hotel = self.__controlador_sistema.controlador_hotel.buscar_por_codigo(dados_inclusao["codigo_hotel"])
         try:
+            if (not len(self.__rede_dao.get_all()) or 
+                    not len(self.__controlador_sistema.controlador_hotel.hotel_dao.get_all()) >= 1):
+                raise Exception("Não pode ser adicionao hotel quando não existe hoteis ou redes")
+            
+            rede = self.buscar_por_codigo(dados_inclusao["codigo_rede"])
+            hotel = self.__controlador_sistema.controlador_hotel.buscar_por_codigo(dados_inclusao["codigo_hotel"])
+            
             if not rede:
                 raise NaoEncontradoException("Rede", "codigo", dados_inclusao["codigo_rede"])
             if not hotel:
