@@ -49,9 +49,9 @@ class ControladorHotel():
     def adicionar(self):
         dados_hotel = self.__tela_hotel.pega_dados_hotel()
         try:
-            if self.buscar_por_codigo(dados_hotel["codigo"]):
+            if self.__hotel_dao.get(dados_hotel["codigo"]):
                 raise JahExistenteException("Hotel")
-            self.__hoteis.append(
+            self.__hotel_dao.add(
                 Hotel(dados_hotel["nome"], dados_hotel["codigo"],
                       dados_hotel["endereco"], dados_hotel["telefone"]))
             self.__tela_hotel.mostra_mensagem("Hotel adicionado com sucesso!")
@@ -76,7 +76,8 @@ class ControladorHotel():
 
     def listar(self):
         try:
-            if not len(self.__hoteis) >= 1:
+            lista_hoteis = self.__hotel_dao.get_all()
+            if not len(lista_hoteis) >= 1:
                 raise ListaVaziaException('hoteis')
             lista_dados_hotel = list(map(
                 lambda hotel: {
@@ -84,7 +85,7 @@ class ControladorHotel():
                     "endereco": hotel.endereco,
                     "codigo": hotel.codigo,
                     "telefone": hotel.telefone
-                }, self.__hoteis))
+                }, lista_hoteis))
 
             self.__tela_hotel.mostrar_hoteis(lista_dados_hotel)
             return True
