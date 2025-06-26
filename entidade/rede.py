@@ -46,3 +46,12 @@ class Rede():
             if not any(hotel_existente.codigo == hotel.codigo
                        for hotel_existente in self.__hoteis):
                 self.__hoteis.append(hotel)
+                
+                
+    def remover_hotel(self, codigo: int):
+        for hotel in self.__hoteis:
+            if hotel.codigo == codigo:
+                self.__hoteis.remove(hotel)
+                return hotel
+        
+        return None
