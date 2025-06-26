@@ -14,12 +14,15 @@ class ControladorFuncionario():
 
     def adicionar(self):
         try:
+            if not len(self.__controlador_hotel.hotel_dao.get_all()) >= 1:
+                raise Exception("Não existem hoteis cadastrados para incluir um funcionario")
+            
             codigo_hotel = self.__tela_funcionario.pega_codigo_hotel()
             dados_funcionario = self.__tela_funcionario.pega_dados_funcionario()
             hotel = self.__controlador_hotel.buscar_por_codigo(
                 codigo_hotel)
 
-            if self.busca_por_cpf(hotel, dados_funcionario["cpf"]):
+            if hotel.busca_funcionario_por_cpf(dados_funcionario["cpf"]):
                 raise JahExistenteException("Funcionario", "CPF", dados_funcionario["cpf"])
             novo_funcionario = Funcionario(dados_funcionario["nome"],
                             dados_funcionario["cpf"],
@@ -44,16 +47,15 @@ class ControladorFuncionario():
             funcionario_existe = False
             hotel = self.__controlador_hotel.buscar_por_codigo(codigo_hotel)
 
-            for funcionario in hotel.funcionarios:
-                if funcionario.cpf == cpf:
-                    for reserva in self.__controlador_hotel.controlador_sistema.controlador_reserva.listar_reservas_por_hotel(codigo_hotel):
-                        if reserva.funcionario.cpf == cpf:
-                            raise JahPossuiReservaException("funcionario")
-                    hotel.remover_funcionario(cpf)
-                    self.__tela_funcionario.mostra_mensagem(
-                        "Removido com sucesso.")
-                    funcionario_existe = True
-                    break
+            if hotel.busca_funcionario_por_cpf(cpf):
+                for reserva in self.__controlador_hotel.controlador_sistema.controlador_reserva.listar_reservas_por_hotel(codigo_hotel):
+                    if reserva.funcionario.cpf == cpf:
+                        raise JahPossuiReservaException("funcionario")
+                hotel.remover_funcionario(cpf)
+                self.__controlador_hotel.hotel_dao.update(hotel)
+                self.__tela_funcionario.mostra_mensagem(
+                    "Removido com sucesso.")
+                funcionario_existe = True
 
             if not funcionario_existe:
                 raise NaoEncontradoException("Funcionario", "CPF", cpf)
@@ -64,24 +66,18 @@ class ControladorFuncionario():
         except Exception as e:
             self.__tela_funcionario.mostra_mensagem(str(e))
 
-    def listar(self, codigo_hotel=None):
+    def listar(self, codigo_hotel):
         try:
-            if not codigo_hotel:
-                codigo_hotel = self.__tela_funcionario.pega_codigo_hotel()
+            if not len(self.__controlador_hotel.hotel_dao.get_all()) >= 1:
+                raise Exception("Não existem hoteis cadastrados")
                 
             hotel = self.__controlador_hotel.buscar_por_codigo(codigo_hotel)
                 
             if not len(hotel.funcionarios) >= 1:
                 raise ListaVaziaException('funcionarios')
 
-
-            lista_dados_funcionario = map(
-                lambda funcionario: {
-                    "nome": funcionario.nome,
-                    "cpf": funcionario.cpf,
-                    "telefone": funcionario.telefone,
-                    "email": funcionario.email
-                }, hotel.funcionarios)
+            lista_dados_funcionario = self.__controlador_hotel.busca_por_codigo(
+                codigo_hotel).listar_dados_funcionarios()
 
             self.__tela_funcionario.mostrar_funcionarios(
                 lista_dados_funcionario)
@@ -101,16 +97,18 @@ class ControladorFuncionario():
 
         try:
             funcionario_existe = False
+            
+            hotel = self.__controlador_hotel.buscar_por_codigo(codigo_hotel)
 
-            for funcionario in self.__controlador_hotel.buscar_por_codigo(codigo_hotel).funcionarios:
-                if funcionario.cpf == dados_funcionario["cpf"]:
-                    funcionario.nome = dados_funcionario["nome"]
-                    funcionario.telefone = dados_funcionario["telefone"]
-                    funcionario.email = dados_funcionario["email"]
-                    self.__tela_funcionario.mostra_mensagem(
-                        "Alterado com sucesso.")
-                    funcionario_existe = True
-                    break
+            funcionario = hotel.busca_funcionario_por_cpf(dados_funcionario["cpf"])
+            if funcionario:
+                funcionario.nome = dados_funcionario["nome"]
+                funcionario.telefone = dados_funcionario["telefone"]
+                funcionario.email = dados_funcionario["email"]
+                self.__controlador_hotel.hotel_dao.update(hotel)
+                self.__tela_funcionario.mostra_mensagem(
+                    "Alterado com sucesso.")
+                funcionario_existe = True
 
             if not funcionario_existe:
                 raise NaoEncontradoException("Funcionario", "CPF", dados_funcionario["cpf"])
@@ -118,13 +116,6 @@ class ControladorFuncionario():
             self.__tela_funcionario.mostra_mensagem(str(e))
         except Exception as e:
             self.__tela_funcionario.mostra_mensagem(str(e))
-
-    def busca_por_cpf(self, hotel, cpf):
-        for funcionario in hotel.funcionarios:
-            if funcionario.cpf == cpf:
-                return funcionario
-
-        return None
 
     def retornar(self):
         self.__controlador_hotel.abre_tela()

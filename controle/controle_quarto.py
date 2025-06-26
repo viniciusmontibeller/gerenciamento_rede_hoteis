@@ -4,6 +4,7 @@ from entidade.quarto import Quarto
 from excecoes.lista_vazia_exception import ListaVaziaException
 from excecoes.jah_possui_reserva_exception import JahPossuiReservaException
 from excecoes.nao_encontrado_exception import NaoEncontradoException
+from excecoes.jah_existente_exception import JahExistenteException
 
 
 class ControladorQuarto():
@@ -14,15 +15,21 @@ class ControladorQuarto():
 
     def adicionar(self):
         try:
+            if not len(self.__controlador_hotel.hotel_dao.get_all()) >= 1:
+                raise Exception("Não existem hoteis cadastrados para incluir um quarto")
+            
             codigo_hotel = self.__tela_quarto.pega_codigo_hotel()
             dados_quarto = self.__tela_quarto.pega_dados_quarto()
             eh_quarto_vip = self.__tela_quarto.pega_eh_quarto_vip()
 
             hotel = self.__controlador_hotel.buscar_por_codigo(
                 codigo_hotel)
+            
+            if hotel.busca_quarto_por_numero(dados_quarto["numero"]):
+                raise JahExistenteException("quarto", "numero", dados_quarto["numero"])
 
             hotel.adicionar_quarto(dados_quarto, eh_quarto_vip)
-
+            self.__controlador_hotel.hotel_dao.update(hotel)
             self.__tela_quarto.mostra_mensagem(
                 "Quarto adicionado com sucesso!")
         except Exception as e:
@@ -44,6 +51,7 @@ class ControladorQuarto():
 
             quarto_removido = hotel.remover_quarto(numero)
             if quarto_removido:
+                self.__controlador_hotel.hotel_dao.update(hotel)
                 self.__tela_quarto.mostra_mensagem("Removido com sucesso.")
             else:
                 raise NaoEncontradoException("quarto", "numero", numero)
@@ -52,10 +60,10 @@ class ControladorQuarto():
         except Exception as e:
             self.__tela_quarto.mostra_mensagem(str(e))
 
-    def listar(self, codigo_hotel=None):
+    def listar(self, codigo_hotel):
         try:
-            if not codigo_hotel:
-                codigo_hotel = self.__tela_quarto.pega_codigo_hotel()
+            if not len(self.__controlador_hotel.hotel_dao.get_all()) >= 1:
+                raise Exception("Não existem hoteis cadastrados")
             if not len(self.__controlador_hotel.buscar_por_codigo(codigo_hotel).quartos) >= 1:
                 raise ListaVaziaException('quartos')
 
@@ -86,6 +94,7 @@ class ControladorQuarto():
 
             eh_quarto_vip = isinstance(quarto_removido, QuartoVip)
             hotel.adicionar_quarto(dados_quarto, eh_quarto_vip)
+            self.__controlador_hotel.hotel_dao.update(hotel)
         except NaoEncontradoException as e:
             self.__tela_quarto.mostra_mensagem(str(e))
         except Exception as e:

@@ -66,12 +66,12 @@ class Hotel():
     def adicionar_quarto(self, dados_quarto, eh_quarto_vip):
         if eh_quarto_vip:
             quarto = QuartoVip(dados_quarto["numero"],
-                    dados_quarto["capacidade"],
-                    dados_quarto["preco_diaria"])
+                               dados_quarto["capacidade"],
+                               dados_quarto["preco_diaria"])
         else:
             quarto = Quarto(dados_quarto["numero"],
-                    dados_quarto["capacidade"],
-                    dados_quarto["preco_diaria"])
+                            dados_quarto["capacidade"],
+                            dados_quarto["preco_diaria"])
         self.__quartos.append(quarto)
 
     def remover_quarto(self, numero):
@@ -79,7 +79,7 @@ class Hotel():
             if quarto.numero == numero:
                 self.__quartos.remove(quarto)
                 return quarto
-        
+
         return None
 
     def adicionar_funcionario(self, funcionario):
@@ -91,7 +91,7 @@ class Hotel():
             if funcionario.cpf == cpf:
                 self.__funcionarios.remove(funcionario)
                 return funcionario
-        
+
         return None
 
     def adicionar_cliente(self, cliente):
@@ -103,22 +103,52 @@ class Hotel():
             if cliente.cpf == cpf:
                 self.__clientes.remove(cliente)
                 return cliente
-        
+
         return None
+    
+    def busca_funcionario_por_cpf(self, cpf):
+        for pessoa in self.__funcionarios:
+            if pessoa.cpf == cpf:
+                return pessoa
+
+        return None
+    
+    def busca_cliente_por_cpf(self, cpf):
+        for pessoa in self.__cientes:
+            if pessoa.cpf == cpf:
+                return pessoa
+
+        return None
+    
+    def listar_dados_funcionarios(self):
+        return map(lambda pessoa: {
+            "nome": pessoa.nome,
+            "cpf": pessoa.cpf,
+            "telefone": pessoa.telefone,
+            "email": pessoa.email
+        }, self.__funcionarios)
+        
+    def listar_dados_clientes(self):
+        return map(lambda pessoa: {
+            "nome": pessoa.nome,
+            "cpf": pessoa.cpf,
+            "telefone": pessoa.telefone,
+            "email": pessoa.email
+        }, self.__clientes)
 
     def numero_de_quartos(self):
-      return len(self.__quartos)
+        return len(self.__quartos)
 
     def busca_quarto_por_numero(self, numero):
-      for quarto in self.__quartos:
-          if quarto.numero == numero:
-              return quarto
+        for quarto in self.__quartos:
+            if quarto.numero == numero:
+                return quarto
 
-      return None
+        return None
 
     def listar_dados_quartos(self):
-      return map(lambda quarto: {
-              "numero": quarto.numero,
-              "capacidade": quarto.capacidade,
-              "preco_diaria": quarto.preco_diaria
-          }, self.__quartos)
+        return map(lambda quarto: {
+            "numero": quarto.numero,
+            "capacidade": quarto.capacidade,
+            "preco_diaria": quarto.preco_diaria
+        }, self.__quartos)
