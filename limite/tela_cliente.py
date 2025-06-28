@@ -72,19 +72,25 @@ class TelaCliente(AbstractTela):
 
         return self._pega_dados(schema)
 
-    def mostrar_clientes(self, lista_dados_cliente):
-        print("\n")
-        print("-------- Listagem de Clientes --------")
-        print("\n")
-        for dados_cliente in lista_dados_cliente:
-            self.mostra_cliente(dados_cliente)
+    def mostrar_clientes(self, lista_dados):
+        string_lista = ""
+        for dados in lista_dados:
+            string_lista += self.mostrar(dados)
 
-    def mostra_cliente(self, dados_cliente):
-        print("Nome do cliente: ", dados_cliente["nome"])
-        print("CPF do cliente: ", dados_cliente["cpf"])
-        print("Telefone do cliente: ", dados_cliente["telefone"])
-        print("Email do cliente: ", dados_cliente["email"])
-        print("\n")
+        sg.popup_scrolled(string_lista,
+                          title='-------- Listagem de Clientes ----------',
+                          font=("Helvetica", 12),
+                          size=(60, 20))
+
+    def mostrar(self, dados):
+        string_dados = ""
+        string_dados += "Nome do cliente: " + str(dados["nome"]) + "\n"
+        string_dados += "CPF do cliente: " + str(dados["cpf"]) + "\n"
+        string_dados += "Telefone do cliente: " + str(dados["telefone"]) + "\n"
+        string_dados += "Email do cliente: " + str(dados["email"]) + "\n"
+        string_dados += '\n'
+
+        return string_dados
 
     def close(self):
         self.__window.Close()

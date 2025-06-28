@@ -102,8 +102,6 @@ class TelaHotel(AbstractTela):
     def mostra_relatorio(self, lista_dados_hoteis):
         string_lista = ""
 
-        print(lista_dados_hoteis)
-
         for dados_hotel in lista_dados_hoteis:
             string_lista += "Nome do hotel: " + str(dados_hotel["nome"]) + "\n"
             string_lista += "Código do hotel: " + str(

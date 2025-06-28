@@ -1,5 +1,6 @@
 from limite.tela_cliente import TelaCliente
 from entidade.cliente import Cliente
+from persistence.hotel_dao import HotelDAO
 from excecoes.lista_vazia_exception import ListaVaziaException
 from excecoes.jah_existente_exception import JahExistenteException
 from excecoes.nao_encontrado_exception import NaoEncontradoException
@@ -29,6 +30,7 @@ class ControladorCliente():
                                    dados_cliente["telefone"],
                                    dados_cliente["email"])
             hotel.adicionar_cliente(novo_cliente)
+            self.__controlador_hotel.hotel_dao.update(hotel)
             self.__tela_cliente.mostra_mensagem(
                 "Cliente adicionado com sucesso!")
         except JahExistenteException as e:
@@ -67,8 +69,11 @@ class ControladorCliente():
         except Exception as e:
             self.__tela_cliente.mostra_mensagem(str(e))
 
-    def listar(self, codigo_hotel):
+    def listar(self, codigo_hotel=None):
         try:
+            if not codigo_hotel:
+                codigo_hotel = self.__tela_cliente.pega_codigo(" do hotel")
+
             if not len(self.__controlador_hotel.hotel_dao.get_all()) >= 1:
                 raise Exception("Não existem hoteis cadastrados")
             if not len(
@@ -76,7 +81,7 @@ class ControladorCliente():
                         codigo_hotel).clientes) >= 1:
                 raise ListaVaziaException('clientes')
 
-            lista_dados_cliente = self.__controlador_hotel.busca_por_codigo(
+            lista_dados_cliente = self.__controlador_hotel.buscar_por_codigo(
                 codigo_hotel).listar_dados_clientes()
 
             self.__tela_cliente.mostrar_clientes(lista_dados_cliente)
