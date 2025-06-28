@@ -33,12 +33,19 @@ class ControladorReserva():
         return reserva.quarto.preco_diaria * (reserva.data_saida - reserva.data_entrada).days
 
     def adicionar(self):
-        codigo_reserva = self.__tela_reserva.pega_codigo_reserva()
-        dados_reserva = self.__tela_reserva.pega_dados_reserva()
-
         try:
             if not (self.__controlador_sistema.controlador_hotel.hotel_dao.get_all()) >= 1:
                 raise Exception("Não existem hoteis para cadastrar uma reserva")
+            
+            codigo_reserva = self.__tela_reserva.pega_codigo()
+            
+            if codigo_reserva is None:
+                return
+            
+            dados_reserva = self.__tela_reserva.pega_dados_reserva()
+            
+            if dados_reserva is None:
+                return
             
             if self.buscar_por_codigo(codigo_reserva):
                 raise JahExistenteException("Reserva", "codigo", codigo_reserva)
@@ -72,21 +79,24 @@ class ControladorReserva():
             reserva.custo = self.calcular_custo(reserva)
 
             self.__reserva_dao.add(reserva)
-            self.__tela_reserva.mostra_mensagem("Reserva adicionada com sucesso")
+            self.__tela_reserva.mostra_mensagem("Reserva adicionada com sucesso", "sucesso")
         except NaoEncontradoException as e:
-            self.__tela_reserva.mostra_mensagem(str(e))
+            self.__tela_reserva.mostra_mensagem(str(e), "erro")
         except QuartoPossuiReservaNoPeriodo as e:
-            self.__tela_reserva.mostra_mensagem(str(e))
+            self.__tela_reserva.mostra_mensagem(str(e), "erro")
         except JahExistenteException as e:
-            self.__tela_reserva.mostra_mensagem(str(e))
+            self.__tela_reserva.mostra_mensagem(str(e), "erro")
         except Exception as e:
-            self.__tela_reserva.mostra_mensagem(str(e))
+            self.__tela_reserva.mostra_mensagem(str(e), "erro")
 
     def remover(self):
         if not self.listar():
             return
         
-        codigo = self.__tela_reserva.pega_codigo_reserva()
+        codigo = self.__tela_reserva.pega_codigo()
+        
+        if codigo is None:
+                return
         
         try:
             self.__reserva_dao.remove(codigo)
@@ -127,7 +137,10 @@ class ControladorReserva():
         if not self.listar():
             return
 
-        codigo = self.__tela_reserva.pega_codigo_reserva()
+        codigo = self.__tela_reserva.pega_codigo()
+        
+        if codigo is None:
+                return
         
         try:
             reserva = self.buscar_por_codigo(codigo)

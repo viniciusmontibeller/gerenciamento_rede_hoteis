@@ -2,6 +2,8 @@ from abc import ABC, abstractmethod
 import datetime
 import PySimpleGUI as sg
 
+from excecoes.data_saida_invalida_exception import DataSaidaInvalidaException
+
 
 class AbstractTela(ABC):
     ESTILO_JANELA = 'DarkGrey7'
@@ -84,9 +86,19 @@ class AbstractTela(ABC):
                 f"Valor incorreto! Formato esperado para '{campo_legivel}' deve conter exatamente 11 digitos e sem espaços.\n Exemplo: 47988303706",
                 "erro")
             return False
+        
+    def __validar_data_saida(self, values: dict, data_entrada: str, data_saida: str, campo_legivel: str) -> bool:
+        valor_entrada = values.get(data_entrada, "").strip()
+        valor_saida = values.get(data_saida, "").strip()
+        try:
+            if valor_entrada > valor_saida:
+                raise DataSaidaInvalidaException(data_entrada, campo_legivel)
+            return True
+        except DataSaidaInvalidaException as e:
+            self.mostra_mensagem(e, "erro")
 
     def _validar_campos(self, values: dict, regras: list[tuple]) -> bool:
-        for tipo, chave, campo_legivel in regras:
+        for tipo, chave, chave_complementar, campo_legivel in regras:
             if tipo.lower(
             ) == "obrigatorio" and not self.__validar_input_obrigatorio(
                     values, chave, campo_legivel):
@@ -107,6 +119,8 @@ class AbstractTela(ABC):
                 return False
             elif tipo.lower() == "data" and not self.__validar_data(
                     values, chave, campo_legivel):
+                return False
+            elif tipo.lower() == "data_saida" and not self.__validar_data_saida(values, chave_complementar, chave, campo_legivel):
                 return False
         return True
 

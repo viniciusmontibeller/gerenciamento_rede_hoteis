@@ -125,7 +125,7 @@ class TelaRede(AbstractTela):
 
         string_dados_rede += '\n'
         return string_dados_rede
-
+    
     def tela_opcoes(self):
         self.init_opcoes()
         button, _ = self.__window.Read()
