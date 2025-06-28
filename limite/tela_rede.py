@@ -138,8 +138,8 @@ class TelaRede(AbstractTela):
             'Adicionar Hotel em Rede': 5,
             'Remover Hotel em Rede': 6,
             'Retornar': 7,
-            None: 0,
             'Cancelar': 0,
+            None: 0
         }
 
         opcao = opcoes.get(button, 0)

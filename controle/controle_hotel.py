@@ -41,6 +41,10 @@ class ControladorHotel():
 
     def adicionar(self):
         dados_hotel = self.__tela_hotel.pega_dados_hotel()
+
+        if dados_hotel is None:
+            return
+
         try:
             if self.__hotel_dao.get(dados_hotel["codigo"]):
                 raise JahExistenteException("Hotel", "hotel",

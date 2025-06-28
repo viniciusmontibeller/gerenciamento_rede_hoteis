@@ -18,7 +18,7 @@ class TelaHotel(AbstractTela):
             'Excluir Hoteis': 7,
             'Relatório Geral de Hoteis': 8,
             'Retornar': 0,
-            None: 0,
+            None: 0
         }
 
         opcao = opcoes.get(button, 0)
