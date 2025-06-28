@@ -1,4 +1,5 @@
 from limite.abstract_tela import AbstractTela
+from limite.enum.input_data_type import InputDataType
 import PySimpleGUI as sg
 
 
@@ -42,58 +43,41 @@ class TelaHotel(AbstractTela):
         self.__window = sg.Window(self.TITULO_BASE).Layout(layout)
 
     def pega_dados_hotel(self):
-        sg.theme(self.ESTILO_JANELA)
-        layout = [[
-            sg.Text('DADOS HOTEL',
-                    font=("Helvica", 20),
-                    justification="center")
-        ],
-                  [
-                      sg.Text('Nome:', size=(15, 1)),
-                      sg.InputText(key='nome', tooltip='Nome da rede')
-                  ],
-                  [
-                      sg.Text('Código:', size=(15, 1)),
-                      sg.InputText(key='codigo',
-                                   tooltip='Apenas números (ex: 123)')
-                  ],
-                  [
-                      sg.Text('Endereço:', size=(15, 1)),
-                      sg.InputText(key='endereco',
-                                   tooltip='Informe o endereço')
-                  ],
-                  [
-                      sg.Text('Telefone:', size=(15, 1)),
-                      sg.InputText(key='telefone',
-                                   tooltip='Informe o telefone')
-                  ], [sg.Button('Confirmar'),
-                      sg.Cancel('Cancelar')]]
+        schema = {
+            "title":
+            "DADOS HOTEL",
+            "fieldList": [{
+                "label": "Nome",
+                "key": "nome",
+                "tooltip": "Nome",
+                "isRequired": True,
+                "dataType": InputDataType.TEXTO,
+                "parseAs": str
+            }, {
+                "label": "Código",
+                "key": "codigo",
+                "tooltip": "Apenas números (ex: 123)",
+                "isRequired": True,
+                "dataType": InputDataType.NUMERO,
+                "parseAs": int
+            }, {
+                "label": "Endereço",
+                "key": "endereco",
+                "tooltip": "Informe o endereço",
+                "isRequired": True,
+                "dataType": InputDataType.TEXTO,
+                "parseAs": str
+            }, {
+                "label": "Telefone",
+                "key": "telefone",
+                "tooltip": "Informe o telefone",
+                "isRequired": True,
+                "dataType": InputDataType.TELEFONE,
+                "parseAs": str
+            }]
+        }
 
-        self.__window = sg.Window(self.TITULO_BASE).Layout(layout)
-
-        while True:
-            button, values = self.__window.Read()
-
-            if button in (sg.WIN_CLOSED, 'Cancelar'):
-                self.close()
-                return None
-
-            if not self._validar_campos(
-                    values, [("obrigatorio", "nome", "Nome"),
-                             ("numero", "codigo", "Código"),
-                             ("obrigatorio", "endereco", "Endereço"),
-                             ("obrigatorio", "telefone", "Telefone")]):
-                continue
-
-            dados_rede = {
-                "nome": self._extrair_valor(values, 'nome'),
-                "codigo": int(self._extrair_valor(values, 'codigo')),
-                "endereco": self._extrair_valor(values, 'endereco'),
-                "telefone": self._extrair_valor(values, 'telefone')
-            }
-
-            self.close()
-            return dados_rede
+        return self._pega_dados(schema)
 
     def mostrar_hoteis(self, lista_dados):
         string_lista = ""

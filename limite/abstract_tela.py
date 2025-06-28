@@ -156,6 +156,53 @@ class AbstractTela(ABC):
             self.close()
             return int(self._extrair_valor(values, 'codigo'))
 
+    def _pega_dados(self, schema):
+        sg.theme(self.ESTILO_JANELA)
+
+        layout = []
+        layout.append([
+            sg.Text(schema["title"],
+                    font=("Helvica", 20),
+                    justification="center")
+        ])
+
+        validation_rules = []
+        for field in schema["fieldList"]:
+            layout.append([
+                sg.Text(f'{field["label"]}:', size=(15, 1)),
+                sg.InputText(key=field["key"], tooltip=field["tooltip"])
+            ])
+
+            if field["isRequired"]:
+                validation_rules.append(
+                    ("obrigatorio", field["key"], field["label"]))
+
+            validation_rules.append(
+                (field["dataType"].value, field["key"], field["label"]))
+
+        layout.append([sg.Button('Confirmar'), sg.Cancel('Cancelar')])
+
+        self.__window = sg.Window(self.TITULO_BASE).Layout(layout)
+
+        while True:
+            button, values = self.__window.Read()
+
+            if button in (sg.WIN_CLOSED, 'Cancelar'):
+                self.close()
+                return None
+
+            if not self._validar_campos(values, validation_rules):
+                continue
+
+            dados = {}
+
+            for field in schema["fieldList"]:
+                dados[field["key"]] = field["parseAs"](self._extrair_valor(
+                    values, field["key"]))
+
+            self.close()
+            return dados
+
     # @abstractmethod
     # def init_opcoes(self):
     #     pass
