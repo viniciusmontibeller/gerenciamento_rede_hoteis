@@ -6,3 +6,4 @@ class InputDataType(Enum):
     NUMERO = "numero"
     TELEFONE = "telefone"
     TEXTO = "texto"
+    CPF = "cpf"

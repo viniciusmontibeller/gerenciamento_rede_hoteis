@@ -13,73 +13,99 @@ class ControladorReserva():
         self.__controlador_sistema = controlador_sistema
         self.__tela_reserva = TelaReserva()
         self.__reserva_dao = ReservaDAO()
-    
+
     @property
     def controlador_sistema(self):
         return self.__controlador_sistema
-    
+
     @property
     def reserva_dao(self):
         return self.__reserva_dao
-        
-    def __verificar_quarto_disponivel_em_hotel(self, hotel, quarto, data_entrada, data_saida):
+
+    def __verificar_quarto_disponivel_em_hotel(self, hotel, quarto,
+                                               data_entrada, data_saida):
         for reserva in self.__reserva_dao.get_all():
             if reserva.hotel.codigo == hotel.codigo and reserva.quarto.numero == quarto.numero:
-                if (data_entrada <= reserva.data_saida) and (data_saida >= reserva.data_entrada):
+                if (data_entrada
+                        <= reserva.data_saida) and (data_saida
+                                                    >= reserva.data_entrada):
                     return False
         return True
-    
+
     def calcular_custo(self, reserva: Reserva):
-        return reserva.quarto.preco_diaria * (reserva.data_saida - reserva.data_entrada).days
+        return reserva.quarto.preco_diaria * (reserva.data_saida -
+                                              reserva.data_entrada).days
 
     def adicionar(self):
         try:
-            if not (self.__controlador_sistema.controlador_hotel.hotel_dao.get_all()) >= 1:
-                raise Exception("Não existem hoteis para cadastrar uma reserva")
-            
+            if not (self.__controlador_sistema.controlador_hotel.hotel_dao.
+                    get_all()) >= 1:
+                raise Exception(
+                    "Não existem hoteis para cadastrar uma reserva")
+
             codigo_reserva = self.__tela_reserva.pega_codigo()
-            
+
             if codigo_reserva is None:
                 return
-            
+
             dados_reserva = self.__tela_reserva.pega_dados_reserva()
-            
+
             if dados_reserva is None:
                 return
-            
-            if self.buscar_por_codigo(codigo_reserva):
-                raise JahExistenteException("Reserva", "codigo", codigo_reserva)
 
-            hotel = self.__controlador_sistema.controlador_hotel.buscar_por_codigo(dados_reserva["codigo_hotel"])
+            if self.buscar_por_codigo(codigo_reserva):
+                raise JahExistenteException("Reserva", "codigo",
+                                            codigo_reserva)
+
+            hotel = self.__controlador_sistema.controlador_hotel.buscar_por_codigo(
+                dados_reserva["codigo_hotel"])
             if hotel is None:
-                raise NaoEncontradoException("Hotel", "codigo", dados_reserva["codigo_hotel"])
-            
+                raise NaoEncontradoException("Hotel", "codigo",
+                                             dados_reserva["codigo_hotel"])
+
             if not len(hotel.funcionarios) >= 1:
-                raise Exception("Não existem funcionarios nesse hotel para cadastrar uma reserva")
+                raise Exception(
+                    "Não existem funcionarios nesse hotel para cadastrar uma reserva"
+                )
             if not len(hotel.clientes) >= 1:
-                raise Exception("Não existem clientes nesse hotel para cadastrar uma reserva")
+                raise Exception(
+                    "Não existem clientes nesse hotel para cadastrar uma reserva"
+                )
             if not len(hotel.clientes) >= 1:
-                raise Exception("Não existem quartos nesse hotel para cadastrar uma reserva")
-            
-            quarto = hotel.busca_quarto_por_numero(dados_reserva["numero_quarto"])
+                raise Exception(
+                    "Não existem quartos nesse hotel para cadastrar uma reserva"
+                )
+
+            quarto = hotel.busca_quarto_por_numero(
+                dados_reserva["numero_quarto"])
             if quarto is None:
-                raise NaoEncontradoException("quarto", "numero", dados_reserva["numero_quarto"])
-            if not self.__verificar_quarto_disponivel_em_hotel(hotel, quarto, dados_reserva["data_entrada"], dados_reserva["data_saida"]):
-                raise QuartoPossuiReservaNoPeriodo(dados_reserva["data_entrada"], dados_reserva["data_saida"])
-            
+                raise NaoEncontradoException("quarto", "numero",
+                                             dados_reserva["numero_quarto"])
+            if not self.__verificar_quarto_disponivel_em_hotel(
+                    hotel, quarto, dados_reserva["data_entrada"],
+                    dados_reserva["data_saida"]):
+                raise QuartoPossuiReservaNoPeriodo(
+                    dados_reserva["data_entrada"], dados_reserva["data_saida"])
+
             cliente = hotel.busca_cliente_por_cpf(dados_reserva["cpf_cliente"])
             if cliente is None:
-                raise NaoEncontradoException("cliente", "CPF", dados_reserva["cpf_cliente"])
+                raise NaoEncontradoException("cliente", "CPF",
+                                             dados_reserva["cpf_cliente"])
 
-            funcionario = hotel.busca_funcionario_por_cpf(dados_reserva["cpf_funcionario"])
+            funcionario = hotel.busca_funcionario_por_cpf(
+                dados_reserva["cpf_funcionario"])
             if funcionario is None:
-                raise NaoEncontradoException("funcionario", "CPF", dados_reserva["cpf_funcionario"])
-            
-            reserva = Reserva(codigo_reserva, hotel, quarto, cliente, funcionario, dados_reserva["data_entrada"], dados_reserva["data_saida"])
+                raise NaoEncontradoException("funcionario", "CPF",
+                                             dados_reserva["cpf_funcionario"])
+
+            reserva = Reserva(codigo_reserva, hotel, quarto, cliente,
+                              funcionario, dados_reserva["data_entrada"],
+                              dados_reserva["data_saida"])
             reserva.custo = self.calcular_custo(reserva)
 
             self.__reserva_dao.add(reserva)
-            self.__tela_reserva.mostra_mensagem("Reserva adicionada com sucesso", "sucesso")
+            self.__tela_reserva.mostra_mensagem(
+                "Reserva adicionada com sucesso", "sucesso")
         except NaoEncontradoException as e:
             self.__tela_reserva.mostra_mensagem(str(e), "erro")
         except QuartoPossuiReservaNoPeriodo as e:
@@ -92,12 +118,12 @@ class ControladorReserva():
     def remover(self):
         if not self.listar():
             return
-        
+
         codigo = self.__tela_reserva.pega_codigo()
-        
+
         if codigo is None:
-                return
-        
+            return
+
         try:
             self.__reserva_dao.remove(codigo)
             self.__tela_reserva.mostra_mensagem("Removido com sucesso.")
@@ -138,35 +164,45 @@ class ControladorReserva():
             return
 
         codigo = self.__tela_reserva.pega_codigo()
-        
+
         if codigo is None:
-                return
-        
+            return
+
         try:
             reserva = self.buscar_por_codigo(codigo)
             if reserva is None:
                 raise NaoEncontradoException("reserva", "codigo", codigo)
 
             dados_reserva = self.__tela_reserva.pega_dados_reserva()
-            
-            hotel = self.__controlador_sistema.controlador_hotel.buscar_por_codigo(dados_reserva["codigo_hotel"])
+
+            hotel = self.__controlador_sistema.controlador_hotel.buscar_por_codigo(
+                dados_reserva["codigo_hotel"])
             if hotel is None:
-                raise NaoEncontradoException("Hotel", "codigo", dados_reserva["codigo_hotel"])
-            
-            quarto = hotel.busca_quarto_por_numero(dados_reserva["numero_quarto"])
+                raise NaoEncontradoException("Hotel", "codigo",
+                                             dados_reserva["codigo_hotel"])
+
+            quarto = hotel.busca_quarto_por_numero(
+                dados_reserva["numero_quarto"])
             if quarto is None:
-                raise NaoEncontradoException("quarto", "numero", dados_reserva["numero_quarto"])
-            if not self.__verificar_quarto_disponivel_em_hotel(hotel, quarto, dados_reserva["data_entrada"], dados_reserva["data_saida"]):
-                raise QuartoPossuiReservaNoPeriodo(dados_reserva["data_entrada"], dados_reserva["data_saida"])
-            
+                raise NaoEncontradoException("quarto", "numero",
+                                             dados_reserva["numero_quarto"])
+            if not self.__verificar_quarto_disponivel_em_hotel(
+                    hotel, quarto, dados_reserva["data_entrada"],
+                    dados_reserva["data_saida"]):
+                raise QuartoPossuiReservaNoPeriodo(
+                    dados_reserva["data_entrada"], dados_reserva["data_saida"])
+
             cliente = hotel.busca_cliente_por_cpf(dados_reserva["cpf_cliente"])
             if cliente is None:
-                raise NaoEncontradoException("cliente", "CPF", dados_reserva["cpf_cliente"])
+                raise NaoEncontradoException("cliente", "CPF",
+                                             dados_reserva["cpf_cliente"])
 
-            funcionario = hotel.busca_funcionario_por_cpf(dados_reserva["cpf_funcionario"])
+            funcionario = hotel.busca_funcionario_por_cpf(
+                dados_reserva["cpf_funcionario"])
             if funcionario is None:
-                raise NaoEncontradoException("funcionario", "CPF", dados_reserva["cpf_funcionario"])
-            
+                raise NaoEncontradoException("funcionario", "CPF",
+                                             dados_reserva["cpf_funcionario"])
+
             reserva.hotel = hotel
             reserva.quarto = quarto
             reserva.cliente = cliente
@@ -174,7 +210,7 @@ class ControladorReserva():
             reserva.data_entrada = dados_reserva["data_entrada"]
             reserva.data_saida = dados_reserva["data_saida"]
             reserva.custo = self.calcular_custo(reserva)
-            
+
             self.__reserva_dao.update(reserva)
 
             self.__tela_reserva.mostra_mensagem("Alterado com sucesso.")
@@ -186,11 +222,15 @@ class ControladorReserva():
             self.__tela_reserva.mostra_mensagem(str(e))
 
     def listar_reservas_por_hotel(self, codigo_hotel):
-        hotel = self.__controlador_sistema.controlador_hotel.buscar_por_codigo(codigo_hotel)
+        hotel = self.__controlador_sistema.controlador_hotel.buscar_por_codigo(
+            codigo_hotel)
         if hotel is None:
-            raise Exception("Hotel não encontrado") 
-        
-        lista_reservas = [reserva for reserva in self.__reserva_dao.get_all() if reserva.hotel == hotel]
+            raise Exception("Hotel não encontrado")
+
+        lista_reservas = [
+            reserva for reserva in self.__reserva_dao.get_all()
+            if reserva.hotel == hotel
+        ]
 
         return lista_reservas
 
@@ -206,6 +246,6 @@ class ControladorReserva():
         continua = True
         while continua:
             lista_opcoes[self.__tela_reserva.tela_opcoes()]()
-    
+
     def retornar(self):
-        self.__controlador_sistema.abre_tela()    
+        self.__controlador_sistema.abre_tela()

@@ -69,8 +69,7 @@ class Hotel():
                                dados_quarto["capacidade"],
                                dados_quarto["preco_diaria"])
         else:
-            quarto = Quarto(dados_quarto["numero"],
-                            dados_quarto["capacidade"],
+            quarto = Quarto(dados_quarto["numero"], dados_quarto["capacidade"],
                             dados_quarto["preco_diaria"])
         self.__quartos.append(quarto)
 
@@ -85,7 +84,7 @@ class Hotel():
     def adicionar_funcionario(self, funcionario):
         if isinstance(funcionario, Funcionario):
             self.funcionarios.append(funcionario)
-            
+
     def remover_funcionario(self, cpf):
         for funcionario in self.__funcionarios:
             if funcionario.cpf == cpf:
@@ -97,7 +96,7 @@ class Hotel():
     def adicionar_cliente(self, cliente):
         if isinstance(cliente, Cliente):
             self.clientes.append(cliente)
-            
+
     def remover_cliente(self, cpf):
         for cliente in self.__clientes:
             if cliente.cpf == cpf:
@@ -105,36 +104,38 @@ class Hotel():
                 return cliente
 
         return None
-    
+
     def busca_funcionario_por_cpf(self, cpf):
         for pessoa in self.__funcionarios:
             if pessoa.cpf == cpf:
                 return pessoa
 
         return None
-    
+
     def busca_cliente_por_cpf(self, cpf):
-        for pessoa in self.__cientes:
+        for pessoa in self.__clientes:
             if pessoa.cpf == cpf:
                 return pessoa
 
         return None
-    
+
     def listar_dados_funcionarios(self):
-        return map(lambda pessoa: {
-            "nome": pessoa.nome,
-            "cpf": pessoa.cpf,
-            "telefone": pessoa.telefone,
-            "email": pessoa.email
-        }, self.__funcionarios)
-        
+        return map(
+            lambda pessoa: {
+                "nome": pessoa.nome,
+                "cpf": pessoa.cpf,
+                "telefone": pessoa.telefone,
+                "email": pessoa.email
+            }, self.__funcionarios)
+
     def listar_dados_clientes(self):
-        return map(lambda pessoa: {
-            "nome": pessoa.nome,
-            "cpf": pessoa.cpf,
-            "telefone": pessoa.telefone,
-            "email": pessoa.email
-        }, self.__clientes)
+        return map(
+            lambda pessoa: {
+                "nome": pessoa.nome,
+                "cpf": pessoa.cpf,
+                "telefone": pessoa.telefone,
+                "email": pessoa.email
+            }, self.__clientes)
 
     def numero_de_quartos(self):
         return len(self.__quartos)
@@ -147,8 +148,9 @@ class Hotel():
         return None
 
     def listar_dados_quartos(self):
-        return map(lambda quarto: {
-            "numero": quarto.numero,
-            "capacidade": quarto.capacidade,
-            "preco_diaria": quarto.preco_diaria
-        }, self.__quartos)
+        return map(
+            lambda quarto: {
+                "numero": quarto.numero,
+                "capacidade": quarto.capacidade,
+                "preco_diaria": quarto.preco_diaria
+            }, self.__quartos)

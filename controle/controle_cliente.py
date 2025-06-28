@@ -7,6 +7,7 @@ from excecoes.jah_possui_reserva_exception import JahPossuiReservaException
 
 
 class ControladorCliente():
+
     def __init__(self, controlador_hotel):
         self.__controlador_hotel = controlador_hotel
         self.__tela_cliente = TelaCliente()
@@ -14,41 +15,44 @@ class ControladorCliente():
     def adicionar(self):
         try:
             if not len(self.__controlador_hotel.hotel_dao.get_all()) >= 1:
-                raise Exception("Não existem hoteis cadastrados para incluir um cliente")
-            
-            codigo_hotel = self.__tela_cliente.pega_codigo_hotel()
+                raise Exception(
+                    "Não existem hoteis cadastrados para incluir um cliente")
+
+            codigo_hotel = self.__tela_cliente.pega_codigo(" do hotel")
             dados_cliente = self.__tela_cliente.pega_dados_cliente()
             hotel = self.__controlador_hotel.buscar_por_codigo(codigo_hotel)
-        
+
             if hotel.busca_cliente_por_cpf(dados_cliente["cpf"]):
-                raise JahExistenteException("Cliente", "CPF", dados_cliente["cpf"])
-            novo_cliente = Cliente(dados_cliente["nome"],
-                            dados_cliente["cpf"],
-                            dados_cliente["telefone"],
-                            dados_cliente["email"])
+                raise JahExistenteException("Cliente", "CPF",
+                                            dados_cliente["cpf"])
+            novo_cliente = Cliente(dados_cliente["nome"], dados_cliente["cpf"],
+                                   dados_cliente["telefone"],
+                                   dados_cliente["email"])
             hotel.adicionar_cliente(novo_cliente)
-            self.__tela_cliente.mostra_mensagem("Cliente adicionado com sucesso!")
+            self.__tela_cliente.mostra_mensagem(
+                "Cliente adicionado com sucesso!")
         except JahExistenteException as e:
             self.__tela_cliente.mostra_mensagem(str(e))
         except Exception as e:
             self.__tela_cliente.mostra_mensagem(str(e))
 
     def remover(self):
-        codigo_hotel = self.__tela_cliente.pega_codigo_hotel()
+        codigo_hotel = self.__tela_cliente.pega_codigo(" do hotel")
         if not self.listar(codigo_hotel):
-                return
-        
-        cpf = self.__tela_cliente.pega_cpf_cliente()
-        
+            return
+
+        cpf = self.__tela_cliente.pega_cpf()
+
         try:
             cliente_existe = False
             hotel = self.__controlador_hotel.buscar_por_codigo(codigo_hotel)
-            
+
             if hotel.busca_cliente_por_cpf(cpf):
-                for reserva in self.__controlador_hotel.controlador_sistema.controlador_reserva.listar_reservas_por_hotel(codigo_hotel):
+                for reserva in self.__controlador_hotel.controlador_sistema.controlador_reserva.listar_reservas_por_hotel(
+                        codigo_hotel):
                     if reserva.cliente.cpf == cpf:
                         raise JahPossuiReservaException("cliente")
-                    
+
                 hotel.remover_cliente(cpf)
                 self.__controlador_hotel.hotel_dao.update(hotel)
                 self.__tela_cliente.mostra_mensagem("Removido com sucesso.")
@@ -67,12 +71,14 @@ class ControladorCliente():
         try:
             if not len(self.__controlador_hotel.hotel_dao.get_all()) >= 1:
                 raise Exception("Não existem hoteis cadastrados")
-            if not len(self.__controlador_hotel.buscar_por_codigo(codigo_hotel).clientes) >= 1:
+            if not len(
+                    self.__controlador_hotel.buscar_por_codigo(
+                        codigo_hotel).clientes) >= 1:
                 raise ListaVaziaException('clientes')
-            
+
             lista_dados_cliente = self.__controlador_hotel.busca_por_codigo(
                 codigo_hotel).listar_dados_clientes()
-            
+
             self.__tela_cliente.mostrar_clientes(lista_dados_cliente)
             return True
         except Exception as e:
@@ -82,7 +88,7 @@ class ControladorCliente():
             return False
 
     def alterar(self):
-        codigo_hotel = self.__tela_cliente.pega_codigo_hotel()
+        codigo_hotel = self.__tela_cliente.pega_codigo(" do hotel")
         if not self.listar(codigo_hotel):
             return
 
@@ -90,9 +96,9 @@ class ControladorCliente():
 
         try:
             cliente_existe = False
-            
+
             hotel = self.__controlador_hotel.buscar_por_codigo(codigo_hotel)
-            
+
             cliente = hotel.busca_cliente_por_cpf(dados_cliente["cpf"])
             if cliente:
                 cliente.nome = dados_cliente["nome"]
@@ -103,7 +109,8 @@ class ControladorCliente():
                 cliente_existe = True
 
             if not cliente_existe:
-                raise NaoEncontradoException("cliente", "CPF", dados_cliente["cpf"])
+                raise NaoEncontradoException("cliente", "CPF",
+                                             dados_cliente["cpf"])
         except NaoEncontradoException as e:
             self.__tela_cliente.mostra_mensagem(str(e))
         except Exception as e:

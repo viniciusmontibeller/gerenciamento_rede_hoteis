@@ -62,7 +62,7 @@ class ControladorHotel():
         if not self.listar():
             return
 
-        codigo = self.__tela_hotel.pega_codigo()
+        codigo = self.__tela_hotel._pega_codigo()
 
         try:
             self.__hotel_dao.remove(codigo)

@@ -86,8 +86,9 @@ class AbstractTela(ABC):
                 f"Valor incorreto! Formato esperado para '{campo_legivel}' deve conter exatamente 11 digitos e sem espaços.\n Exemplo: 47988303706",
                 "erro")
             return False
-        
-    def __validar_data_saida(self, values: dict, data_entrada: str, data_saida: str, campo_legivel: str) -> bool:
+
+    def __validar_data_saida(self, values: dict, data_entrada: str,
+                             data_saida: str, campo_legivel: str) -> bool:
         valor_entrada = values.get(data_entrada, "").strip()
         valor_saida = values.get(data_saida, "").strip()
         try:
@@ -98,7 +99,7 @@ class AbstractTela(ABC):
             self.mostra_mensagem(e, "erro")
 
     def _validar_campos(self, values: dict, regras: list[tuple]) -> bool:
-        for tipo, chave, chave_complementar, campo_legivel in regras:
+        for tipo, chave, campo_legivel in regras:
             if tipo.lower(
             ) == "obrigatorio" and not self.__validar_input_obrigatorio(
                     values, chave, campo_legivel):
@@ -120,7 +121,9 @@ class AbstractTela(ABC):
             elif tipo.lower() == "data" and not self.__validar_data(
                     values, chave, campo_legivel):
                 return False
-            elif tipo.lower() == "data_saida" and not self.__validar_data_saida(values, chave_complementar, chave, campo_legivel):
+            elif tipo.lower(
+            ) == "data_saida" and not self.__validar_data_saida(
+                    values, chave, campo_legivel):
                 return False
         return True
 
@@ -141,15 +144,46 @@ class AbstractTela(ABC):
     def tela_opcoes(self):
         pass
 
-    def pega_codigo(self):
+    def pega_codigo(self, additionalLabel=""):
         sg.theme(self.ESTILO_JANELA)
         layout = [[
             sg.Text('SELECIONAR', font=("Helvica", 20), justification='center')
-        ], [sg.Text('Digite o código', font=("Helvica", 15))],
+        ], [
+            sg.Text(f'Digite o código{additionalLabel}', font=("Helvica", 15))
+        ],
                   [
-                      sg.Text('Código:', size=(15, 1)),
+                      sg.Text(f'Código{additionalLabel}:', size=(15, 1)),
                       sg.InputText(key='codigo',
                                    tooltip='Digite apenas números (ex: 123)',
+                                   size=(20, 1))
+                  ], [sg.Button('Confirmar'),
+                      sg.Cancel('Cancelar')]]
+        self.__window = sg.Window(self.TITULO_BASE).Layout(layout)
+
+        while True:
+            button, values = self.__window.Read()
+
+            if button in (sg.WIN_CLOSED, 'Cancelar'):
+                self.close()
+                return None
+
+            if not self._validar_campos(values,
+                                        [("obrigatorio", "codigo", "Código"),
+                                         ("numero", "codigo", "Código")]):
+                continue
+
+            self.close()
+            return int(self._extrair_valor(values, 'codigo'))
+
+    def pega_cpf(self):
+        sg.theme(self.ESTILO_JANELA)
+        layout = [[
+            sg.Text('SELECIONAR', font=("Helvica", 20), justification='center')
+        ], [sg.Text('Digite o CPF', font=("Helvica", 15))],
+                  [
+                      sg.Text('CPF:', size=(15, 1)),
+                      sg.InputText(key='codigo',
+                                   tooltip='Digite o CPF (ex: 12656972900)',
                                    size=(20, 1))
                   ], [sg.Button('Confirmar'),
                       sg.Cancel('Cancelar')]]
