@@ -100,21 +100,30 @@ class TelaHotel(AbstractTela):
         return string_dados
 
     def mostra_relatorio(self, lista_dados_hoteis):
-        print("\n")
-        print("-------- Relatório Geral de Hoteis --------")
-        print("\n")
+        string_lista = ""
+
+        print(lista_dados_hoteis)
 
         for dados_hotel in lista_dados_hoteis:
-            print("Nome do hotel: ", dados_hotel["nome"])
-            print("Código do hotel: ", dados_hotel["codigo"])
-            print("Funcionários do hotel: ",
-                  dados_hotel["numero_funcionarios"])
-            print("Clientes do hotel: ", dados_hotel["numero_clientes"])
-            print("Quartos do hotel: ", dados_hotel["numero_quartos"])
-            print("Número de reservas: ", dados_hotel["numero_reservas"])
-            print("Faturamento total em reservas: ",
-                  dados_hotel["faturamento_total_em_reservas"])
-            print("\n")
+            string_lista += "Nome do hotel: " + str(dados_hotel["nome"]) + "\n"
+            string_lista += "Código do hotel: " + str(
+                dados_hotel["codigo"]) + "\n"
+            string_lista += "Funcionários do hotel: " + str(
+                dados_hotel["numero_funcionarios"]) + "\n"
+            string_lista += "Clientes do hotel: " + str(
+                dados_hotel["numero_clientes"]) + "\n"
+            string_lista += "Quartos do hotel: " + str(
+                dados_hotel["numero_quartos"]) + "\n"
+            string_lista += "Número de reservas: " + str(
+                dados_hotel["numero_reservas"]) + "\n"
+            string_lista += "Faturamento total em reservas: + " + str(
+                dados_hotel["faturamento_total_em_reservas"]) + "\n"
+            string_lista += "\n"
+
+        sg.popup_scrolled(string_lista,
+                          title="-------- Relatório Geral de Hoteis --------",
+                          font=("Helvetica", 12),
+                          size=(60, 20))
 
     def close(self):
         self.__window.Close()
