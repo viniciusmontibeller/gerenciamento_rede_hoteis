@@ -23,17 +23,21 @@ class ControladorRede():
 
     def adicionar(self):
         dados_rede = self.__tela_rede.pega_dados_rede()
+        
+        if dados_rede is None:
+            return
+        
         try:
             if self.buscar_por_codigo(dados_rede["codigo"]):
                 raise JahExistenteException("Rede", "codigo", dados_rede["codigo"])
             self.__rede_dao.add(
                 Rede(dados_rede["nome"], dados_rede["codigo"],
                         dados_rede["localizacao_rede"]))
-            self.__tela_rede.mostra_mensagem("Rede adicionada com sucesso!")
+            self.__tela_rede.mostra_mensagem("Rede adicionada com sucesso!", "sucesso")
         except JahExistenteException as e:
-            self.__tela_rede.mostra_mensagem(str(e))
+            self.__tela_rede.mostra_mensagem(str(e), "erro")
         except Exception as e:
-            self.__tela_rede.mostra_mensagem(str(e))
+            self.__tela_rede.mostra_mensagem(str(e), "erro")
 
     def remover(self):
         if not self.listar():
@@ -41,15 +45,18 @@ class ControladorRede():
         
         codigo = self.__tela_rede.pega_codigo_rede()
         
+        if codigo is None:
+            return
+        
         try:
             self.__rede_dao.remove(codigo)
-            self.__tela_rede.mostra_mensagem("Removido com sucesso.")
+            self.__tela_rede.mostra_mensagem("Rede removida com sucesso!", "sucesso")
         except NaoEncontradoException as e:
-            self.__tela_rede.mostra_mensagem(str(e))
+            self.__tela_rede.mostra_mensagem(str(e), "erro")
         except Exception as e:
-            self.__tela_rede.mostra_mensagem(str(e))
+            self.__tela_rede.mostra_mensagem(str(e), "erro")
 
-    def buscar_por_codigo(self, codigo):
+    def buscar_por_codigo(self, codigo: int):
         return self.__rede_dao.get(codigo)
 
     def listar(self):
@@ -68,25 +75,28 @@ class ControladorRede():
             self.__tela_rede.mostrar_redes(lista_dados_rede)
             return True
         except ListaVaziaException as e:
-            self.__tela_rede.mostra_mensagem(str(e))
+            self.__tela_rede.mostra_mensagem(str(e), "erro")
             return False
 
     def alterar(self):
         if not self.listar():
             return
         
-        dados_rede = self.__tela_rede.pega_dados_rede_para_alteracao()
+        dados_rede = self.__tela_rede.pega_dados_rede()
+        
+        if dados_rede is None:
+            return
         
         try:
             rede = self.__rede_dao.get(dados_rede['codigo'])
             
             rede.nome = dados_rede["nome"]
-            rede.nome = dados_rede["codigo"]
-            rede.nome = dados_rede["localizacao_rede"]
+            rede.codigo = dados_rede["codigo"]
+            rede.localizacao_rede = dados_rede["localizacao_rede"]
             
             self.__rede_dao.update(rede)
             
-            self.__tela_rede.mostra_mensagem("Alterado com sucesso.")
+            self.__tela_rede.mostra_mensagem("Rede aterada com sucesso!", "sucesso")
         except NaoEncontradoException as e:
             self.__tela_rede.mostra_mensagem(str(e))
         except Exception as e:
@@ -101,6 +111,9 @@ class ControladorRede():
                 raise Exception("Não existem hotéis para ser adicionado em redes")
             
             dados_inclusao = self.__tela_rede.pega_dados_inclusao_de_hotel()
+            
+            if dados_inclusao is None:
+                return
 
             rede = self.buscar_por_codigo(dados_inclusao["codigo_rede"])
             hotel = self.__controlador_sistema.controlador_hotel.buscar_por_codigo(dados_inclusao["codigo_hotel"])
@@ -115,22 +128,22 @@ class ControladorRede():
                 raise Exception(f"Hotel {dados_inclusao["codigo_hotel"]} já faz parte da rede f{dados_inclusao["codigo_rede"]}")
             
             self.__rede_dao.update(self.buscar_por_codigo(dados_inclusao['codigo_rede']))
-            self.__tela_rede.mostra_mensagem("Hotel adicionado com sucesso.")
+            self.__tela_rede.mostra_mensagem("Hotel adicionado com sucesso.", "sucesso")
         except NaoEncontradoException as e:
-            self.__tela_rede.mostra_mensagem(str(e))
+            self.__tela_rede.mostra_mensagem(str(e), "erro")
         except Exception as e:
-            self.__tela_rede.mostra_mensagem(str(e))
+            self.__tela_rede.mostra_mensagem(str(e), "erro")
             
     def remover_hotel_em_rede(self):
-        codigo = self.__tela_rede.pega_codigo_rede()
         try:
             if not len(self.__rede_dao.get_all()) >= 1:
                 raise Exception("Não pode ser removido hotel, pois não há redes cadastradas")
-            if not len(self.buscar_por_codigo(codigo).hoteis) >= 1:
-                raise Exception("Essa rede não possui hotéis para serem removidos")
             
             dados_inclusao = self.__tela_rede.pega_dados_inclusao_de_hotel()
-
+            
+            if dados_inclusao is None:
+                return
+            
             rede = self.buscar_por_codigo(dados_inclusao["codigo_rede"])
             hotel = self.__controlador_sistema.controlador_hotel.buscar_por_codigo(dados_inclusao["codigo_hotel"])
             
@@ -144,12 +157,12 @@ class ControladorRede():
                 raise Exception(f"Hotel {dados_inclusao["codigo_hotel"]} não faz parte da rede {dados_inclusao["codigo_rede"]}")
             
             self.__rede_dao.update(self.buscar_por_codigo(dados_inclusao['codigo_rede']))
-            self.__tela_rede.mostra_mensagem("Hotel removido com sucesso.")
+            self.__tela_rede.mostra_mensagem("Hotel removido com sucesso.", "sucesso")
             
         except NaoEncontradoException as e:
-            self.__tela_rede.mostra_mensagem(str(e))
+            self.__tela_rede.mostra_mensagem(str(e), "erro")
         except Exception as e:
-            self.__tela_rede.mostra_mensagem(str(e))
+            self.__tela_rede.mostra_mensagem(str(e), "erro")
 
     def abre_tela(self):
         lista_opcoes = {
@@ -158,7 +171,8 @@ class ControladorRede():
             3: self.listar,
             4: self.remover,
             5: self.adicionar_hotel_em_rede,
-            0: self.retornar
+            6: self.remover_hotel_em_rede,
+            7: self.retornar
         }
 
         continua = True
