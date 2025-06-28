@@ -1,7 +1,7 @@
 from limite.abstract_tela import AbstractTela
 
-class TelaCliente(AbstractTela):
 
+class TelaCliente(AbstractTela):
 
     def tela_opcoes(self):
         print("\n")
@@ -14,7 +14,8 @@ class TelaCliente(AbstractTela):
         print("0 - Retornar")
         print("\n")
 
-        opcao = super().le_input_int_com_range_de_validacao("Opção escolhida: ", [0, 1, 2, 3, 4])
+        opcao = super().le_input_int_com_range_de_validacao(
+            "Opção escolhida: ", [0, 1, 2, 3, 4])
         return opcao
 
     def pega_dados_cliente(self):
@@ -22,8 +23,7 @@ class TelaCliente(AbstractTela):
         dados_cliente = {}
         dados_cliente["nome"] = input("Nome: ")
         dados_cliente["cpf"] = super().le_cpf("CPF: ")
-        dados_cliente["telefone"] = super(
-        ).le_telefone("Telefone: ")
+        dados_cliente["telefone"] = super().le_telefone("Telefone: ")
         dados_cliente["email"] = input("Email: ")
 
         return dados_cliente

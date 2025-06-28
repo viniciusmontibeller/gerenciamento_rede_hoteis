@@ -41,9 +41,14 @@ class ControladorHotel():
 
     def adicionar(self):
         dados_hotel = self.__tela_hotel.pega_dados_hotel()
+
+        if dados_hotel is None:
+            return
+
         try:
             if self.__hotel_dao.get(dados_hotel["codigo"]):
-                raise JahExistenteException("Hotel")
+                raise JahExistenteException("Hotel", "hotel",
+                                            dados_hotel["codigo"])
             self.__hotel_dao.add(
                 Hotel(dados_hotel["nome"], dados_hotel["codigo"],
                       dados_hotel["endereco"], dados_hotel["telefone"]))
@@ -57,8 +62,8 @@ class ControladorHotel():
         if not self.listar():
             return
 
-        codigo = self.__tela_hotel.pega_codigo_hotel()
-        
+        codigo = self.__tela_hotel.pega_codigo()
+
         try:
             self.__hotel_dao.remove(codigo)
             self.__tela_hotel.mostra_mensagem("Removido com sucesso.")
@@ -72,13 +77,14 @@ class ControladorHotel():
             lista_hoteis = self.__hotel_dao.get_all()
             if not len(lista_hoteis) >= 1:
                 raise ListaVaziaException('hoteis')
-            lista_dados_hotel = list(map(
-                lambda hotel: {
-                    "nome": hotel.nome,
-                    "endereco": hotel.endereco,
-                    "codigo": hotel.codigo,
-                    "telefone": hotel.telefone
-                }, lista_hoteis))
+            lista_dados_hotel = list(
+                map(
+                    lambda hotel: {
+                        "nome": hotel.nome,
+                        "endereco": hotel.endereco,
+                        "codigo": hotel.codigo,
+                        "telefone": hotel.telefone
+                    }, lista_hoteis))
 
             self.__tela_hotel.mostrar_hoteis(lista_dados_hotel)
             return True
@@ -91,7 +97,7 @@ class ControladorHotel():
             return
 
         dados_hotel = self.__tela_hotel.pega_dados_hotel()
-        
+
         try:
             hotel = self.__hotel_dao.get(dados_hotel["codigo"])
 
@@ -118,13 +124,20 @@ class ControladorHotel():
                     hotel.codigo)
 
                 lista_dados_hoteis.append({
-                    "nome": hotel.nome,
-                    "codigo": hotel.codigo,
-                    "numero_funcionarios": len(hotel.funcionarios),
-                    "numero_clientes": len(hotel.clientes),
-                    "numero_quartos": hotel.numero_de_quartos(),
-                    "numero_reservas": len(lista_reservas),
-                    "faturamento_total_em_reservas": sum(reserva.custo for reserva in lista_reservas)
+                    "nome":
+                    hotel.nome,
+                    "codigo":
+                    hotel.codigo,
+                    "numero_funcionarios":
+                    len(hotel.funcionarios),
+                    "numero_clientes":
+                    len(hotel.clientes),
+                    "numero_quartos":
+                    hotel.numero_de_quartos(),
+                    "numero_reservas":
+                    len(lista_reservas),
+                    "faturamento_total_em_reservas":
+                    sum(reserva.custo for reserva in lista_reservas)
                 })
 
             self.__tela_hotel.mostra_relatorio(lista_dados_hoteis)

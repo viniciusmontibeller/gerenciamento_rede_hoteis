@@ -8,17 +8,21 @@ from excecoes.data_saida_invalida_exception import DataSaidaInvalidaException
 class AbstractTela(ABC):
     ESTILO_JANELA = 'DarkGrey7'
     TITULO_BASE = 'Genrenciamento de Hoteis e Redes'
-    
-    def __validar_input_numerico(self, values: dict, chave: str, campo_legivel: str) -> bool:
+
+    def __validar_input_numerico(self, values: dict, chave: str,
+                                 campo_legivel: str) -> bool:
         valor = values.get(chave, "").strip()
         try:
             int(valor)
             return True
         except ValueError:
-            self.mostra_mensagem(f"O campo '{campo_legivel}' deve conter apenas números.", "erro")
+            self.mostra_mensagem(
+                f"O campo '{campo_legivel}' deve conter apenas números.",
+                "erro")
             return False
-    
-    def __validar_input_obrigatorio(self, values: dict, chave: str, campo_legivel: str) -> bool:
+
+    def __validar_input_obrigatorio(self, values: dict, chave: str,
+                                    campo_legivel: str) -> bool:
         valor = values.get(chave, "").strip()
         try:
             if valor == '':
@@ -27,26 +31,36 @@ class AbstractTela(ABC):
         except Exception as e:
             self.mostra_mensagem(e, "erro")
             return False
-    
-    def __validar_data(self, values: dict, chave: str, campo_legivel: str, formato="%d-%m-%Y") -> bool:
+
+    def __validar_data(self,
+                       values: dict,
+                       chave: str,
+                       campo_legivel: str,
+                       formato="%d-%m-%Y") -> bool:
         valor = values.get(chave, "").strip()
         try:
             datetime.datetime.strptime(valor, formato)
             return True
         except ValueError:
-            self.mostra_mensagem(f"Data inválida no campo '{campo_legivel}'. Formato esperado: {formato}", "erro")
+            self.mostra_mensagem(
+                f"Data inválida no campo '{campo_legivel}'. Formato esperado: {formato}",
+                "erro")
             return False
-        
-    def __validar_input_float(self, values: dict, chave: str, campo_legivel: str) -> bool:
+
+    def __validar_input_float(self, values: dict, chave: str,
+                              campo_legivel: str) -> bool:
         valor = values.get(chave, "").strip()
         try:
             float(valor)
             return True
         except ValueError as e:
-            self.mostra_mensagem(f"O campo '{campo_legivel}' deve conter apenas números.", "erro")
+            self.mostra_mensagem(
+                f"O campo '{campo_legivel}' deve conter apenas números.",
+                "erro")
             return False
 
-    def __validar_input_cpf(self, values: dict, chave: str, campo_legivel: str) -> bool:
+    def __validar_input_cpf(self, values: dict, chave: str,
+                            campo_legivel: str) -> bool:
         valor = values.get(chave, "").strip()
         try:
             int(valor)
@@ -54,10 +68,13 @@ class AbstractTela(ABC):
                 raise ValueError
             return True
         except ValueError:
-            self.mostra_mensagem(f"Valor incorreto! Formato esperado para '{campo_legivel}' deve conter exatamente 11 digitos.", "erro")
+            self.mostra_mensagem(
+                f"Valor incorreto! Formato esperado para '{campo_legivel}' deve conter exatamente 11 digitos.",
+                "erro")
             return False
-            
-    def __validar_input_telefone(self, values: dict, chave: str, campo_legivel: str) -> bool:
+
+    def __validar_input_telefone(self, values: dict, chave: str,
+                                 campo_legivel: str) -> bool:
         valor = values.get(chave, "").strip()
         try:
             int(valor)
@@ -65,7 +82,9 @@ class AbstractTela(ABC):
                 raise ValueError
             return True
         except ValueError:
-            self.mostra_mensagem(f"Valor incorreto! Formato esperado para '{campo_legivel}' deve conter exatamente 11 digitos e sem espaços.\n Exemplo: 47988303706", "erro")
+            self.mostra_mensagem(
+                f"Valor incorreto! Formato esperado para '{campo_legivel}' deve conter exatamente 11 digitos e sem espaços.\n Exemplo: 47988303706",
+                "erro")
             return False
         
     def __validar_data_saida(self, values: dict, data_entrada: str, data_saida: str, campo_legivel: str) -> bool:
@@ -78,28 +97,36 @@ class AbstractTela(ABC):
         except DataSaidaInvalidaException as e:
             self.mostra_mensagem(e, "erro")
 
-        
     def _validar_campos(self, values: dict, regras: list[tuple]) -> bool:
         for tipo, chave, chave_complementar, campo_legivel in regras:
-            if tipo.lower() == "obrigatorio" and not self.__validar_input_obrigatorio(values, chave, campo_legivel):
+            if tipo.lower(
+            ) == "obrigatorio" and not self.__validar_input_obrigatorio(
+                    values, chave, campo_legivel):
                 return False
-            elif tipo.lower() == "numero" and not self.__validar_input_numerico(values, chave, campo_legivel):
+            elif tipo.lower(
+            ) == "numero" and not self.__validar_input_numerico(
+                    values, chave, campo_legivel):
                 return False
-            elif tipo.lower() == "float" and not self.__validar_input_float(values, chave, campo_legivel):
+            elif tipo.lower() == "float" and not self.__validar_input_float(
+                    values, chave, campo_legivel):
                 return False
-            elif tipo.lower() == "cpf" and not self.__validar_input_cpf(values, chave, campo_legivel):
+            elif tipo.lower() == "cpf" and not self.__validar_input_cpf(
+                    values, chave, campo_legivel):
                 return False
-            elif tipo.lower() == "telefone" and not self.__validar_input_telefone(values, chave, campo_legivel):
+            elif tipo.lower(
+            ) == "telefone" and not self.__validar_input_telefone(
+                    values, chave, campo_legivel):
                 return False
-            elif tipo.lower() == "data" and not self.__validar_data(values, chave, campo_legivel):
+            elif tipo.lower() == "data" and not self.__validar_data(
+                    values, chave, campo_legivel):
                 return False
             elif tipo.lower() == "data_saida" and not self.__validar_data_saida(values, chave_complementar, chave, campo_legivel):
                 return False
         return True
-    
+
     def _extrair_valor(self, values: dict, chave: str) -> str:
         return values.get(chave, "").strip()
-    
+
     def mostra_mensagem(self, mensagem: str, tipo: str = "info"):
         if tipo.lower() == "erro":
             sg.popup_error(mensagem, title="Erro")
@@ -113,11 +140,40 @@ class AbstractTela(ABC):
     @abstractmethod
     def tela_opcoes(self):
         pass
-    
+
+    def pega_codigo(self):
+        sg.theme(self.ESTILO_JANELA)
+        layout = [[
+            sg.Text('SELECIONAR', font=("Helvica", 20), justification='center')
+        ], [sg.Text('Digite o código', font=("Helvica", 15))],
+                  [
+                      sg.Text('Código:', size=(15, 1)),
+                      sg.InputText(key='codigo',
+                                   tooltip='Digite apenas números (ex: 123)',
+                                   size=(20, 1))
+                  ], [sg.Button('Confirmar'),
+                      sg.Cancel('Cancelar')]]
+        self.__window = sg.Window(self.TITULO_BASE).Layout(layout)
+
+        while True:
+            button, values = self.__window.Read()
+
+            if button in (sg.WIN_CLOSED, 'Cancelar'):
+                self.close()
+                return None
+
+            if not self._validar_campos(values,
+                                        [("obrigatorio", "codigo", "Código"),
+                                         ("numero", "codigo", "Código")]):
+                continue
+
+            self.close()
+            return int(self._extrair_valor(values, 'codigo'))
+
     # @abstractmethod
     # def init_opcoes(self):
     #     pass
-    
+
     # @abstractmethod
     # def close(self):
     #     pass
