@@ -6,11 +6,11 @@ class ReservaDAO(DAO):
         super().__init__('reserva')
 
     def add(self, reserva: Reserva):
-        if((reserva is not None) and isinstance(reserva, reserva) and isinstance(reserva.codigo, int)):
+        if((reserva is not None) and isinstance(reserva, Reserva) and isinstance(reserva.codigo, int)):
             super().add(reserva)
 
     def update(self, reserva: Reserva):
-        if((reserva is not None) and isinstance(reserva, reserva) and isinstance(reserva.codigo, int)):
+        if((reserva is not None) and isinstance(reserva, Reserva) and isinstance(reserva.codigo, int)):
             super().update(reserva)
 
     def get(self, key:int):

@@ -6,11 +6,11 @@ class RedeDAO(DAO):
         super().__init__('rede')
 
     def add(self, rede: Rede):
-        if((rede is not None) and isinstance(rede, rede) and isinstance(rede.codigo, int)):
+        if((rede is not None) and isinstance(rede, Rede) and isinstance(rede.codigo, int)):
             super().add(rede)
 
     def update(self, rede: Rede):
-        if((rede is not None) and isinstance(rede, rede) and isinstance(rede.codigo, int)):
+        if((rede is not None) and isinstance(rede, Rede) and isinstance(rede.codigo, int)):
             super().update(rede)
 
     def get(self, key:int):

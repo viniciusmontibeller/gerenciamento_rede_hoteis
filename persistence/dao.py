@@ -28,8 +28,9 @@ class DAO(ABC):
 
     def update(self, obj):
         for entity in self.__cache:
-            if entity[self.__identifier] == obj[self.__identifier]:
-                entity[self.__identifier] = obj
+            if getattr(entity, self.__identifier) == getattr(obj, self.__identifier):
+                index = self.__cache.index(entity)
+                self.__cache[index] = obj
                 self.__dump()
                 return entity
         
@@ -38,14 +39,15 @@ class DAO(ABC):
 
     def get(self, key):
         for entity in self.__cache:
-            if entity[self.__identifier] == key:
+            if getattr(entity, self.__identifier) == key:
                 return entity
 
-        raise NaoEncontradoException(self.__entity_name, self.__identifier, key)
+        return None
+        # raise NaoEncontradoException(self.__entity_name, self.__identifier, key)
 
     def remove(self, key):
         for entity in self.__cache:
-            if entity[self.__identifier] == key:
+            if getattr(entity, self.__identifier) == key:
                 self.__cache.remove(entity)    
                 self.__dump()
                 return entity
