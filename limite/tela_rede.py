@@ -123,13 +123,6 @@ class TelaRede(AbstractTela):
             
             self.close()
             return int(self._extrair_valor(values, 'codigo'))
-            
-            # if button == 'Confirmar':
-            #     if not codigo_str.isdigit():
-            #         sg.popup_error("Por favor, insira apenas números para o código da rede.")
-            #     else:
-            #         self.close()
-            #         return str(codigo_str)
     
     def tela_opcoes(self):
         self.init_opcoes()
