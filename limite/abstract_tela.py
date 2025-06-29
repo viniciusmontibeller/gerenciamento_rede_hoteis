@@ -158,13 +158,13 @@ class AbstractTela(ABC):
                                    size=(20, 1))
                   ], [sg.Button('Confirmar'),
                       sg.Cancel('Cancelar')]]
-        self.__window = sg.Window(self.TITULO_BASE).Layout(layout)
+        window = sg.Window(self.TITULO_BASE).Layout(layout)
 
         while True:
-            button, values = self.__window.Read()
+            button, values = window.Read()
 
             if button in (sg.WIN_CLOSED, 'Cancelar'):
-                self.close()
+                window.Close()
                 return None
 
             if not self._validar_campos(values,
@@ -172,7 +172,7 @@ class AbstractTela(ABC):
                                          ("numero", "codigo", "Código")]):
                 continue
 
-            self.close()
+            window.Close()
             return int(self._extrair_valor(values, 'codigo'))
 
     def pega_cpf(self):
@@ -187,13 +187,13 @@ class AbstractTela(ABC):
                                    size=(20, 1))
                   ], [sg.Button('Confirmar'),
                       sg.Cancel('Cancelar')]]
-        self.__window = sg.Window(self.TITULO_BASE).Layout(layout)
+        window = sg.Window(self.TITULO_BASE).Layout(layout)
 
         while True:
-            button, values = self.__window.Read()
+            button, values = window.Read()
 
             if button in (sg.WIN_CLOSED, 'Cancelar'):
-                self.close()
+                window.Close()
                 return None
 
             if not self._validar_campos(values,
@@ -201,8 +201,8 @@ class AbstractTela(ABC):
                                          ("numero", "codigo", "Código")]):
                 continue
 
-            self.close()
-            return int(self._extrair_valor(values, 'codigo'))
+            window.Close()
+            return str(self._extrair_valor(values, 'codigo'))
 
     def _pega_dados(self, schema):
         sg.theme(self.ESTILO_JANELA)
@@ -230,13 +230,13 @@ class AbstractTela(ABC):
 
         layout.append([sg.Button('Confirmar'), sg.Cancel('Cancelar')])
 
-        self.__window = sg.Window(self.TITULO_BASE).Layout(layout)
+        window = sg.Window(self.TITULO_BASE).Layout(layout)
 
         while True:
-            button, values = self.__window.Read()
+            button, values = window.Read()
 
             if button in (sg.WIN_CLOSED, 'Cancelar'):
-                self.close()
+                window.Close()
                 return None
 
             if not self._validar_campos(values, validation_rules):
@@ -248,7 +248,7 @@ class AbstractTela(ABC):
                 dados[field["key"]] = field["parseAs"](self._extrair_valor(
                     values, field["key"]))
 
-            self.close()
+            window.Close()
             return dados
 
     # @abstractmethod

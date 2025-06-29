@@ -1,6 +1,5 @@
 from limite.tela_cliente import TelaCliente
 from entidade.cliente import Cliente
-from persistence.hotel_dao import HotelDAO
 from excecoes.lista_vazia_exception import ListaVaziaException
 from excecoes.jah_existente_exception import JahExistenteException
 from excecoes.nao_encontrado_exception import NaoEncontradoException

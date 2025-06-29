@@ -136,7 +136,7 @@ class ControladorRede():
             novo_hotel = rede.adicionar_hotel(hotel)
             if not novo_hotel:
                 raise Exception(
-                    f"Hotel {dados_inclusao['codigo_hotel']} já faz parte da rede f{dados_inclusao['codigo_rede']}"
+                    f"Hotel {dados_inclusao['codigo_hotel']} já faz parte da rede {dados_inclusao['codigo_rede']}"
                 )
 
             self.__rede_dao.update(

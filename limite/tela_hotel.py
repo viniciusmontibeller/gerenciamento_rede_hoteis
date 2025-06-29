@@ -5,8 +5,13 @@ import PySimpleGUI as sg
 
 class TelaHotel(AbstractTela):
 
+    def __init__(self):
+        self.__window = None
+        self.init_opcoes()
+
     def tela_opcoes(self):
         self.init_opcoes()
+        print(self.__window)
         button, _ = self.__window.Read()
 
         opcoes = {
