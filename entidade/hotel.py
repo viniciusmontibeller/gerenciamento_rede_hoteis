@@ -2,15 +2,17 @@ from entidade.cliente import Cliente
 from entidade.funcionario import Funcionario
 from entidade.quarto import Quarto
 from entidade.quarto_vip import QuartoVip
+from entidade.endereco import Endereco
 
 
 class Hotel():
 
-    def __init__(self, nome: str, codigo: int, endereco: str, telefone: str):
+    def __init__(self, nome: str, codigo: int, logradouro: str, numero: int,
+                 cidade: str, telefone: str):
         self.__nome = nome
         self.__codigo = codigo
-        self.__endereco = endereco
         self.__telefone = telefone
+        self.__endereco = Endereco(logradouro, numero, cidade)  #composicao
         self.__quartos = []
         self.__funcionarios = []
         self.__clientes = []
@@ -62,6 +64,12 @@ class Hotel():
     @property
     def clientes(self):
         return self.__clientes
+
+    def pegar_endereco(self):
+        return f"{self.__endereco.logradouro}, número {self.__endereco.numero} em {self.__endereco.cidade}"
+
+    def mudar_endereco(self, logradouro: str, numero: int, cidade: str):
+        self.__endereco = Endereco(logradouro, numero, cidade)
 
     def adicionar_quarto(self, dados_quarto, eh_quarto_vip):
         if eh_quarto_vip:

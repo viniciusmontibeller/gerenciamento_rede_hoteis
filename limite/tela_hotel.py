@@ -11,7 +11,6 @@ class TelaHotel(AbstractTela):
 
     def tela_opcoes(self):
         self.init_opcoes()
-        print(self.__window)
         button, _ = self.__window.Read()
 
         opcoes = {
@@ -54,7 +53,7 @@ class TelaHotel(AbstractTela):
             "fieldList": [{
                 "label": "Nome",
                 "key": "nome",
-                "tooltip": "Nome",
+                "tooltip": "Nome do Hotel",
                 "isRequired": True,
                 "dataType": InputDataType.TEXTO,
                 "parseAs": str
@@ -66,16 +65,30 @@ class TelaHotel(AbstractTela):
                 "dataType": InputDataType.NUMERO,
                 "parseAs": int
             }, {
-                "label": "Endereço",
-                "key": "endereco",
-                "tooltip": "Informe o endereço",
+                "label": "Logradouro",
+                "key": "logradouro",
+                "tooltip": "Rua, Avenida, etc.",
+                "isRequired": True,
+                "dataType": InputDataType.TEXTO,
+                "parseAs": str
+            }, {
+                "label": "Número",
+                "key": "numero",
+                "tooltip": "Número do prédio",
+                "isRequired": True,
+                "dataType": InputDataType.NUMERO,
+                "parseAs": int
+            }, {
+                "label": "Cidade",
+                "key": "cidade",
+                "tooltip": "Cidade do hotel",
                 "isRequired": True,
                 "dataType": InputDataType.TEXTO,
                 "parseAs": str
             }, {
                 "label": "Telefone",
                 "key": "telefone",
-                "tooltip": "Informe o telefone",
+                "tooltip": "Informe o telefone do hotel",
                 "isRequired": True,
                 "dataType": InputDataType.TELEFONE,
                 "parseAs": str

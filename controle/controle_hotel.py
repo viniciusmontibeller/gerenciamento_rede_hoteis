@@ -51,7 +51,8 @@ class ControladorHotel():
                                             dados_hotel["codigo"])
             self.__hotel_dao.add(
                 Hotel(dados_hotel["nome"], dados_hotel["codigo"],
-                      dados_hotel["endereco"], dados_hotel["telefone"]))
+                      dados_hotel["logradouro"], dados_hotel["numero"],
+                      dados_hotel["cidade"], dados_hotel["telefone"]))
             self.__tela_hotel.mostra_mensagem("Hotel adicionado com sucesso!")
         except JahExistenteException as e:
             self.__tela_hotel.mostra_mensagem(str(e))
@@ -81,7 +82,7 @@ class ControladorHotel():
                 map(
                     lambda hotel: {
                         "nome": hotel.nome,
-                        "endereco": hotel.endereco,
+                        "endereco": hotel.pegar_endereco(),
                         "codigo": hotel.codigo,
                         "telefone": hotel.telefone
                     }, lista_hoteis))
@@ -102,8 +103,9 @@ class ControladorHotel():
             hotel = self.__hotel_dao.get(dados_hotel["codigo"])
 
             hotel.nome = dados_hotel["nome"]
-            hotel.endereco = dados_hotel["endereco"]
             hotel.telefone = dados_hotel["telefone"]
+            hotel.mudar_endereco(dados_hotel["logradouro"],
+                                 dados_hotel["numero"], dados_hotel["cidade"])
 
             self.__hotel_dao.update(hotel)
 
