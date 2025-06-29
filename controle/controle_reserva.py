@@ -38,12 +38,12 @@ class ControladorReserva():
 
     def adicionar(self):
         try:
-            if not (self.__controlador_sistema.controlador_hotel.hotel_dao.
+            if not len(self.__controlador_sistema.controlador_hotel.hotel_dao.
                     get_all()) >= 1:
                 raise Exception(
                     "Não existem hoteis para cadastrar uma reserva")
 
-            codigo_reserva = self.__tela_reserva.pega_codigo()
+            codigo_reserva = self.__tela_reserva.pega_codigo(" da reserva")
 
             if codigo_reserva is None:
                 return
@@ -119,7 +119,7 @@ class ControladorReserva():
         if not self.listar():
             return
 
-        codigo = self.__tela_reserva.pega_codigo()
+        codigo = self.__tela_reserva.pega_codigo(" da reserva")
 
         if codigo is None:
             return
@@ -163,7 +163,7 @@ class ControladorReserva():
         if not self.listar():
             return
 
-        codigo = self.__tela_reserva.pega_codigo()
+        codigo = self.__tela_reserva.pega_codigo(" da reserva")
 
         if codigo is None:
             return
