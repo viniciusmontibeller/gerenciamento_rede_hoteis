@@ -18,9 +18,20 @@ class ControladorQuarto():
             if not len(self.__controlador_hotel.hotel_dao.get_all()) >= 1:
                 raise Exception("Não existem hoteis cadastrados para incluir um quarto")
             
-            codigo_hotel = self.__tela_quarto.pega_codigo_hotel()
+            codigo_hotel = self.__tela_quarto.pega_codigo("hotel")
+            
+            if codigo_hotel is None:
+                return
+            
             dados_quarto = self.__tela_quarto.pega_dados_quarto()
+            
+            if dados_quarto is None:
+                return
+            
             eh_quarto_vip = self.__tela_quarto.pega_eh_quarto_vip()
+            
+            if eh_quarto_vip is None:
+                return
 
             hotel = self.__controlador_hotel.buscar_por_codigo(
                 codigo_hotel)
@@ -31,17 +42,25 @@ class ControladorQuarto():
             hotel.adicionar_quarto(dados_quarto, eh_quarto_vip)
             self.__controlador_hotel.hotel_dao.update(hotel)
             self.__tela_quarto.mostra_mensagem(
-                "Quarto adicionado com sucesso!")
+                "Quarto adicionado com sucesso!", "sucesso")
         except Exception as e:
-            self.__tela_quarto.mostra_mensagem(str(e))
+            self.__tela_quarto.mostra_mensagem(str(e), "erro")
 
     def remover(self):
-        codigo_hotel = self.__tela_quarto.pega_codigo_hotel()
+        codigo_hotel = self.__tela_quarto.pega_codigo("hotel")
+        
+        if codigo_hotel is None:
+            return
+        
         if not self.listar(codigo_hotel):
             return
 
         try:
             numero = self.__tela_quarto.pega_numero_quarto()
+            
+            if numero is None:
+                return
+            
             hotel = self.__controlador_hotel.buscar_por_codigo(
                 codigo_hotel)
 
@@ -52,13 +71,13 @@ class ControladorQuarto():
             quarto_removido = hotel.remover_quarto(numero)
             if quarto_removido:
                 self.__controlador_hotel.hotel_dao.update(hotel)
-                self.__tela_quarto.mostra_mensagem("Removido com sucesso.")
+                self.__tela_quarto.mostra_mensagem("Removido com sucesso.", "sucesso")
             else:
                 raise NaoEncontradoException("quarto", "numero", numero)
         except JahPossuiReservaException as e:
-            self.__tela_quarto.mostra_mensagem(str(e))
+            self.__tela_quarto.mostra_mensagem(str(e), "erro")
         except Exception as e:
-            self.__tela_quarto.mostra_mensagem(str(e))
+            self.__tela_quarto.mostra_mensagem(str(e), "erro")
 
     def listar(self, codigo_hotel):
         try:
@@ -79,11 +98,18 @@ class ControladorQuarto():
             return False
 
     def alterar(self):
-        codigo_hotel = self.__tela_quarto.pega_codigo_hotel()
+        codigo_hotel = self.__tela_quarto.pega_codigo("hotel")
+        
+        if codigo_hotel is None:
+            return
+        
         if not self.listar(codigo_hotel):
             return
 
         dados_quarto = self.__tela_quarto.pega_dados_quarto()
+        
+        if dados_quarto is None:
+            return
 
         try:
             hotel = self.__controlador_hotel.buscar_por_codigo(
