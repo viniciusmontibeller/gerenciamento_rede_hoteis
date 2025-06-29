@@ -45,7 +45,7 @@ class ControladorRede():
         if not self.listar():
             return
 
-        codigo = self.__tela_rede.pega_codigo()
+        codigo = self.__tela_rede.pega_codigo(" da rede")
 
         if codigo is None:
             return

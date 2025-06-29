@@ -74,14 +74,14 @@ class TelaReserva(AbstractTela):
                 "dataType": InputDataType.CPF,
                 "parseAs": str
             }, {
-                "label": "Data de entrada (DD-MM-YYYY)",
+                "label": "Data de entrada",
                 "key": "data_entrada",
                 "tooltip": "Data no formato (DD-MM-YYYY)",
                 "isRequired": True,
                 "dataType": InputDataType.DATA,
                 "parseAs": str
             }, {
-                "label": "Data de saida (DD-MM-YYYY)",
+                "label": "Data de saida",
                 "key": "data_saida",
                 "tooltip": "Data no formato (DD-MM-YYYY)",
                 "isRequired": True,

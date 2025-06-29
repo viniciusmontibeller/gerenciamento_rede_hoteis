@@ -110,7 +110,7 @@ class TelaQuarto(AbstractTela):
         string_dados = ""
         string_dados += "NÚMERO DO QUARTO: " + str(dados["numero"]) + "\n"
         string_dados += "CAPACIDADE: " + str(dados["capacidade"]) + "\n"
-        string_dados += "PRECO DA DIARIA" + str(dados["preco_diaria"]) + "\n"
+        string_dados += "PRECO DA DIARIA: " + str(dados["preco_diaria"]) + "\n"
         string_dados += '\n'
 
         return string_dados

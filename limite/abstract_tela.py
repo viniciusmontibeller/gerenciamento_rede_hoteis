@@ -43,7 +43,7 @@ class AbstractTela(ABC):
             return True
         except ValueError:
             self.mostra_mensagem(
-                f"Data inválida no campo '{campo_legivel}'. Formato esperado: {formato}",
+                f"Data inválida no campo '{campo_legivel}'. Formato esperado: DD-MM-YYYY",
                 "erro")
             return False
 
