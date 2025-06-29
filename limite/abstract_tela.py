@@ -97,6 +97,7 @@ class AbstractTela(ABC):
             return True
         except DataSaidaInvalidaException as e:
             self.mostra_mensagem(e, "erro")
+            return False
 
     def _validar_campos(self, values: dict, regras: list[tuple]) -> bool:
         for tipo, chave, campo_legivel in regras:
