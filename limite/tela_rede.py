@@ -63,7 +63,7 @@ class TelaRede(AbstractTela):
                     "parseAs": int
                 }, {
                     "label": "Localização da rede",
-                    "key": "localizacao",
+                    "key": "localizacao_rede",
                     "tooltip": "Informe a cidade origem da rede",
                     "isRequired": True,
                     "dataType": InputDataType.TEXTO,
@@ -76,7 +76,30 @@ class TelaRede(AbstractTela):
     def pega_dados_inclusao_de_hotel(self):
         schema = {
                 "title":
-                "INLUSAO DE HOTEL EM REDE",
+                "INCLUSAO DE HOTEL EM REDE",
+                "fieldList": [{
+                    "label": "Código da Rede",
+                    "key": "codigo_rede",
+                    "tooltip": "Apenas números (ex: 123)",
+                    "isRequired": True,
+                    "dataType": InputDataType.NUMERO,
+                    "parseAs": int
+                }, {
+                    "label": "Código do Hotel",
+                    "key": "codigo_hotel",
+                    "tooltip": "Apenas números (ex: 123)",
+                    "isRequired": True,
+                    "dataType": InputDataType.NUMERO,
+                    "parseAs": int
+                }]
+            }
+
+        return self._pega_dados(schema)
+    
+    def pega_dados_remover_hotel(self):
+        schema = {
+                "title":
+                "REMOVER HOTEL DA REDE",
                 "fieldList": [{
                     "label": "Código da Rede",
                     "key": "codigo_rede",

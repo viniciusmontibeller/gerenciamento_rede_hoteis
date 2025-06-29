@@ -155,30 +155,30 @@ class ControladorRede():
                     "Não pode ser removido hotel, pois não há redes cadastradas"
                 )
 
-            dados_inclusao = self.__tela_rede.pega_dados_inclusao_de_hotel()
+            dados_remocao = self.__tela_rede.pega_dados_remover_hotel()
 
-            if dados_inclusao is None:
+            if dados_remocao is None:
                 return
 
-            rede = self.buscar_por_codigo(dados_inclusao["codigo_rede"])
+            rede = self.buscar_por_codigo(dados_remocao["codigo_rede"])
             hotel = self.__controlador_sistema.controlador_hotel.buscar_por_codigo(
-                dados_inclusao["codigo_hotel"])
+                dados_remocao["codigo_hotel"])
 
             if not rede:
                 raise NaoEncontradoException("Rede", "codigo",
-                                             dados_inclusao["codigo_rede"])
+                                             dados_remocao["codigo_rede"])
             if not hotel:
                 raise NaoEncontradoException("Hotel", "codigo",
-                                             dados_inclusao["codigo_hotel"])
+                                             dados_remocao["codigo_hotel"])
 
             hotel_existente = rede.remover_hotel(hotel)
             if not hotel_existente:
                 raise Exception(
-                    f"Hotel {dados_inclusao['codigo_hotel']} não faz parte da rede {dados_inclusao['codigo_rede']}"
+                    f"Hotel {dados_remocao['codigo_hotel']} não faz parte da rede {dados_remocao['codigo_rede']}"
                 )
 
             self.__rede_dao.update(
-                self.buscar_por_codigo(dados_inclusao['codigo_rede']))
+                self.buscar_por_codigo(dados_remocao['codigo_rede']))
             self.__tela_rede.mostra_mensagem("Hotel removido com sucesso.",
                                              "sucesso")
 
