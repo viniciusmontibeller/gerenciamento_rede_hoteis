@@ -24,7 +24,6 @@ class AbstractTela(ABC):
     @abstractmethod
     def close(self):
         pass
-    
 
     def __validar_input_numerico(self, values: dict, chave: str,
                                  campo_legivel: str) -> bool:

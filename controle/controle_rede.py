@@ -195,7 +195,7 @@ class ControladorRede():
             4: self.remover,
             5: self.adicionar_hotel_em_rede,
             6: self.remover_hotel_em_rede,
-            7: self.retornar
+            0: self.retornar
         }
 
         continua = True

@@ -17,9 +17,8 @@ class TelaReserva(AbstractTela):
             'Alterar Reserva': 2,
             'Listar Reserva': 3,
             'Remover Reserva': 4,
-            'Retornar': 5,
+            'Retornar': 0,
             None: 0,
-            'Cancelar': 0,
         }
 
         opcao = opcoes.get(button, 0)

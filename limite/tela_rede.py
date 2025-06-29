@@ -20,8 +20,7 @@ class TelaRede(AbstractTela):
             'Remover Rede': 4,
             'Adicionar Hotel em Rede': 5,
             'Remover Hotel em Rede': 6,
-            'Retornar': 7,
-            'Cancelar': 0,
+            'Retornar': 0,
             None: 0
         }
 

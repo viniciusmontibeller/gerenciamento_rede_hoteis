@@ -18,8 +18,7 @@ class TelaQuarto(AbstractTela):
             'Alterar Quarto': 2,
             'Listar Quartos': 3,
             'Excluir Quartos': 4,
-            'Retornar': 5,
-            'Cancelar': 0,
+            'Retornar': 0,
             None: 0
         }
 
