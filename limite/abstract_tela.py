@@ -8,6 +8,23 @@ from excecoes.data_saida_invalida_exception import DataSaidaInvalidaException
 class AbstractTela(ABC):
     ESTILO_JANELA = 'DarkGrey7'
     TITULO_BASE = 'Genrenciamento de Hoteis e Redes'
+    
+    @abstractmethod
+    def __init__(self):
+        pass
+    
+    @abstractmethod
+    def init_opcoes(self):
+        pass
+
+    @abstractmethod
+    def tela_opcoes(self):
+        pass
+
+    @abstractmethod
+    def close(self):
+        pass
+    
 
     def __validar_input_numerico(self, values: dict, chave: str,
                                  campo_legivel: str) -> bool:
@@ -141,10 +158,6 @@ class AbstractTela(ABC):
         else:
             sg.popup(mensagem, title="Mensagem")
 
-    @abstractmethod
-    def tela_opcoes(self):
-        pass
-
     def pega_codigo(self, additionalLabel=""):
         sg.theme(self.ESTILO_JANELA)
         layout = [[
@@ -251,11 +264,3 @@ class AbstractTela(ABC):
 
             window.Close()
             return dados
-
-    # @abstractmethod
-    # def init_opcoes(self):
-    #     pass
-
-    # @abstractmethod
-    # def close(self):
-    #     pass
