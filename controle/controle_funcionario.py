@@ -20,8 +20,16 @@ class ControladorFuncionario():
                 )
 
             codigo_hotel = self.__tela_funcionario.pega_codigo(" do hotel")
+            
+            if codigo_hotel is None:
+                return
+            
             dados_funcionario = self.__tela_funcionario.pega_dados_funcionario(
             )
+            
+            if dados_funcionario is None:
+                return
+            
             hotel = self.__controlador_hotel.buscar_por_codigo(codigo_hotel)
 
             if hotel.busca_funcionario_por_cpf(dados_funcionario["cpf"]):
@@ -42,10 +50,17 @@ class ControladorFuncionario():
 
     def remover(self):
         codigo_hotel = self.__tela_funcionario.pega_codigo(" do hotel")
+        
+        if codigo_hotel is None:
+            return
+        
         if not self.listar(codigo_hotel):
             return
 
         cpf = self.__tela_funcionario.pega_cpf()
+        
+        if cpf is None:
+            return
 
         try:
             funcionario_existe = False
@@ -98,10 +113,17 @@ class ControladorFuncionario():
 
     def alterar(self):
         codigo_hotel = self.__tela_funcionario.pega_codigo(" do hotel")
+        
+        if codigo_hotel is None:
+            return
+        
         if not self.listar(codigo_hotel):
             return
 
         dados_funcionario = self.__tela_funcionario.pega_dados_funcionario()
+        
+        if dados_funcionario is None:
+            return
 
         try:
             funcionario_existe = False

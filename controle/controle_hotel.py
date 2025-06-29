@@ -63,7 +63,10 @@ class ControladorHotel():
         if not self.listar():
             return
 
-        codigo = self.__tela_hotel._pega_codigo()
+        codigo = self.__tela_hotel.pega_codigo(" do hotel")
+        
+        if codigo is None:
+            return
 
         try:
             self.__hotel_dao.remove(codigo)
@@ -98,6 +101,9 @@ class ControladorHotel():
             return
 
         dados_hotel = self.__tela_hotel.pega_dados_hotel()
+        
+        if dados_hotel is None:
+            return
 
         try:
             hotel = self.__hotel_dao.get(dados_hotel["codigo"])

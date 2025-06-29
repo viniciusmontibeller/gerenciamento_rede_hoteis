@@ -19,7 +19,15 @@ class ControladorCliente():
                     "Não existem hoteis cadastrados para incluir um cliente")
 
             codigo_hotel = self.__tela_cliente.pega_codigo(" do hotel")
+            
+            if codigo_hotel is None:
+                return
+            
             dados_cliente = self.__tela_cliente.pega_dados_cliente()
+            
+            if dados_cliente is None:
+                return
+            
             hotel = self.__controlador_hotel.buscar_por_codigo(codigo_hotel)
 
             if hotel.busca_cliente_por_cpf(dados_cliente["cpf"]):
@@ -39,10 +47,17 @@ class ControladorCliente():
 
     def remover(self):
         codigo_hotel = self.__tela_cliente.pega_codigo(" do hotel")
+        
+        if codigo_hotel is None:
+            return
+        
         if not self.listar(codigo_hotel):
             return
 
         cpf = self.__tela_cliente.pega_cpf()
+        
+        if cpf is None:
+            return
 
         try:
             cliente_existe = False
@@ -93,10 +108,17 @@ class ControladorCliente():
 
     def alterar(self):
         codigo_hotel = self.__tela_cliente.pega_codigo(" do hotel")
+        
+        if codigo_hotel is None:
+            return
+        
         if not self.listar(codigo_hotel):
             return
 
         dados_cliente = self.__tela_cliente.pega_dados_cliente()
+        
+        if dados_cliente is None:
+            return
 
         try:
             cliente_existe = False
