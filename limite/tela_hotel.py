@@ -33,7 +33,7 @@ class TelaHotel(AbstractTela):
     def init_opcoes(self):
         sg.theme(self.ESTILO_JANELA)
         layout = [[
-            sg.Text('Bem vindo ao sistema de gerenciamento de redes e hotéis',
+            sg.Text('Gerenciamento de hoteis',
                     font=("Helvetica", 25))
         ], [sg.Text('Selecione a opção desejada', font=("Helvica", 15))],
                   [sg.Button('Gerenciar Funcionários de um Hotel')],
