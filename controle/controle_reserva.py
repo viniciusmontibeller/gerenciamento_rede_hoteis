@@ -98,6 +98,11 @@ class ControladorReserva():
                 raise NaoEncontradoException("funcionario", "CPF",
                                              dados_reserva["cpf_funcionario"])
 
+            if dados_reserva["data_entrada"] >= dados_reserva["data_saida"]:
+                raise Exception(
+                    "Reserva inválida. A data de saída deve ser após a data de entrada."
+                )
+
             reserva = Reserva(codigo_reserva, hotel, quarto, cliente,
                               funcionario, dados_reserva["data_entrada"],
                               dados_reserva["data_saida"])
