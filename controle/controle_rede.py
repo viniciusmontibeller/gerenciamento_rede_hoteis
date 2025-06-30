@@ -139,8 +139,7 @@ class ControladorRede():
                     f"Hotel {dados_inclusao['codigo_hotel']} já faz parte da rede {dados_inclusao['codigo_rede']}"
                 )
 
-            self.__rede_dao.update(
-                self.buscar_por_codigo(dados_inclusao['codigo_rede']))
+            self.__rede_dao.update(rede)
             self.__tela_rede.mostra_mensagem("Hotel adicionado com sucesso.",
                                              "sucesso")
         except NaoEncontradoException as e:
@@ -171,14 +170,13 @@ class ControladorRede():
                 raise NaoEncontradoException("Hotel", "codigo",
                                              dados_remocao["codigo_hotel"])
 
-            hotel_existente = rede.remover_hotel(hotel)
+            hotel_existente = rede.remover_hotel(hotel.codigo)
             if not hotel_existente:
                 raise Exception(
                     f"Hotel {dados_remocao['codigo_hotel']} não faz parte da rede {dados_remocao['codigo_rede']}"
                 )
 
-            self.__rede_dao.update(
-                self.buscar_por_codigo(dados_remocao['codigo_rede']))
+            self.__rede_dao.update(rede)
             self.__tela_rede.mostra_mensagem("Hotel removido com sucesso.",
                                              "sucesso")
 

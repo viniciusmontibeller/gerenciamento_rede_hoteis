@@ -93,6 +93,9 @@ class TelaReserva(AbstractTela):
 
         dados = self._pega_dados(schema)
 
+        if not dados:
+            return
+
         dados["data_entrada"] = datetime.strptime(dados["data_entrada"],
                                                   "%d-%m-%Y")
         dados["data_saida"] = datetime.strptime(dados["data_saida"],
