@@ -6,17 +6,18 @@ from limite.tela_sistema import TelaSistema
 
 class ControladorSistema():
     __instance = None
+
     def __init__(self):
         self.__tela_sistema = TelaSistema()
         self.__controlador_rede = ControladorRede(self)
         self.__controlador_hotel = ControladorHotel(self)
         self.__controlador_reserva = ControladorReserva(self)
-        
+
     def __new__(cls):
         if ControladorSistema.__instance is None:
             ControladorSistema.__instance = object.__new__(cls)
         return ControladorSistema.__instance
-        
+
     @property
     def controlador_rede(self):
         return self.__controlador_rede
@@ -30,6 +31,7 @@ class ControladorSistema():
         return self.__controlador_hotel
 
     def inicializar_sistema(self):
+        print(self.__controlador_reserva.listar_reservas_por_hotel(1))
         self.abre_tela()
 
     def abre_tela_rede(self):

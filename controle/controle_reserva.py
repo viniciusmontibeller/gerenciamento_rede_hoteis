@@ -39,7 +39,7 @@ class ControladorReserva():
     def adicionar(self):
         try:
             if not len(self.__controlador_sistema.controlador_hotel.hotel_dao.
-                    get_all()) >= 1:
+                       get_all()) >= 1:
                 raise Exception(
                     "Não existem hoteis para cadastrar uma reserva")
 
@@ -229,7 +229,7 @@ class ControladorReserva():
 
         lista_reservas = [
             reserva for reserva in self.__reserva_dao.get_all()
-            if reserva.hotel == hotel
+            if reserva.hotel.codigo == hotel.codigo
         ]
 
         return lista_reservas
