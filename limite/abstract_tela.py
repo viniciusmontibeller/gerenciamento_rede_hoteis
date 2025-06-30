@@ -2,8 +2,6 @@ from abc import ABC, abstractmethod
 import datetime
 import PySimpleGUI as sg
 
-from excecoes.data_saida_invalida_exception import DataSaidaInvalidaException
-
 
 class AbstractTela(ABC):
     ESTILO_JANELA = 'DarkGrey7'
@@ -103,18 +101,6 @@ class AbstractTela(ABC):
                 "erro")
             return False
 
-    def __validar_data_saida(self, values: dict, data_entrada: str,
-                             data_saida: str, campo_legivel: str) -> bool:
-        valor_entrada = values.get(data_entrada, "").strip()
-        valor_saida = values.get(data_saida, "").strip()
-        try:
-            if valor_entrada > valor_saida:
-                raise DataSaidaInvalidaException(data_entrada, campo_legivel)
-            return True
-        except DataSaidaInvalidaException as e:
-            self.mostra_mensagem(e, "erro")
-            return False
-
     def _validar_campos(self, values: dict, regras: list[tuple]) -> bool:
         for tipo, chave, campo_legivel in regras:
             if tipo.lower(
@@ -136,10 +122,6 @@ class AbstractTela(ABC):
                     values, chave, campo_legivel):
                 return False
             elif tipo.lower() == "data" and not self.__validar_data(
-                    values, chave, campo_legivel):
-                return False
-            elif tipo.lower(
-            ) == "data_saida" and not self.__validar_data_saida(
                     values, chave, campo_legivel):
                 return False
         return True

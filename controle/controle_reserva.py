@@ -4,6 +4,7 @@ from excecoes.nao_encontrado_exception import NaoEncontradoException
 from excecoes.quarto_possui_reserva_no_periodo_exception import QuartoPossuiReservaNoPeriodo
 from excecoes.lista_vazia_exception import ListaVaziaException
 from excecoes.jah_existente_exception import JahExistenteException
+from excecoes.data_saida_invalida_exception import DataSaidaInvalidaException
 from persistence.reserva_dao import ReservaDAO
 
 
@@ -99,9 +100,7 @@ class ControladorReserva():
                                              dados_reserva["cpf_funcionario"])
 
             if dados_reserva["data_entrada"] >= dados_reserva["data_saida"]:
-                raise Exception(
-                    "Reserva inválida. A data de saída deve ser após a data de entrada."
-                )
+                raise DataSaidaInvalidaException(dados_reserva["data_entrada"])
 
             reserva = Reserva(codigo_reserva, hotel, quarto, cliente,
                               funcionario, dados_reserva["data_entrada"],
@@ -116,6 +115,8 @@ class ControladorReserva():
         except QuartoPossuiReservaNoPeriodo as e:
             self.__tela_reserva.mostra_mensagem(str(e), "erro")
         except JahExistenteException as e:
+            self.__tela_reserva.mostra_mensagem(str(e), "erro")
+        except DataSaidaInvalidaException as e:
             self.__tela_reserva.mostra_mensagem(str(e), "erro")
         except Exception as e:
             self.__tela_reserva.mostra_mensagem(str(e), "erro")
