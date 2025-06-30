@@ -8,7 +8,7 @@ class TelaRede(AbstractTela):
     def __init__(self):
         self.__window = None
         self.init_opcoes()
-        
+
     def tela_opcoes(self):
         self.init_opcoes()
         button, _ = self.__window.Read()
@@ -30,91 +30,90 @@ class TelaRede(AbstractTela):
 
     def init_opcoes(self):
         sg.theme(self.ESTILO_JANELA)
-        layout = [[
-            sg.Text('Gerenciamento de redes',
-                    font=("Helvetica", 25))
-        ], [sg.Text('Selecione a opção desejada', font=("Helvica", 15))],
-                  [sg.Button('Adicionar Rede')], [sg.Button('Alterar Rede')],
-                  [sg.Button('Listar Rede')], [sg.Button('Remover Rede')],
-                  [sg.Button('Adicionar Hotel em Rede')],
-                  [sg.Button('Remover Hotel em Rede')],
-                  [sg.Button('Retornar')]]
+        layout = [
+            [sg.Text('Gerenciamento de redes', font=("Helvetica", 25))],
+            [sg.Text('Selecione a opção desejada', font=("Helvica", 15))],
+            [sg.Button('Adicionar Rede')], [sg.Button('Alterar Rede')],
+            [sg.Button('Listar Rede')], [sg.Button('Remover Rede')],
+            [sg.Button('Adicionar Hotel em Rede')],
+            [sg.Button('Remover Hotel em Rede')], [sg.Button('Retornar')]
+        ]
 
         self.__window = sg.Window(self.TITULO_BASE).Layout(layout)
 
     def pega_dados_rede(self):
         schema = {
-                "title":
-                "DADOS REDE",
-                "fieldList": [{
-                    "label": "Nome",
-                    "key": "nome",
-                    "tooltip": "Nome da Rede",
-                    "isRequired": True,
-                    "dataType": InputDataType.TEXTO,
-                    "parseAs": str
-                }, {
-                    "label": "Código",
-                    "key": "codigo",
-                    "tooltip": "Apenas números (ex: 123)",
-                    "isRequired": True,
-                    "dataType": InputDataType.NUMERO,
-                    "parseAs": int
-                }, {
-                    "label": "Localização da rede",
-                    "key": "localizacao_rede",
-                    "tooltip": "Informe a cidade origem da rede",
-                    "isRequired": True,
-                    "dataType": InputDataType.TEXTO,
-                    "parseAs": str
-                }]
-            }
+            "title":
+            "DADOS REDE",
+            "fieldList": [{
+                "label": "Nome",
+                "key": "nome",
+                "tooltip": "Nome da Rede",
+                "isRequired": True,
+                "dataType": InputDataType.TEXTO,
+                "parseAs": str
+            }, {
+                "label": "Código",
+                "key": "codigo",
+                "tooltip": "Apenas números (ex: 123)",
+                "isRequired": True,
+                "dataType": InputDataType.NUMERO,
+                "parseAs": int
+            }, {
+                "label": "Localização da rede",
+                "key": "localizacao_rede",
+                "tooltip": "Informe a cidade origem da rede",
+                "isRequired": True,
+                "dataType": InputDataType.TEXTO,
+                "parseAs": str
+            }]
+        }
 
         return self._pega_dados(schema)
 
     def pega_dados_inclusao_de_hotel(self):
         schema = {
-                "title":
-                "INCLUSAO DE HOTEL EM REDE",
-                "fieldList": [{
-                    "label": "Código da Rede",
-                    "key": "codigo_rede",
-                    "tooltip": "Apenas números (ex: 123)",
-                    "isRequired": True,
-                    "dataType": InputDataType.NUMERO,
-                    "parseAs": int
-                }, {
-                    "label": "Código do Hotel",
-                    "key": "codigo_hotel",
-                    "tooltip": "Apenas números (ex: 123)",
-                    "isRequired": True,
-                    "dataType": InputDataType.NUMERO,
-                    "parseAs": int
-                }]
-            }
+            "title":
+            "INCLUSAO DE HOTEL EM REDE",
+            "fieldList": [{
+                "label": "Código da Rede",
+                "key": "codigo_rede",
+                "tooltip": "Apenas números (ex: 123)",
+                "isRequired": True,
+                "dataType": InputDataType.NUMERO,
+                "parseAs": int
+            }, {
+                "label": "Código do Hotel",
+                "key": "codigo_hotel",
+                "tooltip": "Apenas números (ex: 123)",
+                "isRequired": True,
+                "dataType": InputDataType.NUMERO,
+                "parseAs": int
+            }]
+        }
 
         return self._pega_dados(schema)
-    
+
     def pega_dados_remover_hotel(self):
         schema = {
-                "title":
-                "REMOVER HOTEL DA REDE",
-                "fieldList": [{
-                    "label": "Código da Rede",
-                    "key": "codigo_rede",
-                    "tooltip": "Apenas números (ex: 123)",
-                    "isRequired": True,
-                    "dataType": InputDataType.NUMERO,
-                    "parseAs": int
-                }, {
-                    "label": "Código do Hotel",
-                    "key": "codigo_hotel",
-                    "tooltip": "Apenas números (ex: 123)",
-                    "isRequired": True,
-                    "dataType": InputDataType.NUMERO,
-                    "parseAs": int
-                }]
-            }
+            "title":
+            "REMOVER HOTEL DA REDE",
+            "fieldList": [{
+                "label": "Código da Rede",
+                "key": "codigo_rede",
+                "tooltip": "Apenas números (ex: 123)",
+                "isRequired": True,
+                "dataType": InputDataType.NUMERO,
+                "parseAs": int
+            }, {
+                "label": "Código do Hotel",
+                "key": "codigo_hotel",
+                "tooltip": "Apenas números (ex: 123)",
+                "isRequired": True,
+                "dataType": InputDataType.NUMERO,
+                "parseAs": int
+            }]
+        }
 
         return self._pega_dados(schema)
 
