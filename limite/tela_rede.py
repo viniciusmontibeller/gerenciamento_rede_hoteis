@@ -130,17 +130,17 @@ class TelaRede(AbstractTela):
 
     def mostrar_rede(self, dados_rede):
         string_dados_rede = ''
-        string_dados_rede += "NOME DA REDE: " + str(dados_rede["nome"]) + '\n'
-        string_dados_rede += "CÓDIGO DA REDE: " + str(
+        string_dados_rede += "Nome da rede: " + str(dados_rede["nome"]) + '\n'
+        string_dados_rede += "Código da rede: " + str(
             dados_rede["codigo"]) + '\n'
-        string_dados_rede += "LOCALIZAÇÃO DA REDE: " + str(
+        string_dados_rede += "Localização da rede: " + str(
             dados_rede["localizacao_rede"]) + '\n'
 
         if 'hoteis' in dados_rede and dados_rede['hoteis']:
-            hoteis = ', '.join(str(h.codigo) for h in dados_rede['hoteis'])
-            string_dados_rede += "HOTÉIS: " + hoteis + '\n'
+            hoteis = ', '.join(str(h.nome) for h in dados_rede['hoteis'])
+            string_dados_rede += "Hotéis: " + hoteis + '\n'
         else:
-            string_dados_rede += 'HOTÉIS: Nenhum cadastrado\n'
+            string_dados_rede += 'Hotéis: Nenhum cadastrado\n'
 
         string_dados_rede += '\n'
         return string_dados_rede

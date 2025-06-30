@@ -31,7 +31,6 @@ class ControladorSistema():
         return self.__controlador_hotel
 
     def inicializar_sistema(self):
-        print(self.__controlador_reserva.listar_reservas_por_hotel(1))
         self.abre_tela()
 
     def abre_tela_rede(self):
