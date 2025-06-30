@@ -124,11 +124,11 @@ class TelaHotel(AbstractTela):
             string_lista += "Nome do hotel: " + str(dados_hotel["nome"]) + "\n"
             string_lista += "Código do hotel: " + str(
                 dados_hotel["codigo"]) + "\n"
-            string_lista += "Funcionários do hotel: " + str(
+            string_lista += "Número de Funcionários: " + str(
                 dados_hotel["numero_funcionarios"]) + "\n"
-            string_lista += "Clientes do hotel: " + str(
+            string_lista += "Número de Clientes: " + str(
                 dados_hotel["numero_clientes"]) + "\n"
-            string_lista += "Quartos do hotel: " + str(
+            string_lista += "Número de Quartos: " + str(
                 dados_hotel["numero_quartos"]) + "\n"
             string_lista += "Número de reservas: " + str(
                 dados_hotel["numero_reservas"]) + "\n"
